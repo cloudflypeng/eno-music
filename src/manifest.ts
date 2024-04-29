@@ -13,6 +13,15 @@ export async function getManifest() {
     name: pkg.displayName || pkg.name,
     version: pkg.version,
     description: pkg.description,
+    declarative_net_request: {
+      rule_resources: [
+        {
+          id: 'referrer-blbl',
+          enabled: true,
+          path: './dist/assets/referrer.json',
+        },
+      ],
+    },
     action: {
       default_icon: './assets/icon-512.png',
       default_popup: './dist/popup/index.html',
@@ -38,17 +47,32 @@ export async function getManifest() {
       'tabs',
       'storage',
       'activeTab',
+      'notifications',
+      'unlimitedStorage',
+      'cookies',
+      '*://music.163.com/*',
+      '*://*.music.163.com/*',
+      '*://*.xiami.com/*',
+      '*://*.qq.com/*',
+      '*://*.kugou.com/',
+      '*://*.kuwo.cn/',
+      '*://*.bilibili.com/*',
+      '*://*.bilivideo.com/*',
+      '*://*.bilivideo.cn/*',
+      '*://*.migu.cn/*',
+      '*://*.taihe.com/*',
+      '*://music.91q.com/*',
+      '*://api.github.com/*',
+      '*://github.com/*',
+      '*://gist.githubusercontent.com/*',
+      'webRequest',
+      'webRequestBlocking',
+      'declarativeNetRequest',
+      'declarativeNetRequestFeedback',
     ],
     host_permissions: ['*://*/*'],
     content_scripts: [
-      {
-        matches: [
-          '<all_urls>',
-        ],
-        js: [
-          'dist/contentScripts/index.global.js',
-        ],
-      },
+
     ],
     web_accessible_resources: [
       {

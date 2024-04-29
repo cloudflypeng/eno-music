@@ -8,6 +8,9 @@ const store = useBlblStore()
 onMounted(() => {
   store.getrankList()
 })
+function handleClickRank(item) {
+  store.toRankDetail(item)
+}
 </script>
 
 <template>
@@ -23,7 +26,7 @@ onMounted(() => {
         w-full
         h-full
       >
-        <RankItem v-for="item in rank.list" :id="item.ID" :key="item.ID" />
+        <RankItem v-for="item in rank.list" :id="item.ID" :key="item.ID" @click="handleClickRank(item)" />
       </div>
     </div>
   </section>

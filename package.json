@@ -1,6 +1,6 @@
 {
-  "name": "vitesse-webext",
-  "displayName": "Vitesse WebExt",
+  "name": "enu-music",
+  "displayName": "ENO-M",
   "version": "0.0.1",
   "private": true,
   "packageManager": "pnpm@8.15.4",
@@ -31,6 +31,7 @@
     "typecheck": "tsc --noEmit"
   },
   "dependencies": {
+    "howler": "^2.2.4",
     "pinia": "^2.1.7"
   },
   "devDependencies": {

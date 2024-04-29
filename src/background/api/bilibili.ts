@@ -34,6 +34,52 @@ const api = {
     },
     afterHandle: AHS.J,
   },
+  [BLBL.GET_SONG_DETAIL]: {
+    url: `${baseUrl}/audio/music-service-c/web/song/info`,
+    _fetch: {
+      method: 'get',
+    },
+    params: {
+      sid: 0, // 歌曲id
+    },
+    afterHandle: AHS.J,
+  },
+  [BLBL.GET_HIT_SONG]: {
+    // https://www.bilibili.com/audio/music-service-c/web/menu/hit?ps=20&pn=1
+    url: `${baseUrl}/audio/music-service-c/web/menu/hit`,
+    _fetch: {
+      method: 'get',
+    },
+    params: {
+      ps: 20, // 每页数量
+      pn: 1, // 页数
+    },
+    afterHandle: AHS.J,
+  },
+  /// audio/music-service-c/web/song/of-menu
+  [BLBL.GET_HIT_SONG_LIST]: {
+    url: `${baseUrl}/audio/music-service-c/web/song/of-menu`,
+    _fetch: {
+      method: 'get',
+    },
+    params: {
+      sid: 0, // 歌单id
+      ps: 100, // 每页数量
+      pn: 1, // 页数
+    },
+    afterHandle: AHS.J,
+  },
+  // https://www.bilibili.com/audio/music-service-c/web/url?sid=276736
+  [BLBL.GET_SONG]: {
+    url: `${baseUrl}/audio/music-service-c/web/url`,
+    _fetch: {
+      method: 'get',
+    },
+    params: {
+      sid: 0, // 歌曲id
+    },
+    afterHandle: AHS.J,
+  },
 }
 
 export default api

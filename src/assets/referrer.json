@@ -1,0 +1,17 @@
+{
+  "rules": [
+    {
+      "id": "bilibili-referrer",
+      "condition": {
+        "urlFilter": "bili"
+      },
+      "actions": [
+        {
+          "type": "modifyHeaders",
+          "header": "Referer",
+          "value": "https://www.example.com"
+        }
+      ]
+    }
+  ]
+}

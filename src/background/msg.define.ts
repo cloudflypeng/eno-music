@@ -5,6 +5,10 @@ enum BLBL {
   GET_RANK = 'getRank',
   GET_RANK_DETAIL = 'getRankDetail',
   GET_RANK_DETAIL_LIST = 'getRankDetailList',
+  GET_SONG_DETAIL = 'getSongDetail',
+  GET_HIT_SONG = 'getHitSong',
+  GET_HIT_SONG_LIST = 'getHitSongList',
+  GET_SONG = 'getSong',
 }
 
 const API = {
