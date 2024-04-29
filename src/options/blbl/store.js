@@ -6,7 +6,9 @@ const api = useApiClient()
 export const useBlblStore = defineStore({
   id: 'blbl',
   state: () => ({
+    howl: null,
     play: {}, // 当前播放的歌曲信息
+    playList: [], // 播放列表
     count: 0,
     mode: 'hit',
     // 按年份的三个

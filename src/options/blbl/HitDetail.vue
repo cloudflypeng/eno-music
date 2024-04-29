@@ -1,26 +1,38 @@
 <script setup>
 import { useBlblStore } from './store'
-import { useApiClient } from '~/composables/api'
-
-const api = useApiClient()
 
 const store = useBlblStore()
 
 function play(music) {
-  store.currentHit = music
-  api.blbl.getSong({
-    sid: music.id,
-  }).then((res) => {
-    store.play = {
-      ...music,
-      url: res.data.cdns[0],
-    }
-  })
+  store.play = music
+}
+function palyAll() {
+  store.playList = store.currentHit.list
+  store.play = store.playList[0]
 }
 </script>
 
 <template>
   <section>
+    <!-- 操作 -->
+    <span
+      p-2
+      text-lg
+      bg-blue-500
+      color="white"
+      @click="store.mode = 'hit'"
+    >
+      home
+    </span>
+    <span
+      p-2
+      text-lg
+      bg-blue-500
+      color="white"
+      @click.stop="palyAll"
+    >
+      播放全部
+    </span>
     <!-- 歌单部分 -->
     <section
       flex
@@ -33,7 +45,7 @@ function play(music) {
         :key="music.id"
         flex
         gap-3
-        @click="play(music)"
+        @click.stop="play(music)"
       >
         <img
           w-12 h-12

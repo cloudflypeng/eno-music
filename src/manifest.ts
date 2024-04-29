@@ -18,7 +18,7 @@ export async function getManifest() {
         {
           id: 'referrer-blbl',
           enabled: true,
-          path: './dist/assets/referrer.json',
+          path: './assets/referrer.json',
         },
       ],
     },
