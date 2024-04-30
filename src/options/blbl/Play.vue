@@ -74,9 +74,9 @@ const displayData = computed(() => {
 
 <template>
   <section
-    class="bg-[rgba(0,0,0,0.5)]"
+    class="bg-[rgba(255,255,255,0.5)]  translate-x--2/4"
     backdrop-blur
-    pos="fixed bottom-10 left-5"
+    pos="fixed bottom-10 left-[50%]"
     w-100 h-10
     px-3
     color-white
@@ -84,6 +84,7 @@ const displayData = computed(() => {
     flex
     gap-3
     items-center
+    transform-gpu
   >
     <div flex flex-row text-lg gap-5>
       <!-- 音乐控制 -->

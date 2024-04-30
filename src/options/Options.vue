@@ -14,7 +14,13 @@ const store = useBlblStore()
 </script>
 
 <template>
-  <main class="px-4 py-10 text-center text-gray-700 dark:text-gray-200">
+  <main
+    class="px-4 py-10 text-center
+    bg-black
+    color-white"
+    h-screen
+    overflow="auto"
+  >
     <Play />
     <!-- <Rank v-show="store.mode === 'rank'" />
     <RankDetail v-show="store.mode === 'rankDetail'" /> -->
