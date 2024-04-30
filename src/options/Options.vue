@@ -28,3 +28,9 @@ const store = useBlblStore()
     <hitDetail v-show="store.mode === 'hitDetail'" />
   </main>
 </template>
+
+<style>
+*::-webkit-scrollbar {
+  display: none;
+}
+</style>
