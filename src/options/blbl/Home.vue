@@ -2,6 +2,7 @@
 <script setup>
 import { onMounted } from 'vue'
 import { useBlblStore } from './store'
+import Rank from './rank.vue'
 
 const store = useBlblStore()
 const scrollRef = ref(null)
@@ -32,13 +33,14 @@ function scroll(type) {
 </script>
 
 <template>
-  <section>
+  <section w-full>
     <!-- 歌单部分 -->
     <h5 text-2xl py-5 text-left>
       热门歌单
     </h5>
     <section
       pos="relative"
+      w-full
     >
       <div z-1>
         <div
@@ -60,23 +62,24 @@ function scroll(type) {
       </div>
       <div
         ref="scrollRef"
+        class="w-[calc(100vw-15rem)]"
         flex
         overflow-auto
-        gap-5
+        gap-10
         snap-x
         p="x-15"
       >
         <div
           v-for="music in store.hitList"
           :key="music.menuid"
-          w-30
+          w-50
           shrink-0
-          h-40
+          h-60
           snap-center
           @click="handleDetail(music)"
         >
           <img
-            w-30 h-30
+            w-50 h-50
             rounded-xl
             cursor-pointer
             :src="music.cover"
@@ -87,5 +90,9 @@ function scroll(type) {
         </div>
       </div>
     </section>
+    <h5 text-2xl py-5 text-left>
+      精选榜单
+    </h5>
+    <!-- <Rank /> -->
   </section>
 </template>

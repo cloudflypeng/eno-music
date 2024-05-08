@@ -80,6 +80,18 @@ const api = {
     },
     afterHandle: AHS.J,
   },
+  // https://www.bilibili.com/audio/music-service-c/web/menu/rank
+  [BLBL.GET_MENU_RANK]: {
+    url: `${baseUrl}/audio/music-service-c/web/menu/rank`,
+    _fetch: {
+      method: 'get',
+    },
+    params: {
+      ps: 3, // 每页数量
+      pn: 1, // 页数
+    },
+    afterHandle: AHS.J,
+  },
 }
 
 export default api

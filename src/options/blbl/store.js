@@ -10,7 +10,7 @@ export const useBlblStore = defineStore({
     play: {}, // 当前播放的歌曲信息
     playList: [], // 播放列表
     count: 0,
-    mode: 'hit',
+    mode: 'home',
     // 按年份的三个
     rankList: [],
     currentRank: {},
@@ -27,15 +27,10 @@ export const useBlblStore = defineStore({
   },
   actions: {
     getrankList() {
-      api.blbl.getRank({
-        list_type: 1,
+      api.blbl.getMenuRank({
+        ps: 3,
       }).then((res) => {
-        this.rankList = Object.keys(res.data.list).map((name) => {
-          return {
-            name,
-            list: res.data.list[name],
-          }
-        })
+        this.rankList = res.data.data || []
       })
     },
     getHitList() {
@@ -44,13 +39,6 @@ export const useBlblStore = defineStore({
         pn: this.hit_pn,
       }).then((res) => {
         this.hitList = res.data.data
-      })
-    },
-    getHitDetailList(sid) {
-      api.blbl.getHitSongList({
-        sid,
-      }).then((res) => {
-        this.currentHit.list = res.data.data
       })
     },
     startPlay(item) {

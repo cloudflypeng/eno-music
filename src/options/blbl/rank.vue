@@ -8,25 +8,24 @@ const store = useBlblStore()
 onMounted(() => {
   store.getrankList()
 })
-function handleClickRank(item) {
-  store.toRankDetail(item)
+function handleDetail(music) {
+  store.currentHit = music
+  store.getHitDetailList(music.menuId)
+  store.mode = 'hitDetail'
 }
 </script>
 
 <template>
-  <section>
-    <div v-for="rank in store.rankList" :key="rank.name">
-      <h2 text-2xl>
-        {{ rank.name }}
-      </h2>
-      <div
-        flex
-        flex-wrap
-        gap-8
-        w-full
-        h-full
-      >
-        <RankItem v-for="item in rank.list" :id="item.ID" :key="item.ID" @click="handleClickRank(item)" />
+  <section flex w-full>
+    <div
+      v-for="rank in store.rankList"
+      :key="rank.statistic.sid"
+      w-50 flex flex-col text-left
+    >
+      <h5>{{ rank.title }}</h5>
+      <img :src="rank.cover" alt="cover" w-30 @click="() => { handleDetail(rank) }">
+      <div v-for="audio in rank.audios" :key="audio.id">
+        <span>{{ audio.title }}</span>
       </div>
     </div>
   </section>

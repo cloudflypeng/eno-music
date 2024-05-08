@@ -9,6 +9,7 @@ enum BLBL {
   GET_HIT_SONG = 'getHitSong',
   GET_HIT_SONG_LIST = 'getHitSongList',
   GET_SONG = 'getSong',
+  GET_MENU_RANK = 'getMenuRank',
 }
 
 const API = {

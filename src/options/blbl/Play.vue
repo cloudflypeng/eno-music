@@ -29,6 +29,9 @@ function playMusic() {
     onpause: () => {
       isPlaying.value = false
     },
+    onended: () => {
+      change('next')
+    },
   })
   store.howl.play()
 }
@@ -74,15 +77,15 @@ const displayData = computed(() => {
 
 <template>
   <section
-    class="bg-[rgba(255,255,255,0.5)]  translate-x--2/4"
+    class="bg-[rgba(255,255,255,0.5)]  translate-x--2/4  w-[50vw] "
     backdrop-blur
     pos="fixed bottom-10 left-[50%]"
-    w-100 h-10
-    px-3
+    h-15
+    px-10
     color-white
     rounded-full
     flex
-    gap-3
+    gap-6
     items-center
     transform-gpu
   >
@@ -93,8 +96,11 @@ const displayData = computed(() => {
       <div v-else cursor-pointer class="i-tabler:player-play-filled w-1em h-1em" @click.stop="store.howl.play()" />
       <div cursor-pointer class="i-tabler:player-track-next-filled w-1em h-1em" @click.stop="change('next')" />
     </div>
-    <div grow-1 text-left>
+    <div grow-1 text-left truncate flex flex-row items-center gap-2>
       <!-- 主要信息 -->
+      <span v-if="store.play.cover" shrink-0>
+        <img w-10 h-10 :src="store.play.cover">
+      </span>
       <span truncate>
         {{ displayData.title }}
       </span>
@@ -121,7 +127,6 @@ const displayData = computed(() => {
           max-w-full
           text-sm
           text-left
-
           cursor-pointer
           px-2 py-1
           rounded-lg
