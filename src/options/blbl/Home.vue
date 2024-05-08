@@ -11,6 +11,7 @@ onMounted(() => {
   store.getHitList()
 })
 function handleDetail(music) {
+  console.log('music :>> ', music)
   store.currentHit = music
   store.getHitDetailList(music.menuId)
   store.mode = 'hitDetail'
@@ -62,7 +63,7 @@ function scroll(type) {
       </div>
       <div
         ref="scrollRef"
-        class="w-[calc(100vw-15rem)]"
+        class="w-[calc(100vw-5rem)]"
         flex
         overflow-auto
         gap-10
@@ -93,6 +94,6 @@ function scroll(type) {
     <h5 text-2xl py-5 text-left>
       精选榜单
     </h5>
-    <!-- <Rank /> -->
+    <Rank />
   </section>
 </template>

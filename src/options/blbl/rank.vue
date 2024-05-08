@@ -1,7 +1,7 @@
 <script setup>
 import { onMounted } from 'vue'
 import { useBlblStore } from './store'
-import RankItem from './rank-item.vue'
+import { formatTime } from '~/utils/index.js'
 
 const store = useBlblStore()
 
@@ -16,16 +16,26 @@ function handleDetail(music) {
 </script>
 
 <template>
-  <section flex w-full>
+  <section grid w-full class="grid-cols-1 md:grid-cols-3 gap-8 ">
     <div
       v-for="rank in store.rankList"
       :key="rank.statistic.sid"
-      w-50 flex flex-col text-left
+      flex flex-col text-left
+      cursor-pointer
+      @click.stop="handleDetail(rank)"
     >
-      <h5>{{ rank.title }}</h5>
-      <img :src="rank.cover" alt="cover" w-30 @click="() => { handleDetail(rank) }">
-      <div v-for="audio in rank.audios" :key="audio.id">
-        <span>{{ audio.title }}</span>
+      <h5 text-lg pb-3>
+        {{ rank.title }}
+      </h5>
+      <!-- <img :src="rank.cover" alt="cover" w-30> -->
+      <div
+        v-for="audio in rank.audios" :key="audio.id" pt-3
+        @click.stop="store.play = audio"
+      >
+        <div truncate text-sm>
+          {{ audio.title }}
+        </div>
+        <span text-xs pl-3>{{ formatTime(audio.duration) }}</span>
       </div>
     </div>
   </section>

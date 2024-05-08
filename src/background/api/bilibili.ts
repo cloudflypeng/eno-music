@@ -92,6 +92,17 @@ const api = {
     },
     afterHandle: AHS.J,
   },
+  // https://www.bilibili.com/audio/music-service-c/web/song/info
+  [BLBL.GET_SONG_INFO]: {
+    url: `${baseUrl}/audio/music-service-c/web/song/info`,
+    _fetch: {
+      method: 'get',
+    },
+    params: {
+      sid: 0,
+    },
+    afterHandle: AHS.J,
+  },
 }
 
 export default api

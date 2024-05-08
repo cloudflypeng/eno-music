@@ -9,14 +9,22 @@ const api = useApiClient()
 const store = useBlblStore()
 const isPlaying = ref(false)
 const showList = ref(false)
-const currrentIndex = ref(0)
+const currentIndex = ref(0)
+const progress = reactive({
+  percent: 0,
+  current: 0,
+  total: 0,
+})
+const progressTimer = ref(null)
 
 function playMusic() {
   const url = store.play.url
-  if (store.howl)
+  if (store.howl) {
+    store.howl.stop()
     store.howl.unload()
+  }
 
-  currrentIndex.value = store.playList.findIndex(item => item.id === store.play.id)
+  currentIndex.value = store.playList.findIndex(item => item.id === store.play.id)
 
   store.howl = new Howl({
     src: [url],
@@ -25,11 +33,17 @@ function playMusic() {
     mute: false,
     onplay: () => {
       isPlaying.value = true
+      progressTimer.value = setInterval(() => {
+        progress.current = store.howl.seek()
+        progress.total = store.howl.duration()
+        progress.percent = progress.current / progress.total
+      }, 1000)
     },
     onpause: () => {
       isPlaying.value = false
+      clearInterval(progressTimer.value)
     },
-    onended: () => {
+    onend: () => {
       change('next')
     },
   })
@@ -41,7 +55,17 @@ watch(() => store.play?.id, (id) => {
     api.blbl.getSong({
       sid: id,
     }).then((res) => {
+      if (res.code !== 0)
+        // eslint-disable-next-line no-alert
+        alert('获取音乐失败')
+
       store.play.url = res.data.cdns[0]
+      // 如果没有封面
+      if (!store.play.cover) {
+        api.blbl.getSongInfo({ sid: id }).then((res) => {
+          Object.assign(store.play, res.data)
+        })
+      }
       store.playList.push({ ...store.play })
 
       playMusic()
@@ -54,14 +78,17 @@ watch(() => store.play?.id, (id) => {
 
 function change(type) {
   if (type === 'next')
-    currrentIndex.value += 1 % store.playList.length
+    currentIndex.value += 1 % store.playList.length
   else if (type === 'prev')
-    currrentIndex.value -= 1 % store.playList.length
+    currentIndex.value -= 1 % store.playList.length
 
   if (typeof type === 'number')
-    currrentIndex.value = type
+    currentIndex.value = type
 
-  store.play = store.playList[currrentIndex.value]
+  store.play = store.playList[currentIndex.value]
+}
+function changeProgress(e) {
+  store.howl.seek(progress.total * e.target.value)
 }
 
 function toggleList() {
@@ -73,11 +100,25 @@ const displayData = computed(() => {
     title: store.play.title || '暂无歌曲',
   }
 })
+onMounted(() => {
+  // 绑定空格切换播放暂停
+  window.addEventListener('keydown', (e) => {
+    if (e.code === 'Space') {
+      if (isPlaying.value)
+        store.howl.pause()
+      else
+        store.howl.play()
+    }
+  })
+})
+onUnmounted(() => {
+  window.removeEventListener('keydown', () => {})
+})
 </script>
 
 <template>
   <section
-    class="bg-[rgba(255,255,255,0.5)]  translate-x--2/4  w-[50vw] "
+    class="bg-[rgba(255,255,255,0.5)]  translate-x--2/4  xs:w-40 md:w-150 "
     backdrop-blur
     pos="fixed bottom-10 left-[50%]"
     h-15
@@ -101,9 +142,15 @@ const displayData = computed(() => {
       <span v-if="store.play.cover" shrink-0>
         <img w-10 h-10 :src="store.play.cover">
       </span>
-      <span truncate>
-        {{ displayData.title }}
-      </span>
+      <div truncate grow-1>
+        <div>{{ displayData.title }}</div>
+        <input
+          v-model="progress.percent"
+          type="range" min="0" max="1" step="0.01"
+          class="w-full"
+          @change="changeProgress"
+        >
+      </div>
     </div>
     <!-- 其他 -->
     <div flex flex-row text-lg gap-5>

@@ -44,6 +44,13 @@ export const useBlblStore = defineStore({
     startPlay(item) {
       this.play = item
     },
+    getHitDetailList(sid) {
+      api.blbl.getHitSongList({
+        sid,
+      }).then((res) => {
+        this.currentHit.list = res.data.data
+      })
+    },
     toRankDetail(item) {
       this.mode = 'rankDetail'
       this.currentRank = { ...item }
