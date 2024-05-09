@@ -11,7 +11,6 @@ onMounted(() => {
   store.getHitList()
 })
 function handleDetail(music) {
-  console.log('music :>> ', music)
   store.currentHit = music
   store.getHitDetailList(music.menuId)
   store.mode = 'hitDetail'

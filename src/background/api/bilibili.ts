@@ -4,6 +4,13 @@ import { BLBL } from '../msg.define'
 const baseUrl = 'https://api.bilibili.com'
 
 const api = {
+  [BLBL.GET_COOKIE]: {
+    url: 'https://bilibili.com',
+    _fetch: {
+      method: 'get',
+    },
+    afterHandle: [],
+  },
   [BLBL.GET_RANK]: {
     url: `${baseUrl}/x/copyright-music-publicity/toplist/all_period`,
     _fetch: {
@@ -100,6 +107,52 @@ const api = {
     },
     params: {
       sid: 0,
+    },
+    afterHandle: AHS.J,
+  },
+  // https://api.bilibili.com/x/web-interface/search/type?__refresh__=true&_extra=&context=&page=1&page_size=42&platform=pc&highlight=1&single_column=0&keyword=%E9%82%93%E7%B4%AB%E6%A3%8B&category_id=&search_type=video&dynamic_offset=0&preload=true&com2co=true
+  [BLBL.SEARCH]: {
+    url: `${baseUrl}/x/web-interface/search/type`,
+    _fetch: {
+      method: 'get',
+    },
+    params: {
+      page: 1,
+      page_size: 42,
+      platform: 'pc',
+      highlight: 1,
+      single_column: 0,
+      keyword: '',
+      category_id: '',
+      search_type: 'video',
+      dynamic_offset: 0,
+      preload: true,
+      com2co: true,
+    },
+    afterHandle: AHS.J,
+  },
+  // https://api.bilibili.com/x/player/playurl?fnval=16&bvid=BV1jh4y1G7oT&cid=1157282735
+  [BLBL.GET_AUDIO_OF_VIDEO]: {
+    url: `${baseUrl}/x/player/playurl`,
+    _fetch: {
+      method: 'get',
+    },
+    params: {
+      fnval: 16,
+      bvid: '',
+      cid: 0,
+    },
+    afterHandle: AHS.J,
+  },
+  // https://api.bilibili.com/x/web-interface/view?bvid=BV1BL411Y7kc
+  // 需要这个获取cid
+  [BLBL.GET_VIDEO_INFO]: {
+    url: `${baseUrl}/x/web-interface/view`,
+    _fetch: {
+      method: 'get',
+    },
+    params: {
+      bvid: '',
     },
     afterHandle: AHS.J,
   },

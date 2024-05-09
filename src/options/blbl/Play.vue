@@ -1,4 +1,3 @@
-<!-- eslint-disable no-console -->
 <script setup>
 import { Howl, Howler } from 'howler'
 import { useBlblStore } from './store'
@@ -19,6 +18,10 @@ const progressTimer = ref(null)
 
 function playMusic() {
   const url = store.play.url
+  // restall
+  progress.percent = 0
+  progress.current = 0
+
   if (store.howl) {
     store.howl.stop()
     store.howl.unload()
@@ -114,15 +117,21 @@ onMounted(() => {
 onUnmounted(() => {
   window.removeEventListener('keydown', () => {})
 })
+function playControl() {
+  if (isPlaying.value)
+    store.howl.pause()
+  else
+    store.howl.play()
+}
 </script>
 
 <template>
   <section
-    class="bg-[rgba(255,255,255,0.5)]  translate-x--2/4  xs:w-40 md:w-150 "
+    class="bg-[rgba(100,100,100,0.5)]  translate-x--2/4  xs:w-40 md:w-150 "
     backdrop-blur
     pos="fixed bottom-10 left-[50%]"
     h-15
-    px-10
+    px-6
     color-white
     rounded-full
     flex
@@ -133,23 +142,31 @@ onUnmounted(() => {
     <div flex flex-row text-lg gap-5>
       <!-- 音乐控制 -->
       <div cursor-pointer class="i-tabler:player-track-prev-filled w-1em h-1em" @click.stop="change('prev')" />
-      <div v-if="isPlaying" cursor-pointer class="i-tabler:player-pause-filled w-1em h-1em" @click.stop="store.howl.pause()" />
-      <div v-else cursor-pointer class="i-tabler:player-play-filled w-1em h-1em" @click.stop="store.howl.play()" />
+      <div v-if="isPlaying" cursor-pointer class="i-tabler:player-pause-filled w-1em h-1em" @click.stop="playControl" />
+      <div v-else cursor-pointer class="i-tabler:player-play-filled w-1em h-1em" @click.stop="playControl" />
       <div cursor-pointer class="i-tabler:player-track-next-filled w-1em h-1em" @click.stop="change('next')" />
     </div>
-    <div grow-1 text-left truncate flex flex-row items-center gap-2>
+    <div
+      grow-1 text-left truncate flex flex-row items-center gap-2
+      px-2 rounded-2 backdrop-blur
+      class="bg-[rgba(0,0,0,0.3)] py-1"
+    >
       <!-- 主要信息 -->
       <span v-if="store.play.cover" shrink-0>
-        <img w-10 h-10 :src="store.play.cover">
+        <img w-10 h-10 rounded-1 :src="store.play.cover">
       </span>
       <div truncate grow-1>
-        <div>{{ displayData.title }}</div>
+        <div v-html="displayData.title" />
         <input
           v-model="progress.percent"
           type="range" min="0" max="1" step="0.01"
           class="w-full"
           @change="changeProgress"
         >
+      </div>
+      <div flex gap-2 text-sm px-2>
+        <div class="i-tdesign:card w-1em h-1em" />
+        <div class="i-mingcute:more-1-fill w-1em h-1em" />
       </div>
     </div>
     <!-- 其他 -->
@@ -164,7 +181,6 @@ onUnmounted(() => {
         right-0
         transition ease-in-out delay-150
         class="bg-[rgba(0,0,0,0.5)]"
-        backdrop-blur
         overflow-hidden
       >
         <div
