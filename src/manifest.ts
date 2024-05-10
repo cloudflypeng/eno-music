@@ -23,7 +23,7 @@ export async function getManifest() {
       ],
     },
     action: {
-      default_icon: './assets/icon-512.png',
+      default_icon: './assets/icon-128.png',
       default_popup: './dist/popup/index.html',
     },
     options_ui: {
