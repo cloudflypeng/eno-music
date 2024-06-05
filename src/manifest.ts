@@ -44,12 +44,8 @@ export async function getManifest() {
       128: './assets/icon-128.png',
     },
     permissions: [
-      'tabs',
       'storage',
       'activeTab',
-      'notifications',
-      'unlimitedStorage',
-      'cookies',
       '*://music.163.com/*',
       '*://*.music.163.com/*',
       '*://*.xiami.com/*',
