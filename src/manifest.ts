@@ -45,7 +45,7 @@ export async function getManifest() {
     },
     permissions: [
       'storage',
-      'activeTab',
+      'cookies',
       '*://music.163.com/*',
       '*://*.music.163.com/*',
       '*://*.xiami.com/*',
@@ -61,8 +61,6 @@ export async function getManifest() {
       '*://api.github.com/*',
       '*://github.com/*',
       '*://gist.githubusercontent.com/*',
-      'webRequest',
-      'webRequestBlocking',
       'declarativeNetRequest',
       'declarativeNetRequestFeedback',
     ],

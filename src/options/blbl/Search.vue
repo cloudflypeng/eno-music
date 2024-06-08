@@ -58,7 +58,7 @@ function handlePlay(item) {
         class="w-full px-4 py-2 rounded-lg
         focus:outline-none focus:shadow-outline"
         placeholder="bilibili music search"
-        @press.enter="handleSearch"
+        @keyup.enter="handleSearch"
       >
       <div
         absolute right-2 text-xl class="i-tabler:search w-1em h-1em top-[50%] translate-y--1/2"
