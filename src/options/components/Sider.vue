@@ -14,5 +14,9 @@ const store = useBlblStore()
       class="i-tabler:music-search w-1em h-1em"
       @click.stop="store.mode = 'search'"
     />
+    <div
+      class="i-streamline:play-list-folder w-1em h-1em"
+      @click.stop="store.mode = 'playlist'"
+    />
   </aside>
 </template>

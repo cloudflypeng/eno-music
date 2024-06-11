@@ -5,6 +5,8 @@ import { ref } from 'vue'
 import Play from './blbl/Play.vue'
 import Header from './blbl/Header.vue'
 import Sider from './components/Sider.vue'
+import Playlist from './playlist/index.vue'
+import AddSong from './playlist/AddSong.vue'
 
 import Search from './blbl/Search.vue'
 
@@ -42,11 +44,13 @@ onMounted(() => {
     flex
   >
     <!-- <Header /> -->
+    <AddSong />
     <Sider />
     <div grow-1 shrink-10>
       <Home v-show="store.mode === 'home'" />
       <hitDetail v-show="store.mode === 'hitDetail'" />
       <Search v-show="store.mode === 'search'" />
+      <Playlist v-show="store.mode === 'playlist'" />
     </div>
     <Play />
   </main>

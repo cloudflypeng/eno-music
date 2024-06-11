@@ -32,6 +32,7 @@
   },
   "dependencies": {
     "howler": "^2.2.4",
+    "nanoid": "^5.0.7",
     "pinia": "^2.1.7"
   },
   "devDependencies": {

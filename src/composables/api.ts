@@ -1,5 +1,5 @@
 import type API from '~/background/msg.define'
-import { apiProxy } from '~/background/main'
+import { apiProxy } from '~/background/api/index'
 
 type CamelCase<S extends string> = S extends `${infer P1}_${infer P2}${infer P3}`
   ? `${Lowercase<P1>}${Uppercase<P2>}${CamelCase<P3>}`
@@ -7,7 +7,7 @@ type CamelCase<S extends string> = S extends `${infer P1}_${infer P2}${infer P3}
 
 type APIFunction<T = typeof API> = {
   [K in keyof T as CamelCase<string & K>]: {
-    [P in keyof T[K] as CamelCase<string & P>]: (options?: object) => Promise<any>
+    [P in keyof T[K]as CamelCase<string & P>]: (options?: object) => Promise<any>
   }
 }
 
