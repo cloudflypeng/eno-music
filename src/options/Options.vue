@@ -20,16 +20,18 @@ import { useBlblStore } from './blbl/store.js'
 const store = useBlblStore()
 onMounted(() => {
   const domain = 'https://www.bilibili.com'
-  const cookieName = 'buvid3'
-  // const expire = (new Date().getTime() + 1e3 * 60 * 60 * 24 * 365 * 100) / 1000
-  chrome.cookies.get({ url: domain, name: cookieName }, (cookie) => {
-    console.log('cookie :>> ', cookie)
-    // chrome.cookies.set({
-    //   url: domain,
-    //   name: cookieName,
-    //   value: '0',
-    //   expirationDate: expire,
-    // })
+
+  fetch(domain, {
+    method: 'GET',
+    mode: 'no-cors',
+    credentials: 'include',
+  }).then((res) => {
+    // get cookie from response
+    const cookie = res.headers.get('set-cookie')
+
+    chrome.cookies?.set({
+      ...cookie,
+    })
   })
 })
 </script>
