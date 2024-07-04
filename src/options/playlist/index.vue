@@ -37,8 +37,7 @@ function handleReplacePlaylist(playlist) {
       </button>
       <div v-if="createActive" class="flex gap-3">
         <input
-          v-model="playlistName" bg-gray-800
-          focus:bg-gray-700
+          v-model="playlistName" bg="$eno-content focus:$eno-content-hover"
           class="w-full px-4 py-2 rounded-lg
           focus:outline-none focus:shadow-outline"
           @keyup.enter="createPlaylist"
@@ -50,8 +49,7 @@ function handleReplacePlaylist(playlist) {
       <section
         v-for="playlist in list" :key="playlist.name"
         class="w-full px-5 py-1 cursor-pointer"
-        border
-        border-dark
+        border="1 $eno-border" bg="$eno-content"
         rounded-lg
       >
         <div class="flex justify-between items-center w-full">

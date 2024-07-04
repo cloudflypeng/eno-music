@@ -24,11 +24,10 @@ function palyAll() {
     <div
       absolute top-0 left-0
       w-full h-full
-      backdrop-blur
       grid
       p-10
-      style="grid-template-rows: 50px 1fr;"
-      class="bg-[rgba(0,0,0,0.7)]"
+      style="grid-template-rows: 50px 1fr; backdrop-filter: var(--eno-filter-glass-2);"
+      class="bg-$eno-fill-dark-4"
     >
       <!-- 操作 -->
       <div
@@ -39,7 +38,7 @@ function palyAll() {
         w-35
         my-2
         text-lg
-        bg-black
+        bg="$eno-fill-2"
         color="white"
         @click.stop="palyAll"
       >
@@ -51,8 +50,7 @@ function palyAll() {
         flex
         flex-col
         flex-nowrap
-        gap-3
-        pb-30
+        gap-2
         overflow-auto
       >
         <div
@@ -62,6 +60,9 @@ function palyAll() {
           grid
           text-left
           gap-3
+          bg="hover:$eno-fill-dark-2"
+          rounded-xl
+          p-2
           @click.stop="play(music)"
         >
           <img

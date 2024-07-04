@@ -24,7 +24,7 @@ function handleDetail(music) {
       cursor-pointer
       @click.stop="handleDetail(rank)"
     >
-      <h5 text-lg pb-3>
+      <h5 text="lg $eno-text-2" pb-3>
         {{ rank.title }}
       </h5>
       <!-- <img :src="rank.cover" alt="cover" w-30> -->
@@ -32,10 +32,10 @@ function handleDetail(music) {
         v-for="audio in rank.audios" :key="audio.id" pt-3
         @click.stop="store.play = audio"
       >
-        <div truncate text-sm>
+        <div truncate text="sm $eno-text-1">
           {{ audio.title }}
         </div>
-        <span text-xs pl-3>{{ formatTime(audio.duration) }}</span>
+        <span text-xs pl-3 text="$eno-text-3">{{ formatTime(audio.duration) }}</span>
       </div>
     </div>
   </section>

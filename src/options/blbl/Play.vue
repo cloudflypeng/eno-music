@@ -127,8 +127,8 @@ function playControl() {
 
 <template>
   <section
-    class="bg-[rgba(100,100,100,0.5)]  translate-x--2/4  xs:w-40 md:w-150 "
-    backdrop-blur
+    class="bg-$eno-elevated translate-x--2/4  xs:w-40 md:w-150 "
+    style="backdrop-filter: var(--eno-filter-glass-light-1)"
     pos="fixed bottom-10 left-[50%]"
     h-15
     px-6
@@ -149,7 +149,7 @@ function playControl() {
     <div
       grow-1 text-left truncate flex flex-row items-center gap-2
       px-2 rounded-2 backdrop-blur
-      class="bg-[rgba(0,0,0,0.3)] py-1"
+      class="bg-$eno-fill-dark-1 py-1"
     >
       <!-- 主要信息 -->
       <span v-if="store.play.cover" shrink-0>

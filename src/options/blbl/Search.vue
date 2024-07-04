@@ -92,13 +92,12 @@ onMounted(() => {
     w-full h-screen overflow-auto flex flex-col
     justify-center items-center relative
   >
-    <div w-100 relative color-warmgray my-10>
+    <div w-100 relative color="$eno-text-1" my-10>
       <input
         id="search"
         v-model="keyword"
         type="text"
-        bg-gray-800
-        focus:bg-gray-700
+        bg="$eno-content focus:$eno-content-hover"
         focus:outline-none focus:shadow-outline
         :class="cn('w-full px-4 py-2 rounded-lg', { 'animated-gradient': isLoading })"
         placeholder="bilibili music search"
@@ -123,8 +122,7 @@ onMounted(() => {
         v-for="item in result"
         :key="item.bvid"
         class="flex flex-col w-40 h-50 p-2 relative group"
-        hover:bg-white
-        hover:bg-opacity-10
+        hover:bg="$eno-fill-2"
         rounded-lg
         @click="handlePlay(item)"
       >
