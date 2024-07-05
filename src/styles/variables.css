@@ -1,0 +1,31 @@
+:root {
+  --eno-bg: hsl(234, 24%, 8%);
+
+  --eno-text-1: hsla(234, 16%, 98%, 1);
+  --eno-text-2: hsla(234, 16%, 90%, 0.9);
+  --eno-text-3: hsla(234, 16%, 80%, 0.76);
+  --eno-text-4: hsla(234, 16%, 70%, 0.64);
+
+  --eno-content: hsla(234, 16%, 16%, 0.6);
+  --eno-content-hover: hsla(234, 16%, 26%, 0.6);
+
+  --eno-elevated: hsla(234, 16%, 22%, 0.6);
+
+  --eno-fill-dark-1: hsla(246, 4%, 2%, 0.14);
+  --eno-fill-dark-2: hsla(246, 4%, 2%, 0.24);
+  --eno-fill-dark-3: hsla(246, 4%, 2%, 0.34);
+  --eno-fill-dark-4: hsla(246, 4%, 2%, 0.44);
+
+  --eno-fill-1: hsla(246, 4%, 42%, 0.14);
+  --eno-fill-2: hsla(246, 4%, 42%, 0.24);
+  --eno-fill-3: hsla(246, 4%, 42%, 0.34);
+  --eno-fill-4: hsla(246, 4%, 42%, 0.44);
+
+  --eno-border: var(--eno-fill-2);
+
+  --eno-filter-glass-1: blur(20px) saturate(180%);
+  --eno-filter-glass-2: blur(40px) saturate(180%);
+
+  --eno-filter-glass-light-1: blur(20px) saturate(180%) brightness(1.2);
+  --eno-filter-glass-light-2: blur(40px) saturate(180%) brightness(1.2);
+}

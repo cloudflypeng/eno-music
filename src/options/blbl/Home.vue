@@ -35,7 +35,7 @@ function scroll(type) {
 <template>
   <section w-full>
     <!-- 歌单部分 -->
-    <h5 text-2xl py-5 text-left>
+    <h5 text="2xl $eno-text-1" fw-600 py-5 text-left>
       热门歌单
     </h5>
     <section
@@ -84,13 +84,13 @@ function scroll(type) {
             cursor-pointer
             :src="music.cover"
           >
-          <div opacity-70>
+          <div text="$eno-text-2">
             {{ music.title }}
           </div>
         </div>
       </div>
     </section>
-    <h5 text-2xl py-5 text-left>
+    <h5 text="2xl $eno-text-1" fw-600 py-5 text-left>
       精选榜单
     </h5>
     <Rank />

@@ -40,7 +40,7 @@ watch(() =>
       <!-- <img w-20 h-20 :src="music.creation_cover"> -->
       <span>
         <div>{{ music.music_title }}</div>
-        <span>{{ music.singer }}</span>
+        <span text="$eno-text-2">{{ music.singer }}</span>
       </span>
 
       <!-- <span>{{ music.creation_bvid }}</span> -->

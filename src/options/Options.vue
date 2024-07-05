@@ -39,8 +39,8 @@ onMounted(() => {
 <template>
   <main
     class="text-center
-    bg-black
-    color-white"
+    bg-$eno-bg
+    color-$eno-text-1"
     h-screen
     overflow="auto"
     flex
