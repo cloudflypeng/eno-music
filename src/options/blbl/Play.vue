@@ -149,11 +149,11 @@ function playControl() {
     <div
       grow-1 text-left truncate flex flex-row items-center gap-2
       px-2 rounded-2 backdrop-blur
-      class="bg-$eno-fill-dark-1 py-3"
+      class="bg-$eno-fill-dark-1 py-1"
     >
       <!-- 主要信息 -->
       <span v-if="store.play.cover" shrink-0>
-        <img w-10 h-10 rounded-2 :src="store.play.cover">
+        <img w-10 h-10 rounded-1 :src="store.play.cover">
       </span>
       <div truncate grow-1>
         <div v-html="displayData.title" />
@@ -171,35 +171,69 @@ function playControl() {
     </div>
     <!-- 其他 -->
     <div flex flex-row text-lg gap-5>
-      <div class="i-tabler:playlist w-1em h-1em" @click="toggleList" />
       <div
-        v-show="showList"
-        absolute
-        h-100 w-40
-        bottom-12
-        rounded-lg
-        right-0
-        transition ease-in-out delay-150
-        class="bg-[rgba(0,0,0,0.5)]"
-        overflow-hidden
-      >
+        cursor-pointer
+        class="i-tabler:playlist w-1em h-1em" @click="toggleList"
+      />
+      <Teleport to="body">
         <div
-          v-for="item, index in store.playList"
-          :key="item.id"
-          w-full
-          max-w-full
-          text-sm
-          text-left
-          cursor-pointer
-          px-2 py-1
+          v-show="showList"
+          class="
+          playlist-dialog
+          p-3
+          fixed
           rounded-lg
-          transition ease-in-out delay-150
-          truncate
-          @click.stop="change(index)"
+          bg-$eno-elevated
+          backdrop-blur
+          text-white
+          insert-0
+          top-[50%] left-[50%] translate-x--1/2 translate-y--1/2
+          h-[50vh] w-1/3
+          "
         >
-          {{ item.title }}
+          <div class="text-2xl mb-1">
+            播放列表
+          </div>
+          <div class="h-[calc(50vh-4rem)] overflow-auto">
+            <div
+              v-for="item, index in store.playList"
+              :key="item.id"
+              w-full
+              max-w-full
+              text-sm
+              text-left
+              cursor-pointer
+              px-2 py-1
+              rounded-lg
+              transition delay-50
+              truncate
+              class="hover:opacity-100 opacity-75"
+              @click.stop="change(index)"
+            >
+              <div class="flex gap-3">
+                <img w-10 h-10 rounded-2 :src="item.cover">
+                <div class="truncate">
+                  {{ item.title }}
+                </div>
+              </div>
+            </div>
+          </div>
         </div>
-      </div>
+      </Teleport>
     </div>
   </section>
 </template>
+
+<style>
+.playlist-dialog{
+  animation: fadeIn 0.5s;
+}
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+  }
+  to {
+    opacity: 1;
+  }
+}
+</style>

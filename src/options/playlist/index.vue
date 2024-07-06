@@ -103,8 +103,7 @@ function handlePlaySong(song) {
         <!-- 歌曲列表 -->
         <div
           v-if="isMyOpen(playlist)"
-          py-3
-          class="flex gap-3 flex-col max-w-5xl wrapper-transition opacity-item text-[16px]"
+          class="flex gap-3 flex-col w-full py-3 wrapper-transition opacity-item text-[16px]"
         >
           <div
             v-for="song in renderSong(playlist)" :key="song?.id || song?.bvid"

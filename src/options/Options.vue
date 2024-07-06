@@ -38,7 +38,7 @@ onMounted(() => {
 
 <template>
   <main
-    class="text-center
+    class="
     bg-$eno-bg
     color-$eno-text-1"
     h-screen
