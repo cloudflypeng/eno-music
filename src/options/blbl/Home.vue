@@ -62,7 +62,7 @@ function scroll(type) {
       </div>
       <div
         ref="scrollRef"
-        class="w-[calc(100vw-5rem)]"
+        class="w-[calc(100vw-5rem)] wrapper-scroll"
         flex
         overflow-auto
         gap-10
@@ -96,3 +96,14 @@ function scroll(type) {
     <Rank />
   </section>
 </template>
+
+<style>
+.wrapper-scroll {
+  mask-image: linear-gradient(
+        to right,
+        transparent,
+        #000 20% 80%,
+        transparent
+    );
+}
+</style>

@@ -149,11 +149,11 @@ function playControl() {
     <div
       grow-1 text-left truncate flex flex-row items-center gap-2
       px-2 rounded-2 backdrop-blur
-      class="bg-$eno-fill-dark-1 py-1"
+      class="bg-$eno-fill-dark-1 py-3"
     >
       <!-- 主要信息 -->
       <span v-if="store.play.cover" shrink-0>
-        <img w-10 h-10 rounded-1 :src="store.play.cover">
+        <img w-10 h-10 rounded-2 :src="store.play.cover">
       </span>
       <div truncate grow-1>
         <div v-html="displayData.title" />

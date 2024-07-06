@@ -36,6 +36,10 @@ function handleReplacePlaylist(playlist) {
 // 增加歌单列表展开和关闭, 手风琴模式
 const currentOpen = ref(null)
 const isMyOpen = playlist => currentOpen.value === playlist.id
+// 单独播放一首歌
+function handlePlaySong(song) {
+  store.startPlay(song)
+}
 </script>
 
 <template>
@@ -45,7 +49,7 @@ const isMyOpen = playlist => currentOpen.value === playlist.id
     </div>
     <!-- 创建歌单部分 -->
     <div class="flex gap-3 mb-5">
-      <button text-lg border px-3 py-1 rounded-4 @click.stop="createActive = true">
+      <button text-lg border px-3 py-1 rounded-4 @click.stop="createActive = !createActive">
         创建歌单
       </button>
       <div v-if="createActive" class="flex gap-3 w-[50vw]">
@@ -88,6 +92,7 @@ const isMyOpen = playlist => currentOpen.value === playlist.id
             />
             <h2 class="w-40 truncate">
               {{ playlist.name }}
+              <span class="mx-2 text-lg">({{ playlist.songs.length }})</span>
             </h2>
           </div>
           <div class="flex gap-3">
@@ -98,13 +103,20 @@ const isMyOpen = playlist => currentOpen.value === playlist.id
         <!-- 歌曲列表 -->
         <div
           v-if="isMyOpen(playlist)"
-          class="mt-3 flex gap-2 flex-col max-w-5xl wrapper-transition opacity-item"
+          py-3
+          class="flex gap-3 flex-col max-w-5xl wrapper-transition opacity-item text-[16px]"
         >
           <div
             v-for="song in renderSong(playlist)" :key="song?.id || song?.bvid"
-            class="flex items-center justify-between opacity-75 hover:opacity-100 song-item"
+            class="flex items-center opacity-75 hover:opacity-100 song-item"
+            cursor-pointer
+            @click.stop="handlePlaySong(song)"
           >
-            <span v-html="song.title" />
+            <div class="flex flex-1 gap-3">
+              <img :src="song.cover" class="w-10 h-10 rounded-2 overflow-hidden object-fill">
+              <span v-html="song.title" />
+            </div>
+
             <div class="i-mingcute:delete-2-line" opacity-0 cursor-pointer @click.stop="handleDelPL(playlist)" />
           </div>
           <div v-if="!playlist.songs.length" class="px-10 py-3 text-3xl">
