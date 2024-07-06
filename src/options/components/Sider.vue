@@ -5,7 +5,7 @@ const store = useBlblStore()
 </script>
 
 <template>
-  <aside w-20 h-full flex flex-col gap-8 items-center py-30 text-3xl>
+  <aside w-20 h-full flex flex-col flex-shrink-0 gap-8 items-center py-30 text-3xl>
     <div
       class="i-tabler:smart-home w-1em h-1em"
       hover:scale-110
