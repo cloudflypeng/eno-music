@@ -55,29 +55,25 @@ function playMusic() {
 }
 
 watch(() => store.play?.id, (id) => {
-  if (!store.play.url) {
-    api.blbl.getSong({
-      sid: id,
-    }).then((res) => {
-      if (res.code !== 0)
-        // eslint-disable-next-line no-alert
-        alert('获取音乐失败')
+  // TODO: 这里只兼容了sid也就是普通歌单, 其他歌曲获取逻辑不在这导致歌单内歌曲的url重新获取失败
+  api.blbl.getSong({
+    sid: id,
+  }).then((res) => {
+    if (res.code !== 0)
+    // eslint-disable-next-line no-alert
+      alert('获取音乐失败')
 
-      store.play.url = res.data.cdns[0]
-      // 如果没有封面
-      if (!store.play.cover) {
-        api.blbl.getSongInfo({ sid: id }).then((res) => {
-          Object.assign(store.play, res.data)
-        })
-      }
-      store.playList.push({ ...store.play })
+    store.play.url = res.data.cdns[0]
+    // 如果没有封面
+    if (!store.play.cover) {
+      api.blbl.getSongInfo({ sid: id }).then((res) => {
+        Object.assign(store.play, res.data)
+      })
+    }
+    store.playList.push({ ...store.play })
 
-      playMusic()
-    })
-  }
-  else {
     playMusic()
-  }
+  })
 })
 
 function change(type) {
