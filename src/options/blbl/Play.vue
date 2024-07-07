@@ -2,6 +2,7 @@
 import { Howl, Howler } from 'howler'
 import { useBlblStore } from './store'
 import { useApiClient } from '~/composables/api'
+import Dialog from '~/components/dialog/index.vue'
 
 const api = useApiClient()
 
@@ -175,51 +176,34 @@ function playControl() {
         cursor-pointer
         class="i-tabler:playlist w-1em h-1em" @click="toggleList"
       />
-      <Teleport to="body">
+      <Dialog
+        :open="showList"
+        title="播放列表"
+        @visible-change="vis => showList = vis"
+      >
         <div
-          v-show="showList"
-          class="
-          playlist-dialog
-          p-3
-          fixed
+          v-for="item, index in store.playList"
+          :key="item.id"
+          w-full
+          max-w-full
+          text-sm
+          text-left
+          cursor-pointer
+          px-2 py-1
           rounded-lg
-          bg-$eno-elevated
-          backdrop-blur
-          text-white
-          insert-0
-          top-[50%] left-[50%] translate-x--1/2 translate-y--1/2
-          h-[50vh] w-1/3
-          "
+          transition delay-50
+          truncate
+          class="hover:opacity-100 opacity-75"
+          @click.stop="change(index)"
         >
-          <div class="text-2xl mb-1">
-            播放列表
-          </div>
-          <div class="h-[calc(50vh-4rem)] overflow-auto">
-            <div
-              v-for="item, index in store.playList"
-              :key="item.id"
-              w-full
-              max-w-full
-              text-sm
-              text-left
-              cursor-pointer
-              px-2 py-1
-              rounded-lg
-              transition delay-50
-              truncate
-              class="hover:opacity-100 opacity-75"
-              @click.stop="change(index)"
-            >
-              <div class="flex gap-3">
-                <img w-10 h-10 rounded-2 :src="item.cover">
-                <div class="truncate">
-                  {{ item.title }}
-                </div>
-              </div>
+          <div class="flex gap-3">
+            <img w-10 h-10 rounded-2 :src="item.cover">
+            <div class="truncate">
+              {{ item.title }}
             </div>
           </div>
         </div>
-      </Teleport>
+      </Dialog>
     </div>
   </section>
 </template>
