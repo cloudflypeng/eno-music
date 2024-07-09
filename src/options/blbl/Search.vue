@@ -28,21 +28,6 @@ useInfiniteScroll(
   { distance: 10 },
 )
 
-async function getUrl(item) {
-  const { cid } = await api.blbl.getVideoInfo({
-    bvid: item.bvid,
-  }).then(res => res.data)
-  const url = await api.blbl.getAudioOfVideo({
-    cid,
-    bvid: item.bvid,
-  }).then(res => res.data.dash.audio[0].baseUrl)
-
-  return {
-    ...item,
-    url,
-  }
-}
-
 async function getMoreData() {
   isLoading.value = true
   pageNum.value++
@@ -55,6 +40,7 @@ async function getMoreData() {
   return res.data.result.map((item) => {
     return {
       id: item.id,
+      enu_song_type: 'bvid',
       cover: `http:${item.pic}`,
       title: item.title,
       description: item.description,
@@ -72,14 +58,18 @@ async function handleSearch() {
   result.value = newList
 }
 async function handlePlay(item) {
-  const newPlay = await getUrl(item)
+  // const newPlay = await getUrl(item)
 
-  store.play = newPlay
-  store.playList.push(newPlay)
+  // store.play = newPlay
+  // store.playList.push(newPlay)
+
+  store.play = item
+  store.playList.push(item)
 }
 async function addSong(item) {
-  const newPlay = await getUrl(item)
-  PLStore.startAddSong(newPlay)
+  // const newPlay = await getUrl(item)
+  // PLStore.startAddSong(newPlay)
+  PLStore.startAddSong(item)
 }
 onMounted(() => {
   const dom = document.getElementById('search')

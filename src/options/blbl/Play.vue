@@ -53,27 +53,40 @@ function playMusic() {
   })
   store.howl.play()
 }
+async function getBvidUrl(item) {
+  const { cid } = await api.blbl.getVideoInfo({
+    bvid: item.bvid,
+  }).then(res => res.data)
+  const url = await api.blbl.getAudioOfVideo({
+    cid,
+    bvid: item.bvid,
+  }).then(res => res.data.dash.audio[0].baseUrl)
 
-watch(() => store.play?.id, (id) => {
+  return {
+    ...item,
+    url,
+  }
+}
+async function getSidUrl(item) {
+  const url = await api.blbl.getSong({
+    sid: item.id,
+  }).then(res => res.data.cdns[0])
+
+  return {
+    ...item,
+    url,
+  }
+}
+
+watch(() => store.play?.id, async () => {
   // TODO: 这里只兼容了sid也就是普通歌单, 其他歌曲获取逻辑不在这导致歌单内歌曲的url重新获取失败
-  api.blbl.getSong({
-    sid: id,
-  }).then((res) => {
-    if (res.code !== 0)
-    // eslint-disable-next-line no-alert
-      alert('获取音乐失败')
+  const currentSong = store.play
+  const play = currentSong.enu_song_type === 'bvid'
+    ? await getBvidUrl(currentSong)
+    : await getSidUrl(currentSong)
+  store.play = play
 
-    store.play.url = res.data.cdns[0]
-    // 如果没有封面
-    if (!store.play.cover) {
-      api.blbl.getSongInfo({ sid: id }).then((res) => {
-        Object.assign(store.play, res.data)
-      })
-    }
-    store.playList.push({ ...store.play })
-
-    playMusic()
-  })
+  playMusic()
 })
 
 function change(type) {
