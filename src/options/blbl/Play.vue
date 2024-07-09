@@ -16,6 +16,8 @@ const progress = reactive({
   current: 0,
   total: 0,
 })
+const voice = ref(1)
+const isCloseVoice = ref(false)
 const progressTimer = ref(null)
 
 function playMusic() {
@@ -53,6 +55,8 @@ function playMusic() {
     },
   })
   store.howl.play()
+  voice.value = store.howl.volume()
+  isCloseVoice.value = store.howl.volume() === 0
 }
 async function getBvidUrl(item) {
   const { cid } = await api.blbl.getVideoInfo({
@@ -145,6 +149,21 @@ const progressTrans = computed(() => {
     transform: `translateX(${(1 - progress.percent) * -100}%)`,
   }
 })
+function handleChangeVoice(e) {
+  store.howl.volume(e.target.value)
+  voice.value = e.target.value
+}
+// 设置打开声音和静音
+function setVoice() {
+  if (isCloseVoice.value) {
+    store.howl.volume(voice.value)
+    isCloseVoice.value = false
+  }
+  else {
+    store.howl.volume(0)
+    isCloseVoice.value = true
+  }
+}
 </script>
 
 <template>
@@ -218,6 +237,22 @@ const progressTrans = computed(() => {
           </div>
         </div>
       </Dialog>
+      <div
+        v-if="isCloseVoice"
+        class="i-mingcute:volume-mute-line w-1em h-1em"
+        @click.stop="setVoice"
+      />
+      <div
+        v-else
+        class="i-mingcute:volume-line w-1em h-1em"
+        @click.stop="setVoice"
+      />
+      <input
+        v-if="!isCloseVoice"
+        id="voice-progress" v-model="voice" type="range"
+        class="w-20" min="0" max="1" step="0.01"
+        @change="handleChangeVoice"
+      >
     </div>
   </section>
 </template>
@@ -264,6 +299,11 @@ input[type="range"]::-webkit-slider-thumb {
   outline: none;
   margin-top: -4px;
   position: relative;
+}
+#voice-progress {
+  background: #4cabe2;
+  height: 2px;
+  transform: translateY(8px);
 }
 
 .playlist-dialog {
