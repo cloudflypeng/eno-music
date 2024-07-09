@@ -23,7 +23,7 @@ export async function getManifest() {
       ],
     },
     action: {
-      default_icon: './assets/icon-128.png',
+      default_icon: './assets/128px.png',
       // default_popup: './dist/popup/index.html',
     },
     options_ui: {
@@ -39,9 +39,9 @@ export async function getManifest() {
           service_worker: './dist/background/index.mjs',
         },
     icons: {
-      16: './assets/icon-128.png',
-      48: './assets/icon-128.png',
-      128: './assets/icon-128.png',
+      16: './assets/128px.png',
+      48: './assets/256px.png',
+      128: './assets/512px.png',
     },
     permissions: [
       'storage',

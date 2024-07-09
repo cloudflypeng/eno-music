@@ -52,6 +52,7 @@ function palyAll() {
         flex-nowrap
         gap-2
         overflow-auto
+        pb-20
       >
         <div
           v-for="music in store.currentHit.list"

@@ -32,24 +32,18 @@ function clickDialog(e) {
 <template>
   <Teleport to="body">
     <dialog
-      v-show="open" ref="dialogRef"
-      class="bg-$eno-elevated backdrop-blur p-3 rounded-lg h-[50vh] min-w-1/3 max-w-1/2
+      v-show="open" ref="dialogRef" class="bg-$eno-elevated backdrop-blur p-3 rounded-lg h-[50vh] min-w-1/3 max-w-1/2
         text-white
-      "
-      @click="clickDialog"
+      " @click="clickDialog"
     >
-      <div
-        text-3xl mb-2
-        class="flex justify-between"
-      >
+      <div text-3xl mb-2 class="flex justify-between">
         <div>{{ props.title }}</div>
         <div
           class="i-mingcute:close-fill w-1em h-1em items-center transition-all
-          transition-delay-300 hover:transform-rotate-90 cursor-pointer"
-          @click.stop="close"
+          transition-delay-300 hover:transform-rotate-90 cursor-pointer" @click.stop="close"
         />
       </div>
-      <div class="max-h-[calc(100%-3rem)] max-w-[50vw] overflow-auto">
+      <div class="h-[calc(100%-3rem)] max-w-[50vw] overflow-auto flex-1">
         <slot />
       </div>
     </dialog>

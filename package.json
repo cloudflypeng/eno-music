@@ -34,7 +34,9 @@
     "classnames": "^2.5.1",
     "howler": "^2.2.4",
     "nanoid": "^5.0.7",
-    "pinia": "^2.1.7"
+    "pinia": "^2.1.7",
+    "prettier": "^3.3.2",
+    "prettier-plugin-tailwindcss": "^0.6.5"
   },
   "devDependencies": {
     "@antfu/eslint-config": "^2.8.1",

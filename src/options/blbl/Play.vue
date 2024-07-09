@@ -1,5 +1,6 @@
 <script setup>
 import { Howl, Howler } from 'howler'
+import cn from 'classnames'
 import { useBlblStore } from './store'
 import { useApiClient } from '~/composables/api'
 import Dialog from '~/components/dialog/index.vue'
@@ -19,7 +20,7 @@ const progressTimer = ref(null)
 
 function playMusic() {
   const url = store.play.url
-  // restall
+  // 重置进度
   progress.percent = 0
   progress.current = 0
 
@@ -125,7 +126,7 @@ onMounted(() => {
   })
 })
 onUnmounted(() => {
-  window.removeEventListener('keydown', () => {})
+  window.removeEventListener('keydown', () => { })
 })
 function playControl() {
   if (isPlaying.value)
@@ -133,83 +134,87 @@ function playControl() {
   else
     store.howl.play()
 }
+const timeDisplay = computed(() => {
+  return {
+    current: new Date(progress.current * 1000).toISOString().substr(14, 5) || '00:00',
+    total: new Date(progress.total * 1000).toISOString().substr(14, 5) || '00:00',
+  }
+})
+const progressTrans = computed(() => {
+  return {
+    transform: `translateX(${(1 - progress.percent) * -100}%)`,
+  }
+})
 </script>
 
 <template>
   <section
-    class="bg-$eno-elevated translate-x--2/4  xs:w-40 md:w-150 "
-    style="backdrop-filter: var(--eno-filter-glass-light-1)"
-    pos="fixed bottom-10 left-[50%]"
-    h-15
-    px-6
-    color-white
-    rounded-full
-    flex
-    gap-6
-    items-center
-    transform-gpu
+    class="bg-$eno-elevated w-screen h-20 px-6 flex" style="backdrop-filter: var(--eno-filter-glass-light-1)"
+    flex="row items-center justify-between"
+    pos="fixed bottom-0 left-0" color-white gap-6 transform-gpu
   >
-    <div flex flex-row text-lg gap-5>
-      <!-- 音乐控制 -->
-      <div cursor-pointer class="i-tabler:player-track-prev-filled w-1em h-1em" @click.stop="change('prev')" />
-      <div v-if="isPlaying" cursor-pointer class="i-tabler:player-pause-filled w-1em h-1em" @click.stop="playControl" />
-      <div v-else cursor-pointer class="i-tabler:player-play-filled w-1em h-1em" @click.stop="playControl" />
-      <div cursor-pointer class="i-tabler:player-track-next-filled w-1em h-1em" @click.stop="change('next')" />
+    <!-- 音乐进度 -->
+    <div class="w-screen top-0 left-0 absolute h-[2px] bg-yellow" :style="progressTrans" />
+    <!-- 音乐滑块 -->
+    <input
+      v-model="progress.percent" type="range" min="0" max="1" step="0.01"
+      color="red"
+      class="w-full absolute top-0 left-0 h-1 bg-$eno-fill-2 rounded-1 cursor-pointer play-progress"
+      @change="changeProgress"
+    >
+
+    <!-- 音乐控制 -->
+    <div flex flex-row items-center text-2xl gap-10 w-100>
+      <div cursor-pointer class="i-tabler:player-track-prev-filled w-1em h-1em hover:opacity-50" @click.stop="change('prev')" />
+      <div
+        v-if="isPlaying"
+        cursor-pointer text-3xl
+        class="i-tabler:player-pause-filled w-1em h-1em hover:opacity-50"
+        @click.stop="playControl"
+      />
+      <div
+        v-else
+        cursor-pointer text-3xl
+        class="i-tabler:player-play-filled w-1em h-1em hover:opacity-50"
+        @click.stop="playControl"
+      />
+      <div cursor-pointer class="i-tabler:player-track-next-filled w-1em h-1em hover:opacity-50" @click.stop="change('next')" />
+      <div text-xs>
+        {{ timeDisplay.current }}/{{ timeDisplay.total }}
+      </div>
     </div>
+    <!-- 播放信息 -->
     <div
-      grow-1 text-left truncate flex flex-row items-center gap-2
-      px-2 rounded-2 backdrop-blur
-      class="bg-$eno-fill-dark-1 py-1"
+      flex flex-row items-center gap-4
+      text-left truncate rounded-2 backdrop-blur
+      px-3 py-1
+      class="bg-$eno-fill-dark-1 w-1/3 min-w-120 h-[calc(100%-16px)]"
     >
       <!-- 主要信息 -->
       <span v-if="store.play.cover" shrink-0>
-        <img w-10 h-10 rounded-1 :src="store.play.cover">
+        <img w-11 h-11 rounded-1 :src="store.play.cover">
       </span>
       <div truncate grow-1>
         <div v-html="displayData.title" />
-        <input
-          v-model="progress.percent"
-          type="range" min="0" max="1" step="0.01"
-          class="w-full"
-          @change="changeProgress"
-        >
+        <span>{{ store.play.author }}{{ store.play.description }}</span>
       </div>
-      <div flex gap-2 text-sm px-2>
+      <!-- <div flex gap-2 text-sm px-2>
         <div class="i-tdesign:card w-1em h-1em" />
         <div class="i-mingcute:more-1-fill w-1em h-1em" />
-      </div>
+      </div> -->
     </div>
     <!-- 其他 -->
-    <div flex flex-row text-lg gap-5>
-      <div
-        cursor-pointer
-        class="i-tabler:playlist w-1em h-1em" @click="toggleList"
-      />
-      <Dialog
-        :open="showList"
-        title="播放列表"
-        @visible-change="vis => showList = vis"
-      >
+    <div flex flex-row-reverse text-lg gap-5 w-100>
+      <div cursor-pointer class="i-tabler:playlist w-1em h-1em" @click="toggleList" />
+      <Dialog :open="showList" title="播放列表" @visible-change="vis => showList = vis">
         <div
-          v-for="item, index in store.playList"
-          :key="item.id"
-          w-full
-          max-w-full
-          text-sm
-          text-left
-          cursor-pointer
-          px-2 py-1
-          rounded-lg
-          transition delay-50
-          truncate
-          class="hover:opacity-100 opacity-75"
+          v-for="item, index in store.playList" :key="item.id" w-full max-w-full text-sm text-left cursor-pointer
+          px-2 py-1 rounded-lg transition delay-50 truncate class="hover:opacity-100 opacity-75"
           @click.stop="change(index)"
         >
           <div class="flex gap-3">
             <img w-10 h-10 rounded-2 :src="item.cover">
-            <div class="truncate">
-              {{ item.title }}
-            </div>
+            <div class="truncate" v-html="item.title" />
           </div>
         </div>
       </Dialog>
@@ -218,13 +223,58 @@ function playControl() {
 </template>
 
 <style>
-.playlist-dialog{
+input[type="range"] {
+  -webkit-appearance: none;
+  appearance: none;
+  background: transparent;
+  cursor: pointer;
+}
+input[type="range"]::-webkit-slider-runnable-track {
+  height: 2px;
+  border-radius: 1px;
+  border: none;
+  outline: none;
+}
+input[type="range"]::-webkit-slider-thumb {
+  -webkit-appearance: none;
+  appearance: none;
+  height: 20px;
+  width: 20px;
+  margin-top: -6px;   /* Thumb の位置を調整 */
+  background-color: #4cabe2;
+  border-radius: 50%;
+}
+input[type="range"]::-moz-range-track {
+  opacity: 0.5;
+  background: yellow;
+  height: 2px;
+  border-radius: 1px;
+  border: none;
+  outline: none;
+}
+input[type="range"]::-webkit-slider-thumb {
+  -webkit-appearance: none;
+  appearance: none;
+  width: 10px;
+  height: 10px;
+  border-radius: 50%;
+  background: yellow;
+  cursor: pointer;
+  border: none;
+  outline: none;
+  margin-top: -4px;
+  position: relative;
+}
+
+.playlist-dialog {
   animation: fadeIn 0.5s;
 }
+
 @keyframes fadeIn {
   from {
     opacity: 0;
   }
+
   to {
     opacity: 1;
   }

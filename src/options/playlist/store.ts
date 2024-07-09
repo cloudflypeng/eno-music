@@ -17,6 +17,7 @@ export const usePlaylistStore = defineStore({
   id: 'playlist',
   state: () => ({
     list: useLocalStorage('playlist', [] as playlist[]),
+    listenLater: useLocalStorage('listenLater', [] as song[]),
     // 待添加的song
     songToAdd: null as song | null,
     // 添加窗口是否打开
@@ -32,6 +33,10 @@ export const usePlaylistStore = defineStore({
       if (!playlist)
         return
       playlist.songs.push(this.songToAdd!)
+    },
+    addSongToListenLater() {
+      this.listenLater.push(this.songToAdd!)
+      this.addSongDialog = false
     },
     removeSong(playlistId: string | number, songId: string | number) {
       const playlist = this.list.find(p => p.id === playlistId)

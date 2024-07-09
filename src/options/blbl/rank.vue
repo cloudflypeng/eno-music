@@ -16,22 +16,16 @@ function handleDetail(music) {
 </script>
 
 <template>
-  <section grid w-full class="grid-cols-1 md:grid-cols-3 gap-8 ">
+  <section grid w-full class="grid-cols-1 md:grid-cols-3 gap-8 p-10">
     <div
-      v-for="rank in store.rankList"
-      :key="rank.statistic.sid"
-      flex flex-col text-left
-      cursor-pointer
+      v-for="rank in store.rankList" :key="rank.statistic.sid" flex flex-col text-left cursor-pointer
       @click.stop="handleDetail(rank)"
     >
       <h5 text="lg $eno-text-2" pb-3>
         {{ rank.title }}
       </h5>
       <!-- <img :src="rank.cover" alt="cover" w-30> -->
-      <div
-        v-for="audio in rank.audios" :key="audio.id" pt-3
-        @click.stop="store.play = audio"
-      >
+      <div v-for="audio in rank.audios" :key="audio.id" pt-3 @click.stop="store.play = audio">
         <div truncate text="sm $eno-text-1">
           {{ audio.title }}
         </div>

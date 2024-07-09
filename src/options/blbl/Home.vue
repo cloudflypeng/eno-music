@@ -35,62 +35,37 @@ function scroll(type) {
 <template>
   <section w-full>
     <!-- 歌单部分 -->
-    <h5 text="2xl $eno-text-1" fw-600 py-5 text-left>
+    <h5 text="2xl $eno-text-1" fw-600 py-5 text-left px-10 mt-10>
       热门歌单
     </h5>
-    <section
-      pos="relative"
-      w-full
-    >
+    <section pos="relative" class="w-[calc(100vw-20rem)] mx-auto py-10">
       <div z-1>
         <div
-          class="bg-[rgba(0,0,0,0.5)] translate-y--1/2"
-          pos="absolute left-0 top-[40%]"
-          p-1 flex items-center rounded-full
-          @click.stop="scroll('left')"
+          class="bg-[rgba(0,0,0,0.5)] translate-y--1/2" pos="absolute left-0 top-[40%]" p-1 flex items-center
+          rounded-full @click.stop="scroll('left')"
         >
           <div text-5xl class="i-tabler:arrow-badge-left-filled w-1em h-1em" />
         </div>
         <div
-          class="bg-[rgba(0,0,0,0.5)] translate-y--1/2"
-          pos="absolute right-0 top-[40%]"
-          p-1 flex items-center rounded-full
-          @click.stop="scroll('right')"
+          class="bg-[rgba(0,0,0,0.5)] translate-y--1/2" pos="absolute right-0 top-[40%]" p-1 flex items-center
+          rounded-full @click.stop="scroll('right')"
         >
           <div text-5xl class="i-tabler:arrow-badge-right-filled w-1em h-1em" />
         </div>
       </div>
-      <div
-        ref="scrollRef"
-        class="w-[calc(100vw-5rem)] wrapper-scroll"
-        flex
-        overflow-auto
-        gap-10
-        snap-x
-        p="x-15"
-      >
+      <div ref="scrollRef" class="w-[calc(100vw-20rem)] wrapper-scroll" flex overflow-auto gap-10 snap-x p="x-15">
         <div
-          v-for="music in store.hitList"
-          :key="music.menuid"
-          w-50
-          shrink-0
-          h-60
-          snap-center
+          v-for="music in store.hitList" :key="music.menuid" w-50 shrink-0 h-60 snap-center
           @click="handleDetail(music)"
         >
-          <img
-            w-50 h-50
-            rounded-xl
-            cursor-pointer
-            :src="music.cover"
-          >
+          <img w-50 h-50 rounded-xl cursor-pointer :src="music.cover">
           <div text="$eno-text-2">
             {{ music.title }}
           </div>
         </div>
       </div>
     </section>
-    <h5 text="2xl $eno-text-1" fw-600 py-5 text-left>
+    <h5 text="2xl $eno-text-1" fw-600 px-10 mt-10 text-left>
       精选榜单
     </h5>
     <Rank />
@@ -99,11 +74,9 @@ function scroll(type) {
 
 <style>
 .wrapper-scroll {
-  mask-image: linear-gradient(
-        to right,
-        transparent,
-        #000 20% 80%,
-        transparent
-    );
+  mask-image: linear-gradient(to right,
+      transparent,
+      #000 20% 80%,
+      transparent);
 }
 </style>
