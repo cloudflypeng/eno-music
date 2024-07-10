@@ -10,6 +10,8 @@ import ListenLater from './playlist/ListenLater.vue'
 import AddSong from './playlist/AddSong.vue'
 
 import Search from './blbl/Search.vue'
+import SingerList from './playlist/SingerList.vue'
+import SingerDetail from './playlist/SingerDetail.vue'
 
 // import Rank from './blbl/rank.vue'
 // import RankDetail from './blbl/RankDetail.vue'
@@ -20,8 +22,6 @@ import { useBlblStore } from './blbl/store.js'
 
 const store = useBlblStore()
 onMounted(() => {
-  const domain = 'https://www.bilibili.com'
-
   fetch(domain, {
     method: 'GET',
     mode: 'no-cors',
@@ -52,6 +52,8 @@ onMounted(() => {
       <Search v-show="store.mode === 'search'" />
       <Playlist v-show="store.mode === 'playlist'" />
       <ListenLater v-show="store.mode === 'listenLater'" />
+      <SingerList v-show="store.mode === 'singerList'" />
+      <SingerDetail v-show="store.mode === 'singerDetail'" />
     </div>
     <Play />
   </main>

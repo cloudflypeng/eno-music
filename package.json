@@ -33,6 +33,7 @@
   "dependencies": {
     "classnames": "^2.5.1",
     "howler": "^2.2.4",
+    "md5": "^2.3.0",
     "nanoid": "^5.0.7",
     "pinia": "^2.1.7",
     "prettier": "^3.3.2",

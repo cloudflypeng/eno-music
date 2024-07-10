@@ -80,6 +80,15 @@ const tabClass = computed(() => {
     </Dialog>
     <div
       :class="tabClass" text-xs rounded-4 h-15
+      @click.stop="store.mode = 'singerList'"
+    >
+      <div class="i-mingcute:group-2-fill w-1em h-1em" text-2xl />
+      <div v-if="open">
+        <div>关注的音乐人</div>
+      </div>
+    </div>
+    <div
+      :class="tabClass" text-xs rounded-4 h-15
       @click.stop="store.mode = 'listenLater'"
     >
       <div class="i-mingcute:time-fill w-1em h-1em text-2xl" />

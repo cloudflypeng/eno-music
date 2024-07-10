@@ -156,6 +156,17 @@ const api = {
     },
     afterHandle: AHS.J,
   },
+  // 获取用户信息 https://api.bilibili.com/x/web-interface/card
+  [BLBL.GET_USER_INFO]: {
+    url: `${baseUrl}/x/web-interface/card`,
+    _fetch: {
+      method: 'get',
+    },
+    params: {
+      mid: 0,
+    },
+    afterHandle: AHS.J,
+  },
 }
 
 export default api
