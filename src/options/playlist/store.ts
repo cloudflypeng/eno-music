@@ -45,6 +45,10 @@ export const usePlaylistStore = defineStore({
       this.songToAdd = song
       this.addSongDialog = true
     },
+    // 添加到稍后再听
+    addToListenLater(song: song) {
+      this.listenLater.push(song)
+    },
     addSong(playlistId: string | number) {
       const playlist = this.list.find(p => p.id === playlistId)
       if (!playlist)
@@ -97,5 +101,3 @@ export const usePlaylistStore = defineStore({
   },
 
 })
-
-// export const port = browser.runtime.connect({ name: 'fetchData' })

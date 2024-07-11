@@ -1,6 +1,7 @@
 <script setup>
 import { cloneDeep } from 'lodash'
 import { useBlblStore } from '../blbl/store'
+import SongItem from '../components/SongItem.vue'
 import { usePlaylistStore } from './store'
 
 const PLStore = usePlaylistStore()
@@ -10,11 +11,6 @@ onMounted(() => {
   if (!PLStore.listenLater.length)
     PLStore.listenLater = []
 })
-
-// 单独播放一首歌
-function handlePlaySong(song) {
-  store.startPlay(song)
-}
 function handlePlayLater() {
   if (!PLStore.listenLater.length)
     return
@@ -60,30 +56,11 @@ function handleRemoveListenLater(song) {
         暂无数据
       </div>
       <div class="content flex flex-col gap-3">
-        <section
-          v-for="item in PLStore.listenLater" :key="item.id"
-          class="flex flex-row gap-4 px-3 py-2 hover:bg-$eno-fill-2
-          rounded-4 cursor-pointer items-center max-w-[100%] song-later-item"
-          @click.stop="handlePlaySong(item)"
-        >
-          <div class="w-[70px] flex-shrink-0">
-            <img :src="item.cover" rounded-2 class="w-full h-full object-fit">
-          </div>
-          <div class="flex flex-col flex-1 gap-2 w-[calc(100%-150px)]">
-            <div class="text-lg truncate" v-html="item.title" />
-            <div class="text-xs opacity-75">
-              {{ item.author }}
-            </div>
-          </div>
-          <!-- 从列表中清除 -->
-          <div
-            class="i-mingcute:delete-2-line
-             w-[30px] text-lg flex-shrink-0 hidden delicon"
-            cursor-pointer
-
-            @click.stop="handleRemoveListenLater(item)"
-          />
-        </section>
+        <SongItem
+          v-for="item in PLStore.listenLater"
+          :key="item.id" :song="item" :del="true" :later="false"
+          @delete-song="handleRemoveListenLater(item)"
+        />
       </div>
     </div>
   </div>

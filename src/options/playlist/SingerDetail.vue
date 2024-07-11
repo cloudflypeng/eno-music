@@ -1,9 +1,8 @@
 <script setup>
 import { onMessage, sendMessage } from 'webext-bridge/options'
 import { useBlblStore } from '../blbl/store.js'
+import SongItem from '../components/SongItem.vue'
 import { defaultSingers, usePlaylistStore } from './store'
-
-// import { getUserArc } from '~/background/api/wbiApi.js'
 
 const PLstore = usePlaylistStore()
 const store = useBlblStore()
@@ -13,6 +12,7 @@ const info = computed(() => {
 })
 
 const songList = ref([])
+const keyword = ref('')
 const page = ref({
   pn: 1,
   ps: 25,
@@ -44,17 +44,17 @@ onMessage('wbiApi', ({ data }) => {
   }
 })
 
-watch(() => PLstore.currentSinger, (mid) => {
+function getSongs(params) {
   sendMessage(
     'wbiApi',
-    { api: 'getUserArc', params: { mid } },
+    { api: 'getUserArc', params },
     'background',
   )
-})
-function handlePlay(item) {
-  store.play = item
-  store.playList.push(item)
 }
+
+watch(() => PLstore.currentSinger, (mid) => {
+  getSongs({ mid })
+})
 function handlePlayUser() {
   store.playList = songList.value
   store.play = songList.value[0]
@@ -94,26 +94,37 @@ function handlePlayUser() {
           首歌曲
         </div>
       </div>
+      <!-- 翻页 带图标 -->
+      <div class="flex gap-3">
+        <div
+          class="text-lg cursor-pointer"
+          @click="getSongs({ mid: PLstore.currentSinger, pn: page.pn - 1 })"
+        >
+          上一页
+        </div>
+        <div
+          class="text-lg cursor-pointer"
+          @click="getSongs({ mid: PLstore.currentSinger, pn: page.pn + 1 })"
+        >
+          下一页
+        </div>
+      </div>
+      <!-- 搜索 -->
+      <div class="flex gap-3">
+        <input
+          v-model="keyword"
+          bg="$eno-content focus:$eno-content-hover"
+          type="text" class="w-40 h-10 border-2 border-gray-200 rounded-2 bg-opacity-0"
+        >
+        <div class="text-lg cursor-pointer" @click="getSongs({ mid: PLstore.currentSinger, keyword })">
+          搜索
+        </div>
+      </div>
     </div>
     <!-- 歌曲滚动区域 -->
-    <div class="h-full overflow-auto pl-20">
+    <div class="h-full overflow-auto px-20">
       <div class="pb-30 flex flex-col gap-3">
-        <div
-          v-for="song in songList" :key="song.id" class="text-lg cursor-pointer"
-          @click="handlePlay(song)"
-        >
-          <div class="flex gap-6">
-            <img :src="song.cover" class="w-20 rounded-2 object-cover">
-            <div class="flex flex-col">
-              <div class="text-lg font-bold">
-                {{ song.title }}
-              </div>
-              <div class="text-sm">
-                {{ song.author }}
-              </div>
-            </div>
-          </div>
-        </div>
+        <SongItem v-for="song in songList" :key="song.id" :song="song" />
       </div>
     </div>
   </section>
@@ -122,6 +133,6 @@ function handlePlayUser() {
 <style>
 .singer-detail {
   display: grid;
-  grid-template-rows: 30-vh 50px 1fr;
+  grid-template-rows: 25vh 50px 1fr;
 }
 </style>

@@ -66,9 +66,7 @@ async function handlePlay(item) {
   store.play = item
   store.playList.push(item)
 }
-async function addSong(item) {
-  // const newPlay = await getUrl(item)
-  // PLStore.startAddSong(newPlay)
+function addSong(item) {
   PLStore.startAddSong(item)
 }
 onMounted(() => {

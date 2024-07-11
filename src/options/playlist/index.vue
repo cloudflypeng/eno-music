@@ -1,5 +1,6 @@
 <script setup>
 import { computed } from 'vue'
+import SongItem from '../components/SongItem.vue'
 
 import { useBlblStore } from '../blbl/store'
 import { usePlaylistStore } from './store'
@@ -22,9 +23,8 @@ function handleReplacePlaylist(playlist) {
 // 增加歌单列表展开和关闭, 手风琴模式
 const currentOpen = ref(null)
 const isMyOpen = playlist => currentOpen.value === playlist.id
-// 单独播放一首歌
-function handlePlaySong(song) {
-  store.startPlay(song)
+function delSong(playlist, song) {
+  PLStore.removeSong(playlist.id, song.id)
 }
 </script>
 
@@ -68,18 +68,12 @@ function handlePlaySong(song) {
           v-if="isMyOpen(playlist)"
           class="flex gap-3 flex-col w-full py-3 wrapper-transition opacity-item text-[16px]"
         >
-          <div
-            v-for="song in renderSong(playlist)" :key="song?.id || song?.bvid"
-            class="flex items-center opacity-75 hover:opacity-100 song-item" cursor-pointer
-            @click.stop="handlePlaySong(song)"
-          >
-            <div class="flex flex-1 gap-3">
-              <img :src="song.cover" class="w-10 h-10 rounded-2 overflow-hidden object-fill">
-              <span v-html="song.title" />
-            </div>
-
-            <div class="i-mingcute:delete-2-line" opacity-0 cursor-pointer @click.stop="handleDelPL(playlist)" />
-          </div>
+          <SongItem
+            v-for="song in renderSong(playlist)" :key="song?.id || song?.bvid" :song="song"
+            :del="true"
+            @delete-song="delSong(playlist, song)"
+          />
+          <!-- 没有歌曲时 -->
           <div v-if="!playlist.songs.length" class="px-10 py-3 text-3xl">
             暂无歌单, 可以前往搜索页面添加
           </div>

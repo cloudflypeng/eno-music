@@ -1,4 +1,5 @@
 import { defineStore } from 'pinia'
+import { cloneDeep } from 'lodash'
 import { useApiClient } from '~/composables/api'
 
 const api = useApiClient()
@@ -42,7 +43,11 @@ export const useBlblStore = defineStore({
       })
     },
     startPlay(item) {
-      this.play = item
+      const song = cloneDeep(item)
+      this.play = song
+      const isInList = this.playList.some(item => item?.id === song.id)
+      if (!isInList)
+        this.playList.push(song)
     },
     getHitDetailList(sid) {
       api.blbl.getHitSongList({

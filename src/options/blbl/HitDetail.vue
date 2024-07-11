@@ -1,11 +1,9 @@
 <script setup>
+import SongItem from '../components/SongItem.vue'
 import { useBlblStore } from './store'
 
 const store = useBlblStore()
 
-function play(music) {
-  store.play = music
-}
 function palyAll() {
   store.playList = store.currentHit.list
   store.play = store.playList[0]
@@ -47,36 +45,12 @@ function palyAll() {
       </div>
       <!-- 歌单部分 -->
       <section
-        flex
-        flex-col
-        flex-nowrap
-        gap-2
-        overflow-auto
-        pb-20
+        class="flex flex-col flex-nowrap
+          gap-2 overflow-auto pb-20"
       >
-        <div
-          v-for="music in store.currentHit.list"
-          :key="music.id"
-          style="grid-template-columns: 50px 1fr 1fr;"
-          grid
-          text-left
-          gap-3
-          bg="hover:$eno-fill-dark-2"
-          rounded-xl
-          p-2
-          @click.stop="play(music)"
-        >
-          <img
-            w-12 h-12
-            rounded-xl
-            transition-all
-            transition-duration-300
-            hover:outline-2
-            hover:outline-amber :src="music.cover"
-          >
-          <div>{{ music.title }}</div>
-          <div>{{ music.author }}</div>
-        </div>
+        <SongItem
+          v-for="music in store.currentHit.list" :key="music.id" :song="music"
+        />
       </section>
     </div>
   </section>

@@ -1,6 +1,6 @@
 <!-- eslint-disable no-console -->
 <script setup>
-import { ref } from 'vue'
+import { provide, ref } from 'vue'
 
 import Play from './blbl/Play.vue'
 import Header from './blbl/Header.vue'
