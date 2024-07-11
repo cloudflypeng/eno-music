@@ -83,7 +83,7 @@ function handlePlayUser() {
       <div class="text-lg font-bold">
         投稿作品
       </div>
-      <div class="text-[16px] font-bold bg-yellow px-3 py-2" @click="handlePlayUser">
+      <div class="text-[16px] font-bold bg-yellow px-3 py-2 cursor-pointer" @click="handlePlayUser">
         播放全部
       </div>
       <div>

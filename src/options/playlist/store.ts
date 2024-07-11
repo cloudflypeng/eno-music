@@ -22,6 +22,8 @@ export const defaultSingers = [
   '210752', // 真栗
   '37754047', // 咻咻满
   '20473341', // 一直在吃的周梓琦
+  '1839002753', // 鹿火
+  '98573631', // 鹿小草
 ]
 
 export const usePlaylistStore = defineStore({
@@ -35,7 +37,7 @@ export const usePlaylistStore = defineStore({
     addSongDialog: false,
     // 歌手相关
     // 用户自定义歌手mid
-    singers: useLocalStorage('singers', defaultSingers),
+    singers: useLocalStorage('singers', [] as string[]),
     singerCardCache: useLocalStorage('singerCardCache', {} as Record<string, any>),
     // 当前选中的歌手
     currentSinger: null as string | null,
@@ -97,6 +99,10 @@ export const usePlaylistStore = defineStore({
       api.blbl.getUserInfo({ mid }).then((res) => {
         this.singerCardCache[mid] = res.data.card
       })
+    },
+    addSinger(mid: string) {
+      this.singers.push(mid)
+      this.fetchSingerInfo(mid, false)
     },
   },
 

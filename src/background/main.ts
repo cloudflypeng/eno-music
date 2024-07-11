@@ -22,6 +22,7 @@ async function getUserArc(params: object) {
     mid: 0,
     pn: 1,
     ps: 25,
+    tid: 3,
     keyword: '',
     order: 'pubdate',
   }
