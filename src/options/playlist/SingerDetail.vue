@@ -25,7 +25,7 @@ onMessage('wbiApi', ({ data }) => {
     return
   try {
     const content = data.res.data
-    const { page, list } = content
+    const { page: c_page, list } = content
     const videoList = list.vlist.map(item => ({
       id: item.bvid,
       enu_song_type: 'bvid',
@@ -36,7 +36,7 @@ onMessage('wbiApi', ({ data }) => {
       duration: item.duration || 0, // 暂无
       bvid: item.bvid,
     }))
-    page.value = page
+    page.value = c_page
     songList.value = videoList
   }
   catch (e) {
@@ -54,6 +54,10 @@ watch(() => PLstore.currentSinger, (mid) => {
 function handlePlay(item) {
   store.play = item
   store.playList.push(item)
+}
+function handlePlayUser() {
+  store.playList = songList.value
+  store.play = songList.value[0]
 }
 </script>
 
@@ -79,7 +83,7 @@ function handlePlay(item) {
       <div class="text-lg font-bold">
         投稿作品
       </div>
-      <div class="text-[16px] font-bold bg-yellow px-3 py-2" @click="clickMessage">
+      <div class="text-[16px] font-bold bg-yellow px-3 py-2" @click="handlePlayUser">
         播放全部
       </div>
       <div>
