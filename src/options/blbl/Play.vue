@@ -84,7 +84,6 @@ async function getSidUrl(item) {
 }
 
 watch(() => store.play?.id, async () => {
-  // TODO: 这里只兼容了sid也就是普通歌单, 其他歌曲获取逻辑不在这导致歌单内歌曲的url重新获取失败
   const currentSong = store.play
   const play = currentSong.enu_song_type === 'bvid'
     ? await getBvidUrl(currentSong)

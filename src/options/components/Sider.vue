@@ -33,7 +33,7 @@ const asideClass = computed(() => {
   })
 })
 const tabClass = computed(() => {
-  return cn('flex w-full gap-3 text-2xl items-center h-10 cursor-pointer px-4 hover:bg-$eno-fill-2 rounded-4', {
+  return cn('tab-item flex w-full gap-3 text-2xl items-center h-10 cursor-pointer px-4 hover:bg-$eno-fill-2 rounded-4', {
     'justify-center': !open.value,
   })
 })
@@ -99,3 +99,17 @@ const tabClass = computed(() => {
     </div>
   </aside>
 </template>
+
+<style>
+.tab-item>*:nth-child(2) {
+  animation: fadeIn 1s;
+}
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+  }
+  to {
+    opacity: 1;
+  }
+}
+</style>
