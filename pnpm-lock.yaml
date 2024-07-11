@@ -43,6 +43,9 @@ devDependencies:
   '@types/fs-extra':
     specifier: ^11.0.4
     version: 11.0.4
+  '@types/md5':
+    specifier: ^2.3.5
+    version: 2.3.5
   '@types/node':
     specifier: ^20.11.26
     version: 20.11.26
@@ -1310,6 +1313,10 @@ packages:
     resolution: {integrity: sha512-D5qGUYwjvnNNextdU59/+fI+spnwtTFmyQP0h+PfIOSkNfpU6AOICUOkm4i0OnSk+NyjdPJrxCDro0sJsWlRpQ==}
     dependencies:
       '@types/node': 20.11.26
+    dev: true
+
+  /@types/md5@2.3.5:
+    resolution: {integrity: sha512-/i42wjYNgE6wf0j2bcTX6kuowmdL/6PE4IVitMpm2eYKBUuYCprdcWVK+xEF0gcV6ufMCRhtxmReGfc6hIK7Jw==}
     dev: true
 
   /@types/mdast@3.0.15:

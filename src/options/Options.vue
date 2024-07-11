@@ -21,7 +21,9 @@ import hitDetail from './blbl/HitDetail.vue'
 import { useBlblStore } from './blbl/store.js'
 
 const store = useBlblStore()
+
 onMounted(() => {
+  const domain = 'https://api.bilibili.com'
   fetch(domain, {
     method: 'GET',
     mode: 'no-cors',
@@ -62,5 +64,19 @@ onMounted(() => {
 <style>
 *::-webkit-scrollbar {
   display: none;
+}
+img {
+  position: relative;
+
+  &::before {
+    content: "";
+    display: block;
+    width: 100%;
+    height: 100%;
+    background-image: url("/assets/broken-image.png");
+    background-size: 25px;
+    background-position: center;
+    background-repeat: no-repeat;
+  }
 }
 </style>
