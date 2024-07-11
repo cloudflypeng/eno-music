@@ -66,7 +66,7 @@ function delSong(playlist, song) {
         <!-- 歌曲列表 -->
         <div
           v-if="isMyOpen(playlist)"
-          class="flex gap-3 flex-col w-full py-3 wrapper-transition opacity-item text-[16px]"
+          class="flex gap-3 flex-col w-full py-3 wrapper-transition fadeItem text-[16px]"
         >
           <SongItem
             v-for="song in renderSong(playlist)" :key="song?.id || song?.bvid" :song="song"
@@ -84,20 +84,6 @@ function delSong(playlist, song) {
 </template>
 
 <style scoped>
-.opacity-item {
-  animation: fadeIn 0.5s;
-}
-
-@keyframes fadeIn {
-  from {
-    opacity: 0;
-  }
-
-  to {
-    opacity: 1;
-  }
-}
-
 .wrapper-transition {
   transform: all 0.5s;
 }

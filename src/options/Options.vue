@@ -48,7 +48,7 @@ onMounted(() => {
     <!-- <Header /> -->
     <AddSong />
     <Sider />
-    <div grow-1 shrink-10>
+    <div class="grow-1 shrink-10 fadeInWrapper">
       <Home v-show="store.mode === 'home'" />
       <hitDetail v-show="store.mode === 'hitDetail'" />
       <Search v-show="store.mode === 'search'" />
@@ -77,6 +77,20 @@ img {
     background-size: 25px;
     background-position: center;
     background-repeat: no-repeat;
+  }
+}
+.fadeInWrapper > * {
+  animation: fadeIn 0.5s;
+}
+.fadeItem {
+  animation: fadeIn 0.5s;
+}
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+  }
+  to {
+    opacity: 1;
   }
 }
 </style>

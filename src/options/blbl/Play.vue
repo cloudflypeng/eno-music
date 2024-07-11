@@ -304,18 +304,4 @@ input[type="range"]::-webkit-slider-thumb {
   height: 2px;
   transform: translateY(8px);
 }
-
-.playlist-dialog {
-  animation: fadeIn 0.5s;
-}
-
-@keyframes fadeIn {
-  from {
-    opacity: 0;
-  }
-
-  to {
-    opacity: 1;
-  }
-}
 </style>

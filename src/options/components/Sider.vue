@@ -4,6 +4,7 @@ import cn from 'classnames'
 import Dialog from '../../components/dialog/index.vue'
 import { useBlblStore } from '../blbl/store.js'
 import { usePlaylistStore } from '../playlist/store'
+import TabItem from './TabItem.vue'
 
 const tabs = [
   { icon: 'i-tabler:smart-home', title: '首页', mode: 'home' },
@@ -12,7 +13,7 @@ const tabs = [
 ]
 
 const PLStore = usePlaylistStore()
-const store = useBlblStore()
+
 // 新建歌单相关代码
 const createDialogVis = ref(false)
 const playlistName = ref('')
@@ -52,10 +53,7 @@ const tabClass = computed(() => {
       <span v-if="open" text-lg>ENO-M</span>
     </div>
     <!-- tab区 -->
-    <div v-for="tab in tabs" :key="tab.mode" :class="tabClass" @click.stop="store.mode = tab.mode">
-      <div :class="tab.icon" />
-      <span v-if="open" class="text-lg">{{ tab.title }}</span>
-    </div>
+    <TabItem v-for="tab in tabs" :key="tab.mode" :tab="tab" :open="open" />
     <!-- 分割线 -->
     <div class="h-0.5 bg-$eno-fill-2" />
     <div :class="`${tabClass} bg-$eno-fill-2`" text-lg @click.stop="createDialogVis = true">
@@ -78,38 +76,20 @@ const tabClass = computed(() => {
         </div>
       </div>
     </Dialog>
-    <div
-      :class="tabClass" text-xs rounded-4 h-15
-      @click.stop="store.mode = 'singerList'"
-    >
-      <div class="i-mingcute:group-2-fill w-1em h-1em" text-2xl />
-      <div v-if="open">
-        <div>关注的音乐人</div>
-      </div>
-    </div>
-    <div
-      :class="tabClass" text-xs rounded-4 h-15
-      @click.stop="store.mode = 'listenLater'"
-    >
-      <div class="i-mingcute:time-fill w-1em h-1em text-2xl" />
-      <div v-if="open">
-        <div>稍后播放</div>
-        <div>自动播放列表</div>
-      </div>
-    </div>
+    <TabItem :tab="{ icon: 'i-mingcute:group-2-fill', title: '关注的音乐人', mode: 'singerList' }" :open="open" />
+    <TabItem class="h-20" :tab="{ icon: 'i-mingcute:time-fill', mode: 'listenLater' }" :open="open">
+      <template #default>
+        <div v-if="open" text-xs>
+          <div>稍后播放</div>
+          <div>自动播放列表</div>
+        </div>
+      </template>
+    </TabItem>
   </aside>
 </template>
 
 <style>
 .tab-item>*:nth-child(2) {
-  animation: fadeIn 1s;
-}
-@keyframes fadeIn {
-  from {
-    opacity: 0;
-  }
-  to {
-    opacity: 1;
-  }
+  animation: fadeIn 2s;
 }
 </style>
