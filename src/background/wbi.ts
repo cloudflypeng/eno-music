@@ -1,6 +1,6 @@
 import md5 from 'md5'
 
-const mixinKeyEncTab = [
+const mixinKeyEncTab: number[] = [
   46,
   47,
   18,
@@ -68,10 +68,10 @@ const mixinKeyEncTab = [
 ]
 
 // 对 imgKey 和 subKey 进行字符顺序打乱编码
-const getMixinKey = orig => mixinKeyEncTab.map(n => orig[n]).join('').slice(0, 32)
+const getMixinKey = (orig: string): string => mixinKeyEncTab.map(n => orig[n]).join('').slice(0, 32)
 
 // 为请求参数进行 wbi 签名
-function encWbi(params, img_key, sub_key) {
+function encWbi(params: Record<string, any>, img_key: string, sub_key: string): string {
   const mixin_key = getMixinKey(img_key + sub_key)
   const curr_time = Math.round(Date.now() / 1000)
   const chr_filter = /[!'()*]/g
@@ -94,7 +94,7 @@ function encWbi(params, img_key, sub_key) {
 }
 
 // 获取最新的 img_key 和 sub_key
-async function getWbiKeys() {
+async function getWbiKeys(): Promise<{ img_key: string, sub_key: string }> {
   const res = await fetch('https://api.bilibili.com/x/web-interface/nav', {
     headers: {
       // SESSDATA 字段
