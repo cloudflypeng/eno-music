@@ -18,12 +18,13 @@ interface playlist {
 }
 
 export const defaultSingers = [
+  '337312411', // 翠花
   '1889545341', // 邓紫棋
   '210752', // 真栗
   '37754047', // 咻咻满
   '20473341', // 一直在吃的周梓琦
-  '1839002753', // 鹿火
-  '98573631', // 鹿小草
+  // '1839002753', // 鹿火
+  // '98573631', // 鹿小草
 ]
 
 export const usePlaylistStore = defineStore({

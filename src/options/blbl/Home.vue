@@ -39,21 +39,7 @@ function scroll(type) {
       热门歌单
     </h5>
     <section pos="relative" class="w-[calc(100vw-20rem)] mx-auto py-10">
-      <div z-1>
-        <div
-          class="bg-[rgba(0,0,0,0.5)] translate-y--1/2" pos="absolute left-0 top-[40%]" p-1 flex items-center
-          rounded-full @click.stop="scroll('left')"
-        >
-          <div text-5xl class="i-tabler:arrow-badge-left-filled w-1em h-1em" />
-        </div>
-        <div
-          class="bg-[rgba(0,0,0,0.5)] translate-y--1/2" pos="absolute right-0 top-[40%]" p-1 flex items-center
-          rounded-full @click.stop="scroll('right')"
-        >
-          <div text-5xl class="i-tabler:arrow-badge-right-filled w-1em h-1em" />
-        </div>
-      </div>
-      <div ref="scrollRef" class="w-[calc(100vw-20rem)] wrapper-scroll" flex overflow-auto gap-10 snap-x p="x-15">
+      <div ref="scrollRef" class="w-[calc(100vw-20rem)] wrapper-scroll z--1" flex overflow-auto gap-10 snap-x p="x-15">
         <div
           v-for="music in store.hitList" :key="music.menuid" w-50 shrink-0 h-60 snap-center
           @click="handleDetail(music)"
@@ -62,6 +48,22 @@ function scroll(type) {
           <div text="$eno-text-2">
             {{ music.title }}
           </div>
+        </div>
+      </div>
+      <div z-1>
+        <div
+          class="bg-[rgba(0,0,0,0.5)] translate-y--1/2" pos="absolute left-0 top-[40%]"
+          p-1 flex items-center cursor-pointer
+          rounded-full @click.stop="scroll('left')"
+        >
+          <div text-5xl class="i-tabler:arrow-badge-left-filled w-1em h-1em" />
+        </div>
+        <div
+          class="bg-[rgba(0,0,0,0.5)] translate-y--1/2" pos="absolute right-0 top-[40%]"
+          p-1 flex items-center cursor-pointer
+          rounded-full @click.stop="scroll('right')"
+        >
+          <div text-5xl class="i-tabler:arrow-badge-right-filled w-1em h-1em" />
         </div>
       </div>
     </section>

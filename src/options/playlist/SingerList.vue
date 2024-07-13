@@ -48,7 +48,7 @@ function addSinger() {
 </script>
 
 <template>
-  <section>
+  <section class="h-screen overflow-auto">
     <div class="text-3xl my-10 mx-20">
       推荐
     </div>
@@ -71,7 +71,7 @@ function addSinger() {
     <div class="text-3xl my-10 mx-20">
       自定义
     </div>
-    <div class="flex gap-10 px-20 flex-wrap">
+    <div class="flex gap-10 px-20 flex-wrap mb-30">
       <div
         v-for="singerMid in PLstore.singers"
         :key="singerMid"

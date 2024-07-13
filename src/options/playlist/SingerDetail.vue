@@ -65,7 +65,7 @@ function handlePlayUser() {
   <section class="h-screen singer-detail">
     <!-- 信息界面 -->
     <div class="w-full bg-yellow px-20 py-10 flex gap-6">
-      <img :src="info?.face" class="w-40 h-40 rounded-full border-2 border-gray-200 cursor-pointer">
+      <img :src="info?.face" class="h-[100%] object-contain rounded-full border-2 border-gray-200 cursor-pointer">
       <div class="flex flex-col-reverse">
         <div class="text-lg font-bold">
           {{ info?.nameplate?.name }}

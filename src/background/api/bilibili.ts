@@ -167,6 +167,18 @@ const api = {
     },
     afterHandle: AHS.J,
   },
+  // https://api.bilibili.com/x/web-interface/ranking/v2
+  [BLBL.GET_RANKING]: {
+    url: `${baseUrl}/x/web-interface/ranking/v2`,
+    _fetch: {
+      method: 'get',
+    },
+    params: {
+      tid: 3,
+      type: 'all',
+    },
+    afterHandle: AHS.J,
+  },
 }
 
 export default api

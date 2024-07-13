@@ -64,6 +64,9 @@ onMounted(() => {
 </template>
 
 <style>
+html{
+  background: #000;
+}
 *::-webkit-scrollbar {
   display: none;
 }

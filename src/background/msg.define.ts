@@ -16,6 +16,7 @@ enum BLBL {
   GET_AUDIO_OF_VIDEO = 'getAudioOfVideo',
   GET_VIDEO_INFO = 'getVideoInfo',
   GET_USER_INFO = 'getUserInfo',
+  GET_RANKING = 'getRanking',
 }
 
 const API = {
