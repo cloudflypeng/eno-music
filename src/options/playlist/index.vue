@@ -30,8 +30,8 @@ function delSong(playlist, song) {
 
 <template>
   <div class="p-10">
-    <div v-if="noPlaylist">
-      暂无歌单,请创建
+    <div v-if="noPlaylist" text-2xl>
+      暂无播放列表, 点击左侧新建
     </div>
     <!-- 创建歌单部分 -->
     <div class="flex flex-col text-left gap-5">

@@ -85,6 +85,8 @@ const tabClass = computed(() => {
         </div>
       </template>
     </TabItem>
+    <!-- 关于 -->
+    <TabItem :tab="{ icon: 'i-mingcute:information-fill', title: '关于', mode: 'about' }" :open="open" />
   </aside>
 </template>
 
