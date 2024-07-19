@@ -175,7 +175,17 @@ const api = {
     },
     params: {
       tid: 3,
-      type: 'all',
+    },
+    afterHandle: AHS.J,
+  },
+  // 全站音乐榜单
+  [BLBL.GET_MUSIC_RANK]: {
+    url: `${baseUrl}/x/copyright-music-publicity/toplist/music_list`,
+    _fetch: {
+      method: 'get',
+    },
+    params: {
+      list_id: 199, // 固定
     },
     afterHandle: AHS.J,
   },

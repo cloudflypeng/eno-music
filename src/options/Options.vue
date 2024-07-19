@@ -24,19 +24,19 @@ import { useBlblStore } from './blbl/store.js'
 const store = useBlblStore()
 
 onMounted(() => {
-  const domain = 'https://api.bilibili.com'
-  fetch(domain, {
-    method: 'GET',
-    mode: 'no-cors',
-    credentials: 'include',
-  }).then((res) => {
-    // get cookie from response
-    const cookie = res.headers.get('set-cookie')
+  // const domain = 'https://api.bilibili.com'
+  // fetch(domain, {
+  //   method: 'GET',
+  //   mode: 'no-cors',
+  //   credentials: 'include',
+  // }).then((res) => {
+  //   // get cookie from response
+  //   const cookie = res.headers.get('set-cookie')
 
-    chrome.cookies?.set({
-      ...cookie,
-    })
-  })
+  //   chrome.cookies?.set({
+  //     ...cookie,
+  //   })
+  // })
 })
 </script>
 

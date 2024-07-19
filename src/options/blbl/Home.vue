@@ -3,42 +3,67 @@
 import { onMounted } from 'vue'
 import { useBlblStore } from './store'
 import Rank from './rank.vue'
+import { useApiClient } from '~/composables/api'
+
+// const api = useApiClient()
 
 const store = useBlblStore()
 const scrollRef = ref(null)
 
 onMounted(() => {
-  store.getHitList()
+  store.initHomePage()
 })
-function handleDetail(music) {
-  store.currentHit = music
-  store.getHitDetailList(music.menuId)
-  store.mode = 'hitDetail'
-}
-function scroll(type) {
-  const el = scrollRef.value
-  if (type === 'left') {
-    el.scrollBy({
-      left: -300,
-      behavior: 'smooth',
-    })
-  }
-  else if (type === 'right') {
-    el.scrollBy({
-      left: 300,
-      behavior: 'smooth',
-    })
-  }
+function scroll(direction) {
+  const scrollLeft = scrollRef.value.scrollLeft
+
+  const scrollDistance = 800
+  if (direction === 'left')
+    scrollRef.value.scrollLeft = scrollLeft - scrollDistance
+  else
+    scrollRef.value.scrollLeft = scrollLeft + scrollDistance
 }
 </script>
 
 <template>
-  <section w-full>
+  <section w-full h-screen overflow-auto>
+    <!-- bilibili音乐榜 -->
+    <h5 text="2xl $eno-text-1" fw-600 py-5 text-left px-10>
+      bilibili音乐榜
+      <span text="sm $eno-text-2" class="ml-2">
+        (每周五18:00更新)
+      </span>
+    </h5>
+    <!-- swiper -->
+    <div class="relative w-[800px] ml-20">
+      <!-- 左右切换箭头 -->
+      <div
+        class="w-15 h-15 left-3 flex items-center justify-center text-4xl bg-black bg-opacity-80 absolute top-[40%] rounded-full z-2 cursor-pointer"
+      >
+        <div class="i-mingcute:large-arrow-left-line w-1em h-1em" @click.stop="scroll('left')" />
+      </div>
+      <div
+        class="w-15 h-15 right-3 flex items-center justify-center text-4xl bg-black bg-opacity-80 absolute top-[40%] right-0 rounded-full z-2 cursor-pointer"
+      >
+        <div class="i-mingcute:large-arrow-right-line w-1em h-1em" @click.stop="scroll('right')" />
+      </div>
+      <div ref="scrollRef" class="w-[800px] z--1 flex overflow-auto rounded-3 gap-3 snap-x scroll-smooth">
+        <div
+          v-for="bannerSong in store.musicRankList" :key="bannerSong.id" class="w-[90%] shrink-0 snap-start"
+          @click.stop="store.startPlay(bannerSong)"
+        >
+          <img class="w-full aspect-video rounded-xl cursor-pointer object-fill" :src="bannerSong.cover">
+          <div class="$eno-text-2 opacity-50 px-5">
+            {{ bannerSong.title }}
+          </div>
+        </div>
+      </div>
+    </div>
+
     <!-- 歌单部分 -->
     <h5 text="2xl $eno-text-1" fw-600 py-5 text-left px-10 mt-10>
       热门歌单
     </h5>
-    <section pos="relative" class="w-[calc(100vw-20rem)] mx-auto py-10">
+    <!-- <section pos="relative" class="w-[calc(100vw-20rem)] mx-auto py-10">
       <div ref="scrollRef" class="w-[calc(100vw-20rem)] wrapper-scroll z--1" flex overflow-auto gap-10 snap-x p="x-15">
         <div
           v-for="music in store.hitList" :key="music.menuid" w-50 shrink-0 h-60 snap-center
@@ -66,7 +91,7 @@ function scroll(type) {
           <div text-5xl class="i-tabler:arrow-badge-right-filled w-1em h-1em" />
         </div>
       </div>
-    </section>
+    </section> -->
     <h5 text="2xl $eno-text-1" fw-600 px-10 mt-10 text-left>
       精选榜单
     </h5>

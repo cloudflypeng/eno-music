@@ -44,7 +44,7 @@
     },
     "condition": {
       "domainType": "thirdParty",
-      "urlFilter": "api.bilibili.com",
+      "urlFilter": "https://api.bilibili.com/x/space/wbi",
       "resourceTypes": ["xmlhttprequest", "media", "websocket", "script"],
       "requestMethods": ["post", "get"]
     }
