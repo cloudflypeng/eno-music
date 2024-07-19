@@ -168,8 +168,15 @@ function setVoice() {
     isCloseVoice.value = true
   }
 }
+const fullScreenStatus = ref(false)
 function fullScreenTheBody() {
-  document.body.requestFullscreen()
+  // 切换全屏状态
+  if (document.fullscreenElement)
+    document.exitFullscreen()
+  else
+    document.body.requestFullscreen()
+
+  fullScreenStatus.value = document.fullscreenElement
 }
 function openBlTab() {
   window.open(`https://www.bilibili.com/video/${store.play.bvid}`)
@@ -185,7 +192,7 @@ function openDialogVideo() {
 
 <template>
   <section
-    class="bg-$eno-elevated w-screen h-20 px-6 flex" style="backdrop-filter: var(--eno-filter-glass-light-1)"
+    class="bg-$eno-elevated w-screen h-20 px-6 flex z-10" style="backdrop-filter: var(--eno-filter-glass-light-1)"
     flex="row items-center justify-between" pos="fixed bottom-0 left-0" color-white gap-6 transform-gpu
   >
     <!-- 音乐进度 -->
@@ -240,7 +247,8 @@ function openDialogVideo() {
     </div>
     <!-- 其他 -->
     <div flex flex-row-reverse text-lg gap-5 w-100>
-      <div class="i-mingcute:fullscreen-fill w-1em h-1em" @click.stop="fullScreenTheBody" />
+      <div v-if="fullScreenStatus" class="i-mingcute:fullscreen-fill w-1em h-1em" @click.stop="fullScreenTheBody" />
+      <div v-else class="i-mingcute:fullscreen-exit-fill w-1em h-1em" @click.stop="fullScreenTheBody" />
       <div cursor-pointer class="i-tabler:playlist w-1em h-1em" @click="toggleList" />
       <Dialog :open="showList" title="播放列表" @visible-change="vis => showList = vis">
         <div
