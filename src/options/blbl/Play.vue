@@ -166,6 +166,9 @@ function setVoice() {
 function fullScreenTheBody() {
   document.body.requestFullscreen()
 }
+function openBlTab() {
+  window.open(`https://www.bilibili.com/video/${store.play.bvid}`)
+}
 </script>
 
 <template>
@@ -217,10 +220,11 @@ function fullScreenTheBody() {
         <div v-html="displayData.title" />
         <span>{{ store.play.author }}{{ store.play.description }}</span>
       </div>
-      <!-- <div flex gap-2 text-sm px-2>
-        <div class="i-tdesign:card w-1em h-1em" />
-        <div class="i-mingcute:more-1-fill w-1em h-1em" />
-      </div> -->
+      <div flex gap-2 text-sm px-2>
+        <div class="i-mingcute:share-forward-fill w-1em h-1em cursor-pointer" @click.stop="openBlTab" />
+        <!-- <div class="i-tdesign:card w-1em h-1em" />
+        <div class="i-mingcute:more-1-fill w-1em h-1em" /> -->
+      </div>
     </div>
     <!-- 其他 -->
     <div flex flex-row-reverse text-lg gap-5 w-100>
