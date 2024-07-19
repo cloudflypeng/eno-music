@@ -62,14 +62,19 @@ async function getBvidUrl(item) {
   const { cid } = await api.blbl.getVideoInfo({
     bvid: item.bvid,
   }).then(res => res.data)
-  const url = await api.blbl.getAudioOfVideo({
+  const dash = await api.blbl.getAudioOfVideo({
     cid,
     bvid: item.bvid,
-  }).then(res => res.data.dash.audio[0].baseUrl)
+  }).then(res => res.data.dash)
+
+  const url = dash.audio[0].baseUrl
+  const video = dash.video[0].baseUrl
 
   return {
     ...item,
     url,
+    video,
+    dash,
   }
 }
 async function getSidUrl(item) {
@@ -169,6 +174,13 @@ function fullScreenTheBody() {
 function openBlTab() {
   window.open(`https://www.bilibili.com/video/${store.play.bvid}`)
 }
+const dialogVideo = ref(false)
+function openDialogVideo() {
+  dialogVideo.value = true
+  // 设置视频进度
+  const video = document.getElementById('video-eno')
+  video.currentTime = store.howl.seek()
+}
 </script>
 
 <template>
@@ -184,7 +196,6 @@ function openBlTab() {
       class="w-full absolute top-0 left-0 h-1 bg-$eno-fill-2 rounded-1 cursor-pointer play-progress"
       @change="changeProgress"
     >
-
     <!-- 音乐控制 -->
     <div flex flex-row items-center text-2xl gap-10 w-100>
       <div
@@ -222,6 +233,7 @@ function openBlTab() {
       </div>
       <div flex gap-2 text-sm px-2>
         <div class="i-mingcute:share-forward-fill w-1em h-1em cursor-pointer" @click.stop="openBlTab" />
+        <div class="i-mingcute:video-fill w-1em h-1em" @click.stop="openDialogVideo" />
         <!-- <div class="i-tdesign:card w-1em h-1em" />
         <div class="i-mingcute:more-1-fill w-1em h-1em" /> -->
       </div>
@@ -249,6 +261,13 @@ function openBlTab() {
         step="0.01" @change="handleChangeVoice"
       >
     </div>
+    <Dialog :open="dialogVideo" title="视频" @visible-change="vis => dialogVideo = vis">
+      <video
+        id="video-eno"
+        autoplay
+        controls class="w-full" :src="store.play.video"
+      />
+    </Dialog>
   </section>
 </template>
 
