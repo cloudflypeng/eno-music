@@ -163,49 +163,50 @@ function setVoice() {
     isCloseVoice.value = true
   }
 }
+function fullScreenTheBody() {
+  document.body.requestFullscreen()
+}
 </script>
 
 <template>
   <section
     class="bg-$eno-elevated w-screen h-20 px-6 flex" style="backdrop-filter: var(--eno-filter-glass-light-1)"
-    flex="row items-center justify-between"
-    pos="fixed bottom-0 left-0" color-white gap-6 transform-gpu
+    flex="row items-center justify-between" pos="fixed bottom-0 left-0" color-white gap-6 transform-gpu
   >
     <!-- 音乐进度 -->
     <div class="w-screen top-0 left-0 absolute h-[2px] bg-yellow" :style="progressTrans" />
     <!-- 音乐滑块 -->
     <input
-      v-model="progress.percent" type="range" min="0" max="1" step="0.01"
-      color="red"
+      v-model="progress.percent" type="range" min="0" max="1" step="0.01" color="red"
       class="w-full absolute top-0 left-0 h-1 bg-$eno-fill-2 rounded-1 cursor-pointer play-progress"
       @change="changeProgress"
     >
 
     <!-- 音乐控制 -->
     <div flex flex-row items-center text-2xl gap-10 w-100>
-      <div cursor-pointer class="i-tabler:player-track-prev-filled w-1em h-1em hover:opacity-50" @click.stop="change('prev')" />
       <div
-        v-if="isPlaying"
-        cursor-pointer text-3xl
-        class="i-tabler:player-pause-filled w-1em h-1em hover:opacity-50"
+        cursor-pointer class="i-tabler:player-track-prev-filled w-1em h-1em hover:opacity-50"
+        @click.stop="change('prev')"
+      />
+      <div
+        v-if="isPlaying" cursor-pointer text-3xl class="i-tabler:player-pause-filled w-1em h-1em hover:opacity-50"
         @click.stop="playControl"
       />
       <div
-        v-else
-        cursor-pointer text-3xl
-        class="i-tabler:player-play-filled w-1em h-1em hover:opacity-50"
+        v-else cursor-pointer text-3xl class="i-tabler:player-play-filled w-1em h-1em hover:opacity-50"
         @click.stop="playControl"
       />
-      <div cursor-pointer class="i-tabler:player-track-next-filled w-1em h-1em hover:opacity-50" @click.stop="change('next')" />
+      <div
+        cursor-pointer class="i-tabler:player-track-next-filled w-1em h-1em hover:opacity-50"
+        @click.stop="change('next')"
+      />
       <div text-xs>
         {{ timeDisplay.current }}/{{ timeDisplay.total }}
       </div>
     </div>
     <!-- 播放信息 -->
     <div
-      flex flex-row items-center gap-4
-      text-left truncate rounded-2 backdrop-blur
-      px-3 py-1
+      flex flex-row items-center gap-4 text-left truncate rounded-2 backdrop-blur px-3 py-1
       class="bg-$eno-fill-dark-1 w-1/3 min-w-120 h-[calc(100%-16px)]"
     >
       <!-- 主要信息 -->
@@ -223,6 +224,7 @@ function setVoice() {
     </div>
     <!-- 其他 -->
     <div flex flex-row-reverse text-lg gap-5 w-100>
+      <div class="i-mingcute:fullscreen-fill w-1em h-1em" @click.stop="fullScreenTheBody" />
       <div cursor-pointer class="i-tabler:playlist w-1em h-1em" @click="toggleList" />
       <Dialog :open="showList" title="播放列表" @visible-change="vis => showList = vis">
         <div
@@ -236,21 +238,11 @@ function setVoice() {
           </div>
         </div>
       </Dialog>
-      <div
-        v-if="isCloseVoice"
-        class="i-mingcute:volume-mute-line w-1em h-1em"
-        @click.stop="setVoice"
-      />
-      <div
-        v-else
-        class="i-mingcute:volume-line w-1em h-1em"
-        @click.stop="setVoice"
-      />
+      <div v-if="isCloseVoice" class="i-mingcute:volume-mute-line w-1em h-1em" @click.stop="setVoice" />
+      <div v-else class="i-mingcute:volume-line w-1em h-1em" @click.stop="setVoice" />
       <input
-        v-if="!isCloseVoice"
-        id="voice-progress" v-model="voice" type="range"
-        class="w-20" min="0" max="1" step="0.01"
-        @change="handleChangeVoice"
+        v-if="!isCloseVoice" id="voice-progress" v-model="voice" type="range" class="w-20" min="0" max="1"
+        step="0.01" @change="handleChangeVoice"
       >
     </div>
   </section>
@@ -263,21 +255,25 @@ input[type="range"] {
   background: transparent;
   cursor: pointer;
 }
+
 input[type="range"]::-webkit-slider-runnable-track {
   height: 2px;
   border-radius: 1px;
   border: none;
   outline: none;
 }
+
 input[type="range"]::-webkit-slider-thumb {
   -webkit-appearance: none;
   appearance: none;
   height: 20px;
   width: 20px;
-  margin-top: -6px;   /* Thumb の位置を調整 */
+  margin-top: -6px;
+  /* Thumb の位置を調整 */
   background-color: #4cabe2;
   border-radius: 50%;
 }
+
 input[type="range"]::-moz-range-track {
   opacity: 0.5;
   background: yellow;
@@ -286,6 +282,7 @@ input[type="range"]::-moz-range-track {
   border: none;
   outline: none;
 }
+
 input[type="range"]::-webkit-slider-thumb {
   -webkit-appearance: none;
   appearance: none;
@@ -299,6 +296,7 @@ input[type="range"]::-webkit-slider-thumb {
   margin-top: -4px;
   position: relative;
 }
+
 #voice-progress {
   background: #4cabe2;
   height: 2px;
