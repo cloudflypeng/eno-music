@@ -1,6 +1,7 @@
 <!-- eslint-disable no-console -->
 <script setup>
 import { provide, ref } from 'vue'
+import { useLocalStorage } from '@vueuse/core'
 
 import Play from './blbl/Play.vue'
 import Header from './blbl/Header.vue'
@@ -22,21 +23,30 @@ import hitDetail from './blbl/HitDetail.vue'
 import { useBlblStore } from './blbl/store.js'
 
 const store = useBlblStore()
+const CST = useLocalStorage('cookieSetTime', 0)
+
+function getCookie() {
+  const domain = 'https://api.bilibili.com'
+  fetch(domain, {
+    method: 'GET',
+    mode: 'no-cors',
+    credentials: 'include',
+  }).then((res) => {
+    // get cookie from response
+    const cookie = res.headers.get('set-cookie')
+
+    chrome.cookies?.set({
+      ...cookie,
+    })
+  })
+}
 
 onMounted(() => {
-  // const domain = 'https://api.bilibili.com'
-  // fetch(domain, {
-  //   method: 'GET',
-  //   mode: 'no-cors',
-  //   credentials: 'include',
-  // }).then((res) => {
-  //   // get cookie from response
-  //   const cookie = res.headers.get('set-cookie')
-
-  //   chrome.cookies?.set({
-  //     ...cookie,
-  //   })
-  // })
+  // 每天获取一次cookie就可以
+  if (Date.now() - CST.value > 24 * 60 * 60 * 1000) {
+    CST.value = Date.now()
+    getCookie()
+  }
 })
 </script>
 
