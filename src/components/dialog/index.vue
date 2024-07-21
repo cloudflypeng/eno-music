@@ -1,5 +1,4 @@
 <script setup>
-// open 用v-model绑定
 const props = defineProps({
   open: Boolean,
   title: String,

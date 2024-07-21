@@ -74,7 +74,6 @@ export const useBlblStore = defineStore({
         this.timestampRefreshMap.biliMusic = nextFriday
       })
     },
-
     getrankList() {
       api.blbl.getMenuRank({
         ps: 3,

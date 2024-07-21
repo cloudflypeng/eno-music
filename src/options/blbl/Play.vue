@@ -1,9 +1,12 @@
 <script setup>
 import { Howl, Howler } from 'howler'
 import cn from 'classnames'
+import { set } from 'vue-demi'
+import SongItem from '../components/SongItem.vue'
 import { useBlblStore } from './store'
 import { useApiClient } from '~/composables/api'
 import Dialog from '~/components/dialog/index.vue'
+import Drawer from '~/components/drawer/index.vue'
 
 const api = useApiClient()
 
@@ -181,12 +184,43 @@ function fullScreenTheBody() {
 function openBlTab() {
   window.open(`https://www.bilibili.com/video/${store.play.bvid}`)
 }
+// 视频页面相关
 const dialogVideo = ref(false)
+const videoShowPlaylist = ref(false)
 function openDialogVideo() {
   dialogVideo.value = true
   // 设置视频进度
+  syncVideo()
+}
+function syncVideo() {
   const video = document.getElementById('video-eno')
-  video.currentTime = store.howl.seek()
+  if (video)
+    video.currentTime = store.howl.seek()
+}
+const timer = ref(null)
+watch(() => dialogVideo.value, (value) => {
+  if (value) {
+    timer.value = setInterval(() => {
+      syncVideo()
+    }, 1000)
+  }
+  else {
+    clearInterval(timer.value)
+  }
+})
+function videoToFullScreen() {
+  const video = document.getElementById('videcontent')
+  if (video.requestFullscreen)
+    video.requestFullscreen()
+
+  else if (video.webkitRequestFullscreen)
+    video.webkitRequestFullscreen()
+
+  else if (video.mozRequestFullScreen)
+    video.mozRequestFullScreen()
+
+  else if (video.msRequestFullscreen)
+    video.msRequestFullscreen()
 }
 </script>
 
@@ -269,13 +303,31 @@ function openDialogVideo() {
         step="0.01" @change="handleChangeVoice"
       >
     </div>
-    <Dialog :open="dialogVideo" title="视频" @visible-change="vis => dialogVideo = vis">
-      <video
-        id="video-eno"
-        autoplay
-        controls class="w-full" :src="store.play.video"
-      />
-    </Dialog>
+    <Drawer :open="dialogVideo" :title="store.play.title" @visible-change="vis => dialogVideo = vis">
+      <section id="videcontent" class="flex justify-center h-full pt-6">
+        <section :class="cn(videoShowPlaylist ? 'w-2/3' : 'w-[80vw]')">
+          <video
+            id="video-eno"
+            autoplay class="w-full rounded-2xl overflow-auto h-fit transItem" :src="store.play.video"
+          />
+          <div class="text-3xl py-3 flex gap-3">
+            <div
+              class="i-mingcute:fullscreen-2-fill w-1em h-1em cursor-pointer"
+              @click.stop="videoToFullScreen"
+            />
+            <div
+              class="i-mingcute:columns-2-fill w-1em h-1em cursor-pointer"
+              @click.stop="videoShowPlaylist = !videoShowPlaylist"
+            />
+          </div>
+        </section>
+        <div v-if="videoShowPlaylist" class="overflow-auto h-[calc(100vh-200px)] wrapper-scroll pb-10 flex-1">
+          <div v-for="song in store.playList" :key="song.id">
+            <SongItem :song="song" size="mini" />
+          </div>
+        </div>
+      </section>
+    </Drawer>
   </section>
 </template>
 
@@ -332,5 +384,9 @@ input[type="range"]::-webkit-slider-thumb {
   background: #4cabe2;
   height: 2px;
   transform: translateY(8px);
+}
+
+.transItem {
+  transition: all 0.3s;
 }
 </style>
