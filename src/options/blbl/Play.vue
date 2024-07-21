@@ -319,6 +319,7 @@ function videoToFullScreen() {
               class="i-mingcute:columns-2-fill w-1em h-1em cursor-pointer"
               @click.stop="videoShowPlaylist = !videoShowPlaylist"
             />
+            <div class="i-mingcute:cardano-ada-line w-1em h-1em" />
           </div>
         </section>
         <div v-if="videoShowPlaylist" class="overflow-auto h-[calc(100vh-200px)] wrapper-scroll pb-10 flex-1">
