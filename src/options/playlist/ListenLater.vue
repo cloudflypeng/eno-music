@@ -35,7 +35,7 @@ function handleRemoveListenLater(song) {
           />
         </div>
         <div class="text-3xl flex justify-center items-center gap-3">
-          稍后再听
+          稍后播放
           <div
             class="i-mingcute:play-circle-line w-1em h-1em"
             cursor-pointer
