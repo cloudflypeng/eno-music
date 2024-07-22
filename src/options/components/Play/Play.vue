@@ -1,9 +1,8 @@
 <script setup>
 import { Howl, Howler } from 'howler'
 import cn from 'classnames'
-import { set } from 'vue-demi'
-import SongItem from '../components/SongItem.vue'
-import { useBlblStore } from './store'
+import SongItem from '../SongItem.vue'
+import { useBlblStore } from '../../blbl/store'
 import { useApiClient } from '~/composables/api'
 import Dialog from '~/components/dialog/index.vue'
 import Drawer from '~/components/drawer/index.vue'
@@ -233,7 +232,7 @@ function videoToFullScreen() {
     <div class="w-screen top-0 left-0 absolute h-[2px] bg-yellow" :style="progressTrans" />
     <!-- 音乐滑块 -->
     <input
-      v-model="progress.percent" type="range" min="0" max="1" step="0.01" color="red"
+      v-model="progress.percent" type="range" min="0" max="1" step="0.001"
       class="w-full absolute top-0 left-0 h-1 bg-$eno-fill-2 rounded-1 cursor-pointer play-progress"
       @change="changeProgress"
     >

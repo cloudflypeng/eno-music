@@ -3,7 +3,7 @@
 import { provide, ref } from 'vue'
 import { useLocalStorage } from '@vueuse/core'
 
-import Play from './blbl/Play.vue'
+import Play from './components/Play/Play.vue'
 import Header from './blbl/Header.vue'
 import Sider from './components/Sider.vue'
 import Playlist from './playlist/index.vue'
