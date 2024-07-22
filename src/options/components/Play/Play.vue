@@ -46,7 +46,7 @@ function playMusic() {
         progress.current = store.howl.seek()
         progress.total = store.howl.duration()
         progress.percent = progress.current / progress.total
-      }, 1000)
+      }, 300)
     },
     onpause: () => {
       isPlaying.value = false
