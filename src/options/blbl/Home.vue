@@ -6,8 +6,6 @@ import { useBlblStore } from './store'
 import Rank from './rank.vue'
 import { useApiClient } from '~/composables/api'
 
-// const api = useApiClient()
-
 const store = useBlblStore()
 const scrollRef = ref(null)
 
@@ -28,7 +26,7 @@ function scroll(direction) {
 <template>
   <section w-full h-screen overflow-auto>
     <!-- bilibili音乐榜 -->
-    <h5 text="2xl $eno-text-1" fw-600 py-5 text-left px-10>
+    <h5 text="2xl $eno-text-1 fw-600 py-5 text-left px-10">
       bilibili音乐榜
       <span text="sm $eno-text-2" class="ml-2">
         (每周五18:00更新)
@@ -67,38 +65,6 @@ function scroll(direction) {
         </div>
       </div>
     </div>
-    <!-- <section pos="relative" class="w-[calc(100vw-20rem)] mx-auto py-10">
-      <div ref="scrollRef" class="w-[calc(100vw-20rem)] wrapper-scroll z--1" flex overflow-auto gap-10 snap-x p="x-15">
-        <div
-          v-for="music in store.hitList" :key="music.menuid" w-50 shrink-0 h-60 snap-center
-          @click="handleDetail(music)"
-        >
-          <img w-50 h-50 rounded-xl cursor-pointer :src="music.cover">
-          <div text="$eno-text-2">
-            {{ music.title }}
-          </div>
-        </div>
-      </div>
-      <div z-1>
-        <div
-          class="bg-[rgba(0,0,0,0.5)] translate-y--1/2" pos="absolute left-0 top-[40%]"
-          p-1 flex items-center cursor-pointer
-          rounded-full @click.stop="scroll('left')"
-        >
-          <div text-5xl class="i-tabler:arrow-badge-left-filled w-1em h-1em" />
-        </div>
-        <div
-          class="bg-[rgba(0,0,0,0.5)] translate-y--1/2" pos="absolute right-0 top-[40%]"
-          p-1 flex items-center cursor-pointer
-          rounded-full @click.stop="scroll('right')"
-        >
-          <div text-5xl class="i-tabler:arrow-badge-right-filled w-1em h-1em" />
-        </div>
-      </div>
-    </section> -->
-    <h5 text="2xl $eno-text-1" fw-600 px-10 text-left>
-      精选榜单
-    </h5>
     <Rank />
   </section>
 </template>
@@ -106,8 +72,8 @@ function scroll(direction) {
 <style>
 .wrapper-scroll {
   mask-image: linear-gradient(to bottom,
-      transparent,
-      #000 0% 80%,
-      transparent);
+    transparent,
+    #000 0% 80%,
+    transparent);
 }
 </style>

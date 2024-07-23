@@ -45,9 +45,6 @@ export const useBlblStore = defineStore({
   actions: {
     // 初始化首页
     initHomePage() {
-      // // 时间戳小于当前时间戳，就刷新
-      // if (this.timestampRefreshMap.biliMusic > Math.floor(Date.now() / 1000))
-      //   return
       this.getHitList()
       this.initBiliMusic()
     },

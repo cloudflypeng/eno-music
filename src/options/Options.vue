@@ -4,7 +4,6 @@ import { provide, ref } from 'vue'
 import { useLocalStorage } from '@vueuse/core'
 
 import Play from './components/Play/Play.vue'
-import Header from './blbl/Header.vue'
 import Sider from './components/Sider.vue'
 import Playlist from './playlist/index.vue'
 import ListenLater from './playlist/ListenLater.vue'
@@ -15,10 +14,7 @@ import Search from './blbl/Search.vue'
 import SingerList from './playlist/SingerList.vue'
 import SingerDetail from './playlist/SingerDetail.vue'
 
-// import Rank from './blbl/rank.vue'
-// import RankDetail from './blbl/RankDetail.vue'
 import Home from './blbl/Home.vue'
-import hitDetail from './blbl/HitDetail.vue'
 
 import { useBlblStore } from './blbl/store.js'
 
@@ -56,12 +52,10 @@ onMounted(() => {
     bg-$eno-bg
     color-$eno-text-1" h-screen w-screen overflow="auto" flex
   >
-    <!-- <Header /> -->
     <AddSong />
     <Sider />
     <div class="grow-1 shrink-10 fadeInWrapper">
       <Home v-show="store.mode === 'home'" />
-      <hitDetail v-show="store.mode === 'hitDetail'" />
       <Search v-show="store.mode === 'search'" />
       <Playlist v-show="store.mode === 'playlist'" />
       <ListenLater v-show="store.mode === 'listenLater'" />

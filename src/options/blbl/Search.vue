@@ -6,7 +6,6 @@ import { useBlblStore } from '../blbl/store.js'
 import { usePlaylistStore } from '../playlist/store.ts'
 import { useApiClient } from '~/composables/api'
 
-// import { compliteSong } from '~/utils/index'
 const scrollRef = ref(null)
 const pageNum = ref(1)
 
@@ -18,16 +17,16 @@ const keyword = ref('')
 const result = ref([])
 const isLoading = ref(false)
 
+// 滚动加载
 useInfiniteScroll(
   scrollRef,
   async () => {
-    // load more
     const moreData = await getMoreData()
     result.value = result.value.concat(moreData)
   },
   { distance: 10 },
 )
-
+// 加载函数
 async function getMoreData() {
   isLoading.value = true
   pageNum.value++
@@ -50,29 +49,13 @@ async function getMoreData() {
     }
   })
 }
-
+// 搜索
 async function handleSearch() {
   pageNum.value = 0
   result.value = []
   const newList = await getMoreData()
   result.value = newList
 }
-async function handlePlay(item) {
-  // const newPlay = await getUrl(item)
-
-  // store.play = newPlay
-  // store.playList.push(newPlay)
-
-  store.play = item
-  store.playList.push(item)
-}
-function addSong(item) {
-  PLStore.startAddSong(item)
-}
-onMounted(() => {
-  const dom = document.getElementById('search')
-  dom.focus()
-})
 </script>
 
 <template>
@@ -112,7 +95,7 @@ onMounted(() => {
         class="flex flex-col w-40 h-50 p-2 relative group"
         hover:bg="$eno-fill-2"
         rounded-lg
-        @click="handlePlay(item)"
+        @click="store.startPlay(item)"
       >
         <div
           absolute top-0 left-0 text-lg cursor-pointer
@@ -122,7 +105,7 @@ onMounted(() => {
           transition="all duration-200 ease-in-out"
           class="bg-[rgba(0,0,0,0.5)]"
           group-hover:opacity-100
-          @click.stop="addSong(item)"
+          @click.stop="PLStore.startAddSong(item)"
         >
           <div
             class="i-mingcute:add-fill"

@@ -284,16 +284,7 @@ function videoToFullScreen() {
       <div v-else class="i-mingcute:fullscreen-exit-fill w-1em h-1em" @click.stop="fullScreenTheBody" />
       <div cursor-pointer class="i-tabler:playlist w-1em h-1em" @click="toggleList" />
       <Dialog :open="showList" title="播放列表" @visible-change="vis => showList = vis">
-        <div
-          v-for="item, index in store.playList" :key="item.id" w-full max-w-full text-sm text-left cursor-pointer
-          px-2 py-1 rounded-lg transition delay-50 truncate class="hover:opacity-100 opacity-75"
-          @click.stop="change(index)"
-        >
-          <div class="flex gap-3">
-            <img w-10 h-10 rounded-2 :src="item.cover">
-            <div class="truncate" v-html="item.title" />
-          </div>
-        </div>
+        <SongItem v-for="song in store.playList" :key="song.id" :song="song" size="mini" />
       </Dialog>
       <div v-if="isCloseVoice" class="i-mingcute:volume-mute-line w-1em h-1em" @click.stop="setVoice" />
       <div v-else class="i-mingcute:volume-line w-1em h-1em" @click.stop="setVoice" />

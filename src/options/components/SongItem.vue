@@ -34,35 +34,41 @@ const PLstore = usePlaylistStore()
 const { later, del, star } = props
 const { cover, title, author } = props.song
 
-const textSize = computed(() => {
+const styleBySize = computed(() => {
   if (props.size === 'mini') {
     return {
-      title: 'text-[12px] font-bold w-full',
-      anthor: 'text-xs opacity-50',
+      wrapper: `song-item grid-cols-[4.5rem_1fr_60px]  text-lg cursor-pointer h-15 hover:bg-$eno-fill-2 rounded-4 px-2`,
+      title: 'text-[12px] font-bold w-full truncate',
+      author: 'text-xs opacity-50',
+      img: 'w-15 rounded-2 object-cover',
     }
   }
   else {
     return {
-      title: 'text-lg font-bold w-full',
-      author: 'text-sm opacity-50',
+      wrapper: `song-item grid-cols-[5.5rem_1fr_60px] text-lg cursor-pointer h-15 hover:bg-$eno-fill-2 rounded-4 px-2`,
+      title: 'text-[16px] font-bold truncate ',
+      author: 'text-xs opacity-50',
+      img: 'w-[5rem] rounded-2 object-cover',
     }
   }
 })
 </script>
 
 <template>
-  <div class="text-lg cursor-pointer h-15 flex p-2 hover:bg-$eno-fill-2 rounded-4" @click="store.startPlay(song)">
-    <div class="flex flex-1 gap-6">
-      <img :src="cover" class="w-20 rounded-2 object-cover">
-      <div>
-        <div :class="textSize.title" v-html="title" />
-        <div :class="textSize.anthor">
+  <div :class="styleBySize.wrapper" @click="store.startPlay(song)">
+    <img
+      :src="cover" :class="styleBySize.img"
+    >
+    <div class="w-full overflow-auto" :title="title">
+      <div class="h-15 pt-1">
+        <div :class="styleBySize.title" v-html="title" />
+        <div :class="styleBySize.author">
           {{ author }}
         </div>
       </div>
     </div>
     <!-- 操作, 收藏到播放列表, 删除 -->
-    <div class="flex-grow-0 flex flex-row-reverse gap-3 float-right h-full flex items-center pr-3">
+    <div class="flex gap-3 text-lg">
       <div v-if="del" class="i-mingcute:delete-3-fill w-1em h-1em" @click.stop="emit('delete-song', props.song)" />
       <div v-if="later" class="i-mingcute:time-fill w-1em h-1em" @click.stop="PLstore.addToListenLater(props.song)" />
       <div v-if="star" class="i-mingcute:star-fill w-1em h-1em" @click.stop="PLstore.startAddSong(props.song)" />
@@ -70,4 +76,13 @@ const textSize = computed(() => {
   </div>
 </template>
 
-<style scoped></style>
+<style scoped>
+.song-item {
+  display: grid;
+  /* 左右固定, 中间展开 */
+  /* grid-template-columns: 100px 1fr 60px; */
+  overflow: hidden;
+  /* 子元素上下居中 */
+  align-items: center;
+}
+</style>
