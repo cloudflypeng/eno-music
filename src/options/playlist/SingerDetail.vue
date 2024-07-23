@@ -114,7 +114,9 @@ function handlePlayUser() {
         <input
           v-model="keyword"
           bg="$eno-content focus:$eno-content-hover"
-          type="text" class="w-40 h-10 border-2 border-gray-200 rounded-2 bg-opacity-0"
+          type="text"
+          class="w-40 h-10 border-2 border-gray-200 rounded-2 bg-opacity-0"
+          @keyup.enter="getSongs({ mid: PLstore.currentSinger, keyword })"
         >
         <div class="text-lg cursor-pointer" @click="getSongs({ mid: PLstore.currentSinger, keyword })">
           搜索

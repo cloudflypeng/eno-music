@@ -26,7 +26,7 @@ function scroll(direction) {
 <template>
   <section w-full h-screen overflow-auto>
     <!-- bilibili音乐榜 -->
-    <h5 text="2xl $eno-text-1 fw-600 py-5 text-left px-10">
+    <h5 text="2xl $eno-text-1 fw-600" class="py-5 text-left px-10">
       bilibili音乐榜
       <span text="sm $eno-text-2" class="ml-2">
         (每周五18:00更新)

@@ -16,10 +16,10 @@ function handleDetail(music) {
 </script>
 
 <template>
+  <h5 text="2xl $eno-text-1" fw-600 px-10 text-left>
+    精选榜单
+  </h5>
   <section grid w-full class="grid-cols-1 md:grid-cols-3 gap-8 p-10">
-    <h5 text="2xl $eno-text-1" fw-600 px-10 text-left>
-      精选榜单
-    </h5>
     <div
       v-for="rank in store.rankList" :key="rank.statistic.sid" flex flex-col text-left cursor-pointer
       @click.stop="handleDetail(rank)"

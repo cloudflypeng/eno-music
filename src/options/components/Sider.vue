@@ -45,12 +45,12 @@ const tabClass = computed(() => {
   <aside :class="asideClass" transition-all duration-300>
     <!-- logo and close -->
     <div
-      :class="cn('flex items-center h-10 gap-3 px-4', { 'justify-center': !open })" cursor-pointer
+      :class="cn('flex items-center h-10 gap-3 px-4 tab-item ', { 'justify-center': !open })" cursor-pointer
       @click="open = !open"
     >
       <div v-if="open" class="i-mingcute:indent-decrease-fill w-1em h-1em" />
       <div v-else class="i-mingcute:indent-increase-fill w-1em h-1em" />
-      <span v-if="open" text-lg>ENO-M</span>
+      <span v-if="open" class="text-lg">ENO-M</span>
     </div>
     <!-- tab区 -->
     <TabItem v-for="tab in tabs" :key="tab.mode" :tab="tab" :open="open" />
@@ -77,7 +77,7 @@ const tabClass = computed(() => {
       </div>
     </Dialog>
     <TabItem :tab="{ icon: 'i-mingcute:group-2-fill', title: '关注的音乐人', mode: 'singerList' }" :open="open" />
-    <TabItem class="h-20" :tab="{ icon: 'i-mingcute:time-fill', mode: 'listenLater' }" :open="open">
+    <TabItem class="h-13" :tab="{ icon: 'i-mingcute:time-fill', mode: 'listenLater' }" :open="open">
       <template #default>
         <div v-if="open" text-xs>
           <div>稍后播放</div>
