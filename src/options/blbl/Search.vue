@@ -2,15 +2,11 @@
 import { computed, onMounted, ref } from 'vue'
 import { useInfiniteScroll } from '@vueuse/core'
 import cn from 'classnames'
-import { useBlblStore } from '../blbl/store.js'
-import { usePlaylistStore } from '../playlist/store.ts'
+import SongItem from '../components/SongItem.vue'
 import { useApiClient } from '~/composables/api'
 
 const scrollRef = ref(null)
 const pageNum = ref(1)
-
-const store = useBlblStore()
-const PLStore = usePlaylistStore()
 
 const api = useApiClient()
 const keyword = ref('')
@@ -63,7 +59,7 @@ async function handleSearch() {
     w-full h-screen overflow-auto flex flex-col
     justify-center items-center relative
   >
-    <div w-100 relative color="$eno-text-1" my-10>
+    <div w-100 relative color="$eno-text-1">
       <input
         id="search"
         v-model="keyword"
@@ -83,65 +79,11 @@ async function handleSearch() {
     <div
       v-if="result.length"
       ref="scrollRef"
-      grow-1
-      class="h-[calc(100%-30rem)]"
-      w-full overflow-auto flex flex-wrap gap-8 justify-between
+      class="h-[calc(100vh-10rem)]"
+      w-full overflow-auto
       mt-4 px-20 pb-30
     >
-      <!-- 背景图 -->
-      <div
-        v-for="item in result"
-        :key="item.bvid"
-        class="flex flex-col w-40 h-50 p-2 relative group"
-        hover:bg="$eno-fill-2"
-        rounded-lg
-        @click="store.startPlay(item)"
-      >
-        <div
-          absolute top-0 left-0 text-lg cursor-pointer
-          rounded-tl-lg p-1
-          opacity-0
-          z-2
-          transition="all duration-200 ease-in-out"
-          class="bg-[rgba(0,0,0,0.5)]"
-          group-hover:opacity-100
-          @click.stop="PLStore.startAddSong(item)"
-        >
-          <div
-            class="i-mingcute:add-fill"
-          />
-        </div>
-        <div
-          rounded-lg cursor-pointer
-          overflow-hidden
-          relative
-        >
-          <img
-            w-full aspect-ratio-1 object-cover
-            opacity-80
-            group-hover:opacity-70
-            :src="item.cover"
-          >
-          <div
-            absolute
-            z-10
-            opacity-0
-            group-hover:opacity-100
-            transition="all duration-200 ease-in-out"
-            class="i-mingcute:play-circle-line
-            top-[50%]
-            left-[50%]
-            transform-translate-x-[-50%]
-            transform-translate-y-[-50%] text-15"
-          />
-        </div>
-        <div
-          text-xs line-clamp-2 truncate text-left
-          w-full text-wrap opacity-90
-          class="text-sm mt-2 cursor-pointer"
-          v-html="item.title"
-        />
-      </div>
+      <SongItem v-for="item in result" :key="item.bvid" :song="item" />
     </div>
   </section>
 </template>
