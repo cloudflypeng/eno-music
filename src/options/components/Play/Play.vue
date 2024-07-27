@@ -22,6 +22,19 @@ const progress = reactive({
 const voice = ref(1)
 const isCloseVoice = ref(false)
 const progressTimer = ref(null)
+const isDragging = ref(false)
+
+function updateProgess() {
+  if (!isDragging.value) {
+    progress.current = store.howl.seek()
+    progress.percent = progress.current / progress.total
+  }
+  if (store.howl.playing())
+    requestAnimationFrame(updateProgess)
+}
+function onProgressInput() {
+  isDragging.value = true
+}
 
 function playMusic() {
   const url = store.play.url
@@ -43,11 +56,8 @@ function playMusic() {
     mute: false,
     onplay: () => {
       isPlaying.value = true
-      progressTimer.value = setInterval(() => {
-        progress.current = store.howl.seek()
-        progress.total = store.howl.duration()
-        progress.percent = progress.current / progress.total
-      }, 300)
+      progress.total = store.howl.duration()
+      requestAnimationFrame(updateProgess)
     },
     onpause: () => {
       isPlaying.value = false
@@ -126,7 +136,11 @@ function change(type) {
   store.play = store.playList[currentIndex.value]
 }
 function changeProgress(e) {
+  // 如果当前没有歌曲,就返回
+  if (!store.play?.id)
+    return
   store.howl.seek(progress.total * e.target.value)
+  isDragging.value = false
 }
 
 function toggleList() {
@@ -247,8 +261,10 @@ function videoToFullScreen() {
     <div class="w-screen top-0 left-0 absolute h-[2px] bg-yellow" :style="progressTrans" />
     <!-- 音乐滑块 -->
     <input
-      v-model="progress.percent" type="range" min="0" max="1" step="0.001"
+      v-model="progress.percent"
+      type="range" min="0" max="1" step="0.001"
       class="w-full absolute top-0 left-0 h-1 bg-$eno-fill-2 rounded-1 cursor-pointer play-progress"
+      @input="onProgressInput"
       @change="changeProgress"
     >
     <!-- 音乐控制 -->
@@ -281,7 +297,7 @@ function videoToFullScreen() {
     >
       <!-- 主要信息 -->
       <span v-if="store.play.cover" shrink-0>
-        <img w-11 h-11 rounded-1 :src="store.play.cover">
+        <img h-11 rounded-1 :src="store.play.cover">
       </span>
       <div truncate grow-1>
         <div v-html="displayData.title" />
@@ -382,6 +398,10 @@ input[type="range"]::-webkit-slider-thumb {
   outline: none;
   margin-top: -4px;
   position: relative;
+}
+input[type="range"]::-webkit-slider-thumb:hover{
+  box-shadow: 0px 0px 0px 8px rgba(200, 200, 20, 0.16);
+  transition: 0.3s ease-in-out;
 }
 
 #voice-progress {
