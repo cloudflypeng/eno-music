@@ -39,7 +39,7 @@ function clickDialog(e) {
       >
         <div text-3xl mb-2 class="flex justify-between">
           <div>
-            <span v-if="props.title">{{ props.title }}</span>
+            <span v-if="props.title" v-html="props.title" />
           </div>
           <div
             class="i-mingcute:close-fill w-1em h-1em items-center transition-all

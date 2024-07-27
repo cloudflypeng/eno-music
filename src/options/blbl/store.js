@@ -22,6 +22,7 @@ export const useBlblStore = defineStore({
     play: {}, // 当前播放的歌曲信息
     playList: [], // 播放列表
     count: 0,
+    loopMode: 'list',
     mode: 'home',
     timestampRefreshMap: {
       biliMusic: 0,

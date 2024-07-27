@@ -3,6 +3,7 @@ import { Howl, Howler } from 'howler'
 import cn from 'classnames'
 import SongItem from '../SongItem.vue'
 import { useBlblStore } from '../../blbl/store'
+import LoopSwitch from './LoopSwitch.vue'
 import { useApiClient } from '~/composables/api'
 import Dialog from '~/components/dialog/index.vue'
 import Drawer from '~/components/drawer/index.vue'
@@ -53,7 +54,20 @@ function playMusic() {
       clearInterval(progressTimer.value)
     },
     onend: () => {
-      change('next')
+      switch (store.loopMode) {
+        case 'single':
+          playMusic()
+          break
+        case 'list':
+          change('next')
+          break
+        case 'random':
+          currentIndex.value = Math.floor(Math.random() * store.playList.length)
+          change(currentIndex.value)
+          break
+        default:
+          change('next')
+      }
     },
   })
   store.howl.play()
@@ -90,16 +104,16 @@ async function getSidUrl(item) {
   }
 }
 
+// 监听歌曲切换
 watch(() => store.play?.id, async () => {
   const currentSong = store.play
   const play = currentSong.enu_song_type === 'bvid'
     ? await getBvidUrl(currentSong)
     : await getSidUrl(currentSong)
   store.play = play
-
   playMusic()
 })
-
+// 顺序切换
 function change(type) {
   if (type === 'next')
     currentIndex.value += 1 % store.playList.length
@@ -225,8 +239,9 @@ function videoToFullScreen() {
 
 <template>
   <section
-    class="bg-$eno-elevated w-screen h-20 px-6 flex z-10" style="backdrop-filter: var(--eno-filter-glass-light-1)"
-    flex="row items-center justify-between" pos="fixed bottom-0 left-0" color-white gap-6 transform-gpu
+    class="bg-$eno-elevated w-screen h-20 px-6 flex z-10"
+    style="backdrop-filter: var(--eno-filter-glass-light-1)" flex="row items-center justify-between"
+    pos="fixed bottom-0 left-0" color-white gap-6 transform-gpu
   >
     <!-- 音乐进度 -->
     <div class="w-screen top-0 left-0 absolute h-[2px] bg-yellow" :style="progressTrans" />
@@ -254,6 +269,7 @@ function videoToFullScreen() {
         cursor-pointer class="i-tabler:player-track-next-filled w-1em h-1em hover:opacity-50"
         @click.stop="change('next')"
       />
+      <LoopSwitch />
       <div text-xs>
         {{ timeDisplay.current }}/{{ timeDisplay.total }}
       </div>
@@ -297,14 +313,11 @@ function videoToFullScreen() {
       <section id="videcontent" class="flex justify-center h-full pt-6">
         <section :class="cn(videoShowPlaylist ? 'w-2/3' : 'w-[80vw]')">
           <video
-            id="video-eno"
-            autoplay class="w-full rounded-2xl overflow-auto h-fit transItem" :src="store.play.video"
+            id="video-eno" autoplay class="w-full rounded-2xl overflow-auto h-fit transItem"
+            :src="store.play.video"
           />
           <div class="text-3xl py-3 flex gap-3">
-            <div
-              class="i-mingcute:fullscreen-2-fill w-1em h-1em cursor-pointer"
-              @click.stop="videoToFullScreen"
-            />
+            <div class="i-mingcute:fullscreen-2-fill w-1em h-1em cursor-pointer" @click.stop="videoToFullScreen" />
             <div
               class="i-mingcute:columns-2-fill w-1em h-1em cursor-pointer"
               @click.stop="videoShowPlaylist = !videoShowPlaylist"
