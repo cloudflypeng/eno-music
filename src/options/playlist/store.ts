@@ -105,6 +105,12 @@ export const usePlaylistStore = defineStore({
       this.singers.push(mid)
       this.fetchSingerInfo(mid, false)
     },
+    removeSinger(mid: string) {
+      const index = this.singers.findIndex(s => s === mid)
+      if (index === -1)
+        return
+      this.singers.splice(index, 1)
+    },
   },
 
 })

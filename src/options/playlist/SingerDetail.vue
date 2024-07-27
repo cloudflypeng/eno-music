@@ -41,6 +41,7 @@ onMessage('wbiApi', ({ data }) => {
   }
   catch (e) {
     // console.log(e)
+    return e
   }
 })
 
@@ -64,7 +65,7 @@ function handlePlayUser() {
 <template>
   <section class="h-screen singer-detail">
     <!-- 信息界面 -->
-    <div class="w-full bg-yellow px-20 py-10 flex gap-6">
+    <div class="w-full bg-yellow bg-opacity-95 px-20 py-10 flex gap-6">
       <img :src="info?.face" class="h-[100%] object-contain rounded-full border-2 border-gray-200 cursor-pointer">
       <div class="flex flex-col-reverse">
         <div class="text-lg font-bold">
@@ -73,8 +74,12 @@ function handlePlayUser() {
         <div class="text-sm">
           {{ info?.nameplate?.condition }}
         </div>
-        <div class="text-2xl font-bold">
+        <div class="text-2xl font-bold flex items-center gap-3">
           {{ info?.name }}
+          <a :href="`https://space.bilibili.com/${PLstore.currentSinger}`" target="_blank">
+            <div class="i-mingcute:link-line w-1em h-1em cursor-pointer" />
+          </a>
+          <!-- <div class="i-mingcute:share-3-line w-1em h-1em cursor-pointer" /> -->
         </div>
       </div>
     </div>

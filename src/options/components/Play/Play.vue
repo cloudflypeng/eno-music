@@ -289,21 +289,21 @@ function videoToFullScreen() {
       </div>
       <div flex gap-2 text-sm px-2>
         <div class="i-mingcute:share-forward-fill w-1em h-1em cursor-pointer" @click.stop="openBlTab" />
-        <div class="i-mingcute:video-fill w-1em h-1em" @click.stop="openDialogVideo" />
+        <div class="i-mingcute:video-fill w-1em h-1em cursor-pointer" @click.stop="openDialogVideo" />
         <!-- <div class="i-tdesign:card w-1em h-1em" />
         <div class="i-mingcute:more-1-fill w-1em h-1em" /> -->
       </div>
     </div>
     <!-- 其他 -->
     <div flex flex-row-reverse text-lg gap-5 w-100>
-      <div v-if="fullScreenStatus" class="i-mingcute:fullscreen-fill w-1em h-1em" @click.stop="fullScreenTheBody" />
-      <div v-else class="i-mingcute:fullscreen-exit-fill w-1em h-1em" @click.stop="fullScreenTheBody" />
+      <div v-if="fullScreenStatus" cursor-pointer class="i-mingcute:fullscreen-fill w-1em h-1em" @click.stop="fullScreenTheBody" />
+      <div v-else cursor-pointer class="i-mingcute:fullscreen-exit-fill w-1em h-1em" @click.stop="fullScreenTheBody" />
       <div cursor-pointer class="i-tabler:playlist w-1em h-1em" @click="toggleList" />
       <Dialog :open="showList" title="播放列表" @visible-change="vis => showList = vis">
         <SongItem v-for="song in store.playList" :key="song.id" :song="song" size="mini" />
       </Dialog>
-      <div v-if="isCloseVoice" class="i-mingcute:volume-mute-line w-1em h-1em" @click.stop="setVoice" />
-      <div v-else class="i-mingcute:volume-line w-1em h-1em" @click.stop="setVoice" />
+      <div v-if="isCloseVoice" cursor-pointer class="i-mingcute:volume-mute-line w-1em h-1em" @click.stop="setVoice" />
+      <div v-else cursor-pointer class="i-mingcute:volume-line w-1em h-1em" @click.stop="setVoice" />
       <input
         v-if="!isCloseVoice" id="voice-progress" v-model="voice" type="range" class="w-20" min="0" max="1"
         step="0.01" @change="handleChangeVoice"

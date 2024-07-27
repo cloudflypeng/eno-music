@@ -1,37 +1,13 @@
 <script setup>
-import { useBlblStore } from '../blbl/store'
 import Dialog from '../../components/dialog/index.vue'
+import SingerCard from '../components/SingerCard.vue'
 import { defaultSingers, usePlaylistStore } from './store'
 
-const store = useBlblStore()
 const PLstore = usePlaylistStore()
 onMounted(() => {
   PLstore.fetchSingerInfoList()
 })
-function avatar(id) {
-  const info = PLstore.singerCardCache[id]
-  if (!info)
-    return ''
-  return info?.face || ''
-}
-function name(id) {
-  const info = PLstore.singerCardCache[id]
-  if (!info)
-    return ''
-  return info?.name || ''
-}
-function desc(id) {
-  const info = PLstore.singerCardCache[id]
-  if (!info)
-    return ''
-  // condition,
-  const { name } = info.nameplate
-  return `${name}`
-}
-function handleSingerDetail(singerMid) {
-  store.mode = 'singerDetail'
-  PLstore.currentSinger = singerMid
-}
+
 // 添加歌手相关
 const dialogVis = ref(false)
 const singerMid = ref('')
@@ -53,34 +29,14 @@ function addSinger() {
       推荐
     </div>
     <div class="flex gap-10 px-20 flex-wrap">
-      <div
-        v-for="singerMid in defaultSingers" :key="singerMid"
-        class="flex flex-col flex-shrink-0 justify-center items-center" @click.stop="handleSingerDetail(singerMid)"
-      >
-        <img
-          :src="avatar(singerMid)" alt="singerAvatar"
-          class="w-40 h-40 rounded-full border-2 border-gray-200 cursor-pointer"
-        >
-        <div>{{ name(singerMid) }}</div>
-        <div>{{ desc(singerMid) }}</div>
-      </div>
+      <SingerCard v-for="serid in defaultSingers" :key="serid" :singer-mid="serid" />
     </div>
     <!-- 添加自定义歌手, 也用一个圆圈 -->
     <div class="text-3xl my-10 mx-20">
       自定义
     </div>
     <div class="flex gap-10 px-20 flex-wrap mb-30">
-      <div
-        v-for="singerMid in PLstore.singers" :key="singerMid"
-        class="flex flex-col flex-shrink-0 justify-center items-center" @click.stop="handleSingerDetail(singerMid)"
-      >
-        <img
-          :src="avatar(singerMid)" alt="singerAvatar"
-          class="w-40 h-40 rounded-full border-2 border-gray-200 cursor-pointer"
-        >
-        <div>{{ name(singerMid) }}</div>
-        <div>{{ desc(singerMid) }}</div>
-      </div>
+      <SingerCard v-for="serid in PLstore.singers" :key="serid" :singer-mid="serid" can-del />
       <div
         border="1 gray-200" class="flex flex-col flex-shrink-0 justify-center items-center cursor-pointer
         w-40 h-40 rounded-full border-2 cursor-pointer

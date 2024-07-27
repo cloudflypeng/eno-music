@@ -1,0 +1,60 @@
+<script setup>
+import { usePlaylistStore } from '../playlist/store'
+import { useBlblStore } from '../blbl/store'
+
+const props = defineProps({
+  singerMid: String,
+  canDel: {
+    type: Boolean,
+    default: false,
+  },
+})
+const store = useBlblStore()
+const PLstore = usePlaylistStore()
+const info = computed(() => PLstore.singerCardCache[props.singerMid])
+const avatar = computed(() => info.value?.face || '')
+const name = computed(() => info.value?.name || '')
+const desc = computed(() => {
+  const { name } = info.value?.nameplate || {}
+  return `${name}`
+})
+
+function handleSingerDetail(singerMid) {
+  store.mode = 'singerDetail'
+  PLstore.currentSinger = singerMid
+}
+</script>
+
+<template>
+  <div
+    class="flex flex-col flex-shrink-0 justify-center items-center relative singerCard"
+    @click.stop="handleSingerDetail(singerMid)"
+  >
+    <img
+      :src="avatar" alt="singerAvatar"
+      class="w-40 h-40 rounded-full border-2 border-gray-200 cursor-pointer"
+    >
+    <div>{{ name }}</div>
+    <div>{{ desc }}</div>
+    <!-- 删除 -->
+    <div
+      v-if="props.canDel"
+      class="del absolute right-0 top-0 bg-yellow text-2xl rounded-full p-1 fadeItem"
+      @click.stop="PLstore.removeSinger(singerMid)"
+    >
+      <div class="i-mingcute:close-line w-1em h-1em" />
+    </div>
+  </div>
+</template>
+
+<style scoped>
+.singerCard{
+  & > .del{
+    display: none;
+
+  }
+  &:hover > .del{
+    display: block;
+  }
+}
+</style>
