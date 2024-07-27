@@ -37,7 +37,7 @@ const { cover, title, author } = props.song
 const styleBySize = computed(() => {
   if (props.size === 'mini') {
     return {
-      wrapper: `song-item grid-cols-[4.5rem_1fr_60px]  text-lg cursor-pointer h-15 hover:bg-$eno-fill-2 rounded-4 px-2`,
+      wrapper: `song-item grid-cols-[4.5rem_1fr_90px]  text-lg cursor-pointer h-15 hover:bg-$eno-fill-2 rounded-4 px-2`,
       title: 'text-[12px] font-bold w-full truncate',
       author: 'text-xs opacity-50',
       img: 'w-15 rounded-2 object-cover',
@@ -45,7 +45,7 @@ const styleBySize = computed(() => {
   }
   else {
     return {
-      wrapper: `song-item grid-cols-[5.5rem_1fr_60px] text-lg cursor-pointer h-15 hover:bg-$eno-fill-2 rounded-4 px-2`,
+      wrapper: `song-item grid-cols-[5.5rem_1fr_90px] text-lg cursor-pointer h-15 hover:bg-$eno-fill-2 rounded-4 px-2`,
       title: 'text-[16px] font-bold truncate ',
       author: 'text-xs opacity-50',
       img: 'w-[5rem] rounded-2 object-cover',
