@@ -1,5 +1,6 @@
 <script setup>
 import { onMessage, sendMessage } from 'webext-bridge/options'
+import { useInfiniteScroll } from '@vueuse/core'
 import { useBlblStore } from '../blbl/store.js'
 import SongItem from '../components/SongItem.vue'
 import { defaultSingers, usePlaylistStore } from './store'
@@ -12,7 +13,11 @@ const info = computed(() => {
   return PLstore.singerCardCache[PLstore.currentSinger]
 })
 
-const songList = ref([])
+const songListByPage = ref({})
+const renderList = computed(() => {
+  return Object.values(songListByPage.value).flat()
+})
+
 const loading = ref(false)
 const keyword = ref('')
 const page = ref({
@@ -20,6 +25,18 @@ const page = ref({
   ps: 25,
   count: 0,
 })
+const scrollRef = ref(null)
+
+// 滚动加载
+useInfiniteScroll(
+  scrollRef,
+  async () => {
+    if (page.value.pn * page.value.ps >= page.value.count)
+      return
+    getSongs({ mid: PLstore.currentSinger, pn: page.value.pn + 1 })
+  },
+  { distance: 50 },
+)
 
 onMessage('wbiApi', ({ data }) => {
   const { api } = data
@@ -39,7 +56,8 @@ onMessage('wbiApi', ({ data }) => {
       bvid: item.bvid,
     }))
     page.value = c_page
-    songList.value = videoList
+
+    songListByPage.value[c_page.pn] = videoList
   }
   catch (e) {
     // console.log(e)
@@ -60,11 +78,12 @@ function getSongs(params) {
 }
 
 watch(() => PLstore.currentSinger, (mid) => {
+  songListByPage.value = {}
   getSongs({ mid })
 })
 function handlePlayUser() {
-  store.playList = songList.value
-  store.play = songList.value[0]
+  store.playList = renderList.value
+  store.play = renderList.value[0]
 }
 </script>
 
@@ -109,41 +128,24 @@ function handlePlayUser() {
           首歌曲
         </div>
       </div>
-      <!-- 翻页 带图标 -->
-      <div class="flex gap-3">
-        <div
-          class="text-lg cursor-pointer"
-          @click="getSongs({ mid: PLstore.currentSinger, pn: page.pn - 1 })"
-        >
-          上一页
-        </div>
-        <div
-          class="text-lg cursor-pointer"
-          @click="getSongs({ mid: PLstore.currentSinger, pn: page.pn + 1 })"
-        >
-          下一页
-        </div>
-      </div>
       <!-- 搜索 -->
       <div class="flex gap-3">
         <input
           v-model="keyword"
+          placeholder="搜索歌曲"
           bg="$eno-content focus:$eno-content-hover"
           type="text"
-          class="w-40 h-10 border-2 border-gray-200 rounded-2 bg-opacity-0"
+          class="w-40 h-10 px-3 border-2 border-gray-200 rounded-2 bg-opacity-0 outline-none border-none"
           @keyup.enter="getSongs({ mid: PLstore.currentSinger, keyword })"
         >
-        <div class="text-lg cursor-pointer" @click="getSongs({ mid: PLstore.currentSinger, keyword })">
-          搜索
-        </div>
       </div>
     </div>
     <!-- 歌曲滚动区域 -->
-    <div class="h-full overflow-auto px-20">
-      <Loading v-if="loading" />
-      <div v-else class="pb-30 flex flex-col gap-3">
-        <SongItem v-for="song in songList" :key="song.id" :song="song" />
+    <div ref="scrollRef" class="h-full overflow-auto px-20">
+      <div class="pb-30 flex flex-col gap-3">
+        <SongItem v-for="song in renderList" :key="song.id" :song="song" />
       </div>
+      <Loading v-if="loading && !renderList.length" />
     </div>
   </section>
 </template>
