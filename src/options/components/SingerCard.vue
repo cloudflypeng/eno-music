@@ -16,7 +16,7 @@ const avatar = computed(() => info.value?.face || '')
 const name = computed(() => info.value?.name || '')
 const desc = computed(() => {
   const { name } = info.value?.nameplate || {}
-  return `${name}`
+  return `${name || '暂无'}`
 })
 
 function handleSingerDetail(singerMid) {
@@ -34,8 +34,12 @@ function handleSingerDetail(singerMid) {
       :src="avatar" alt="singerAvatar"
       class="w-40 h-40 rounded-full border-2 border-gray-200 cursor-pointer"
     >
-    <div>{{ name }}</div>
-    <div>{{ desc }}</div>
+    <div class="text-[16px] mt-2">
+      {{ name }}
+    </div>
+    <div class="opacity-50 text-[12px]">
+      {{ desc }}
+    </div>
     <!-- 删除 -->
     <div
       v-if="props.canDel"

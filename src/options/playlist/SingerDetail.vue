@@ -3,6 +3,7 @@ import { onMessage, sendMessage } from 'webext-bridge/options'
 import { useBlblStore } from '../blbl/store.js'
 import SongItem from '../components/SongItem.vue'
 import { defaultSingers, usePlaylistStore } from './store'
+import Loading from '~/components/loading/index.vue'
 
 const PLstore = usePlaylistStore()
 const store = useBlblStore()
@@ -12,6 +13,7 @@ const info = computed(() => {
 })
 
 const songList = ref([])
+const loading = ref(false)
 const keyword = ref('')
 const page = ref({
   pn: 1,
@@ -43,9 +45,13 @@ onMessage('wbiApi', ({ data }) => {
     // console.log(e)
     return e
   }
+  finally {
+    loading.value = false
+  }
 })
 
 function getSongs(params) {
+  loading.value = true
   sendMessage(
     'wbiApi',
     { api: 'getUserArc', params },
@@ -130,7 +136,8 @@ function handlePlayUser() {
     </div>
     <!-- 歌曲滚动区域 -->
     <div class="h-full overflow-auto px-20">
-      <div class="pb-30 flex flex-col gap-3">
+      <Loading v-if="loading" />
+      <div v-else class="pb-30 flex flex-col gap-3">
         <SongItem v-for="song in songList" :key="song.id" :song="song" />
       </div>
     </div>

@@ -4,6 +4,7 @@ import { useInfiniteScroll } from '@vueuse/core'
 import cn from 'classnames'
 import SongItem from '../components/SongItem.vue'
 import { useApiClient } from '~/composables/api'
+import Loading from '~/components/loading/index.vue'
 
 const scrollRef = ref(null)
 const pageNum = ref(1)
@@ -59,21 +60,22 @@ async function handleSearch() {
     w-full h-screen overflow-auto flex flex-col
     justify-center items-center relative
   >
-    <div w-100 relative color="$eno-text-1">
+    <div w-100 relative flex gap-3 color="$eno-text-1">
       <input
         id="search"
         v-model="keyword"
         type="text"
         bg="$eno-content focus:$eno-content-hover"
         focus:outline-none focus:shadow-outline
-        :class="cn('w-full px-4 py-2 rounded-lg', { 'animated-gradient': isLoading })"
+        :class="cn('w-full px-4 py-2 rounded-lg')"
         placeholder="bilibili music search"
         @keyup.enter="handleSearch"
       >
-      <div
+      <!-- <div
         absolute right-2 text-xl class="i-tabler:search w-1em h-1em top-[50%] translate-y--1/2"
         @click="handleSearch"
-      />
+      /> -->
+      <Loading v-if="isLoading" />
     </div>
     <!-- 搜索结果 -->
     <div
@@ -87,18 +89,3 @@ async function handleSearch() {
     </div>
   </section>
 </template>
-
-<style scoped>
-.animated-gradient {
-    color: black;
-    background: linear-gradient(90deg, #ffffffaa, #000);
-    background-size: 200% 200%;
-    animation: 1s linear 1s infinite alternate gradient-animation;
-}
-
-@keyframes gradient-animation {
-    0% { background-position: 0% 50%; }
-    50% { background-position: 100% 50%; }
-    100% { background-position: 0% 50%;}
-}
-</style>
