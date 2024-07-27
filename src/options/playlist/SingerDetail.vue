@@ -117,16 +117,16 @@ function handlePlayUser() {
       <div class="text-lg font-bold">
         投稿作品
       </div>
-      <div class="text-[16px] font-bold bg-yellow px-3 py-2 cursor-pointer" @click="handlePlayUser">
+      <div class="text-[16px] font-bold bg-yellow px-2 py-1 cursor-pointer" @click="handlePlayUser">
         播放全部
       </div>
-      <div>
+      <div class="flex items-center gap-3">
         <div class="text-lg font-bold">
           {{ page.count }}
         </div>
-        <div class="text-sm">
+        <span class="text-[10px]">
           首歌曲
-        </div>
+        </span>
       </div>
       <!-- 搜索 -->
       <div class="flex gap-3">
