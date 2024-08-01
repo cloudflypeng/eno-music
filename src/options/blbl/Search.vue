@@ -13,11 +13,18 @@ const api = useApiClient()
 const keyword = ref('')
 const result = ref([])
 const isLoading = ref(false)
+// 单个搜索结果过少时不触发滚动加载
+const enableScrollGetMore = ref(true)
 
+function isUrl(url) {
+  return /bilibili.com/.test(url)
+}
 // 滚动加载
 useInfiniteScroll(
   scrollRef,
   async () => {
+    if (!enableScrollGetMore.value)
+      return
     const moreData = await getMoreData()
     result.value = result.value.concat(moreData)
   },
@@ -48,10 +55,31 @@ async function getMoreData() {
 }
 // 搜索
 async function handleSearch() {
-  pageNum.value = 0
-  result.value = []
-  const newList = await getMoreData()
-  result.value = newList
+  enableScrollGetMore.value = true
+  if (isUrl(keyword.value)) {
+    const bvid = keyword.value.match(/BV([a-zA-Z0-9]+)/)[0]
+    // 获取对应的歌曲
+    const data = await api.blbl.getVideoInfo({
+      bvid,
+    }).then(res => res.data)
+
+    const searchSong = {
+      id: data.id,
+      enu_song_type: 'bvid',
+      cover: data.pic,
+      title: data.title,
+      description: data.description,
+    }
+
+    result.value = [searchSong]
+    enableScrollGetMore.value = false
+  }
+  else {
+    pageNum.value = 0
+    result.value = []
+    const newList = await getMoreData()
+    result.value = newList
+  }
 }
 </script>
 
@@ -68,7 +96,7 @@ async function handleSearch() {
         bg="$eno-content focus:$eno-content-hover"
         focus:outline-none focus:shadow-outline
         :class="cn('w-full px-4 py-2 rounded-lg')"
-        placeholder="bilibili music search"
+        placeholder="关键字 或 原视频链接"
         @keyup.enter="handleSearch"
       >
       <!-- <div
