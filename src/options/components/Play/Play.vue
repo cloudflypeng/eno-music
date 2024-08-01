@@ -125,13 +125,14 @@ watch(() => store.play?.id, async () => {
 })
 // 顺序切换
 function change(type) {
+  const currentLength = store.playList.length
   if (type === 'next')
-    currentIndex.value += 1 % store.playList.length
+    currentIndex.value = (currentIndex.value + 1) % currentLength
   else if (type === 'prev')
-    currentIndex.value -= 1 % store.playList.length
+    currentIndex.value = (currentIndex.value - 1 + currentLength) % currentLength
 
   if (typeof type === 'number')
-    currentIndex.value = type
+    currentIndex.value = type % currentLength
 
   store.play = store.playList[currentIndex.value]
 }
