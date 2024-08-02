@@ -31,6 +31,7 @@
     "typecheck": "tsc --noEmit"
   },
   "dependencies": {
+    "@vueuse/math": "^10.11.0",
     "classnames": "^2.5.1",
     "howler": "^2.2.4",
     "md5": "^2.3.0",

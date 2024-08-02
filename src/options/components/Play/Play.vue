@@ -5,6 +5,7 @@ import cn from 'classnames'
 import SongItem from '../SongItem.vue'
 import { useBlblStore } from '../../blbl/store'
 import LoopSwitch from './LoopSwitch.vue'
+import useControl from './keys'
 import { useApiClient } from '~/composables/api'
 import Dialog from '~/components/dialog/index.vue'
 import Drawer from '~/components/drawer/index.vue'
@@ -25,6 +26,23 @@ const isCloseVoice = ref(false)
 const progressTimer = ref(null)
 const isDragging = ref(false)
 
+useControl({
+  play: () => playControl(),
+  forward: () => changeSeek(10),
+  back: () => changeSeek(-10),
+})
+
+function changeSeek(number) {
+  if (!store.play?.id)
+    return
+  store.howl.pause()
+
+  progress.current = (progress.current + number + progress.total) % progress.total
+  store.howl.seek(progress.current)
+
+  store.howl.play()
+}
+
 function updateProgess() {
   if (!isDragging.value) {
     progress.current = store.howl.seek()
@@ -32,9 +50,6 @@ function updateProgess() {
   }
   if (store.howl.playing())
     requestAnimationFrame(updateProgess)
-}
-function onProgressInput() {
-  isDragging.value = true
 }
 
 function playMusic() {
@@ -154,20 +169,7 @@ const displayData = computed(() => {
     title: store.play.title || '暂无歌曲',
   }
 })
-onMounted(() => {
-  // 绑定空格切换播放暂停
-  window.addEventListener('keydown', (e) => {
-    if (e.code === 'Space') {
-      if (isPlaying.value)
-        store.howl.pause()
-      else
-        store.howl.play()
-    }
-  })
-})
-onUnmounted(() => {
-  window.removeEventListener('keydown', () => { })
-})
+
 function playControl() {
   if (isPlaying.value)
     store.howl.pause()
@@ -266,7 +268,7 @@ function videoToFullScreen() {
       v-model="progress.percent"
       type="range" min="0" max="1" step="0.001"
       class="w-full absolute top-0 left-0 h-1 bg-$eno-fill-2 rounded-1 cursor-pointer play-progress"
-      @input="onProgressInput"
+      @input="isDragging = true"
       @change="changeProgress"
     >
     <!-- 音乐控制 -->
