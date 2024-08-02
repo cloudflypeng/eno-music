@@ -30,7 +30,7 @@ function delSong(playlist, song) {
 </script>
 
 <template>
-  <div class="p-10">
+  <div class="p-10 h-screen overflow-auto pb-25">
     <ImpFav />
     <div v-if="noPlaylist" text-2xl>
       暂无播放列表, 点击左侧新建

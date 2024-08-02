@@ -37,15 +37,18 @@ function clickDialog(e) {
       " @click="clickDialog"
     >
       <div text-3xl mb-2 class="flex justify-between">
-        <div>{{ props.title }}</div>
+        <div text-lg>
+          {{ props.title }}
+        </div>
         <div
           class="i-mingcute:close-fill w-1em h-1em items-center transition-all
           transition-delay-300 hover:transform-rotate-90 cursor-pointer" @click.stop="close"
         />
       </div>
-      <div class="h-[calc(100%-3rem)] max-w-[50vw] overflow-auto flex-1">
+      <div class="h-[calc(100%-5rem)] max-w-[50vw] overflow-auto flex-1">
         <slot />
       </div>
+      <slot name="footer" />
     </dialog>
   </Teleport>
 </template>

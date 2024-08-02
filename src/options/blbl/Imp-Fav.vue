@@ -80,32 +80,45 @@ function addNewPlayList() {
 
 <template>
   <div class="flex">
-    <button @click.stop="open = true">
+    <button class="bg-yellow px-3 py-1 mb-5 text-xl text-black font-bold" @click.stop="open = true">
       导入公开收藏夹
     </button>
     <Dialog :open="open" title="解析公共收藏夹" @visible-change="v => open = v">
       <div class="flex flex-col gap-3">
-        <input
-          v-model="url"
-          type="text"
-          bg="$eno-fill-dark-1 focus:$eno-content-hover"
-          class="w-full px-4 py-2 rounded-lg"
-          focus:outline-none focus:shadow-outline
-          placeholder="收藏夹链接"
-          @keyup.enter="handleSearch"
-        >
+        <div class="flex gap-3">
+          <input
+            v-model="url"
+            type="text"
+            bg="$eno-fill-dark-1 focus:$eno-content-hover"
+            class="w-full px-4 py-2 rounded-4"
+            focus:outline-none focus:shadow-outline
+            placeholder="收藏夹链接"
+            @keyup.enter="handleSearch"
+          >
+          <button class="w-20 h-10 bg-$eno-fill-2 text-white rounded-4 cursor-pointer" @click="handleSearch">
+            解析
+          </button>
+        </div>
+
         <!-- 歌曲列表 -->
         <div class="flex-1 overflow-auto">
           <SongItem
             v-for="song in mediaSong"
             :key="song.id"
             :song="song"
+            del
+            size="mini"
+            :later="false"
+            :star="false"
+            @delete-song="mediaSong = mediaSong.filter(s => s.id !== song.id)"
           />
         </div>
-        <button class="w-full h-10 bg-$eno-fill-2 text-white rounded-4" @click="addNewPlayList">
-          添加
-        </button>
       </div>
+      <template #footer>
+        <button class="w-full h-10 bg-$eno-fill-2 text-white rounded-4" @click="addNewPlayList">
+          添加为歌单
+        </button>
+      </template>
     </Dialog>
   </div>
 </template>
