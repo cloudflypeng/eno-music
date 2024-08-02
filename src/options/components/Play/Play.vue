@@ -1,4 +1,5 @@
 <script setup>
+import { useLocalStorage } from '@vueuse/core'
 import { Howl, Howler } from 'howler'
 import cn from 'classnames'
 import SongItem from '../SongItem.vue'
@@ -19,7 +20,7 @@ const progress = reactive({
   current: 0,
   total: 0,
 })
-const voice = ref(1)
+const voice = useLocalStorage('voice', 1)
 const isCloseVoice = ref(false)
 const progressTimer = ref(null)
 const isDragging = ref(false)
@@ -81,7 +82,7 @@ function playMusic() {
     },
   })
   store.howl.play()
-  voice.value = store.howl.volume()
+  store.howl.volume(voice.value)
   isCloseVoice.value = store.howl.volume() === 0
 }
 async function getBvidUrl(item) {
