@@ -71,9 +71,9 @@ export const usePlaylistStore = defineStore({
         return
       playlist.songs.splice(index, 1)
     },
-    createPlaylist(name: string) {
+    createPlaylist(name: string, songs: song[] = []) {
       const id = nanoid()
-      this.list.push({ id, name, songs: [] })
+      this.list.push({ id, name, songs })
     },
     removePlaylist(playlistId: string | number) {
       const index = this.list.findIndex(p => p.id === playlistId)

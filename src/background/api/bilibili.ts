@@ -189,6 +189,20 @@ const api = {
     },
     afterHandle: AHS.J,
   },
+  // https://api.bilibili.com/x/v3/fav/resource/list
+  // 收藏夹信息
+  [BLBL.GET_FAV_INFO]: {
+    url: `${baseUrl}/x/v3/fav/resource/list`,
+    _fetch: {
+      method: 'get',
+    },
+    params: {
+      media_id: 0,
+      ps: 20,
+      pn: 1,
+    },
+    afterHandle: AHS.J,
+  },
 }
 
 export default api

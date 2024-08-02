@@ -3,6 +3,7 @@ import { computed } from 'vue'
 import SongItem from '../components/SongItem.vue'
 
 import { useBlblStore } from '../blbl/store'
+import ImpFav from '../blbl/Imp-Fav.vue'
 import { usePlaylistStore } from './store'
 
 const store = useBlblStore()
@@ -30,6 +31,7 @@ function delSong(playlist, song) {
 
 <template>
   <div class="p-10">
+    <ImpFav />
     <div v-if="noPlaylist" text-2xl>
       暂无播放列表, 点击左侧新建
     </div>
