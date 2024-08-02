@@ -95,7 +95,7 @@ function addNewPlayList() {
             placeholder="收藏夹链接"
             @keyup.enter="handleSearch"
           >
-          <button class="w-20 h-10 bg-$eno-fill-2 text-white rounded-4 cursor-pointer" @click="handleSearch">
+          <button class="btn-primary w-20" @click="handleSearch">
             解析
           </button>
         </div>
@@ -115,7 +115,7 @@ function addNewPlayList() {
         </div>
       </div>
       <template #footer>
-        <button class="w-full h-10 bg-$eno-fill-2 text-white rounded-4" @click="addNewPlayList">
+        <button class="w-full btn-primary" @click="addNewPlayList">
           添加为歌单
         </button>
       </template>

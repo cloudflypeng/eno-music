@@ -42,6 +42,10 @@ export const usePlaylistStore = defineStore({
     singerCardCache: useLocalStorage('singerCardCache', {} as Record<string, any>),
     // 当前选中的歌手
     currentSinger: null as string | null,
+    // 打开合集
+    openCollection: false,
+    collectionInfo: {} as object,
+    collectionSongs: [] as song[],
   }),
   actions: {
     startAddSong(song: song) {

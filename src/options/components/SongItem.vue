@@ -2,6 +2,7 @@
 import { computed, defineEmits, defineProps, ref } from 'vue'
 import { useBlblStore } from '../blbl/store.js'
 import { usePlaylistStore } from '../playlist/store.ts'
+import { useApiClient } from '~/composables/api'
 
 const props = defineProps({
   song: {
@@ -21,6 +22,10 @@ const props = defineProps({
     type: Boolean,
     default: false,
   },
+  checkPages: {
+    type: Boolean,
+    default: false,
+  },
   later: {
     type: Boolean,
     default: true,
@@ -28,11 +33,14 @@ const props = defineProps({
 })
 
 const emit = defineEmits(['delete-song'])
+
+const api = useApiClient()
+
 const store = useBlblStore()
 const PLstore = usePlaylistStore()
 
-const { later, del, star } = props
-const { cover, title, author } = props.song
+const { later, del, star, checkPages } = props
+const { cover, title, author, pages } = props.song
 
 const styleBySize = computed(() => {
   if (props.size === 'mini') {
@@ -52,10 +60,32 @@ const styleBySize = computed(() => {
     }
   }
 })
+
+async function handleClick() {
+  if (!checkPages) {
+    store.startPlay(props.song)
+    return
+  }
+  // 计算分P数据
+  const item = await api.blbl.getVideoInfo({
+    bvid: props.song.bvid,
+  }).then(res => res.data)
+
+  if (item.pages.length > 1 && props.song) {
+    PLstore.openCollection = true
+    PLstore.collectionInfo = {
+      ...props.song,
+      pages: item.pages,
+    }
+  }
+  else {
+    store.startPlay(props.song)
+  }
+}
 </script>
 
 <template>
-  <div :class="styleBySize.wrapper" @click="store.startPlay(song)">
+  <div :class="styleBySize.wrapper" @click="handleClick">
     <img
       :src="cover" :class="styleBySize.img"
     >
@@ -63,6 +93,7 @@ const styleBySize = computed(() => {
       <div class="h-15 pt-1">
         <div :class="styleBySize.title" v-html="title" />
         <div :class="styleBySize.author">
+          <span v-if="pages">是合集</span>
           {{ author }}
         </div>
       </div>
@@ -84,5 +115,6 @@ const styleBySize = computed(() => {
   overflow: hidden;
   /* 子元素上下居中 */
   align-items: center;
+  flex-shrink: 0;
 }
 </style>

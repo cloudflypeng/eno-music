@@ -52,10 +52,8 @@ function delSong(playlist, song) {
               v-else class="i-mingcute:folder-open-2-fill w-1em h-1em" cursor-pointer
               @click.stop="currentOpen = null"
             />
-            <h2 class="w-40 truncate">
-              {{ playlist.name }}
-              <span class="mx-2 text-lg">({{ playlist.songs.length }})</span>
-            </h2>
+            <h2 class="max-w-[50vw] truncate" v-html="playlist.name" />
+            <span class="mx-2 text-lg">({{ playlist.songs.length }})</span>
           </div>
           <div class="flex gap-3">
             <div
@@ -68,7 +66,7 @@ function delSong(playlist, song) {
         <!-- 歌曲列表 -->
         <div
           v-if="isMyOpen(playlist)"
-          class="flex gap-3 flex-col w-full py-3 wrapper-transition fadeItem text-[16px]"
+          class="flex gap-3 flex-col w-full py-3 wrapper-transition fadeItem text-[16px] max-h-80 overflow-auto"
         >
           <SongItem
             v-for="song in renderSong(playlist)" :key="song?.id || song?.bvid" :song="song"

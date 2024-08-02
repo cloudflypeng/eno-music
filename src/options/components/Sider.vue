@@ -66,6 +66,8 @@ const tabClass = computed(() => {
           v-model="playlistName" type="text"
           class="border-none outline-none bg-$eno-content-hover h-10 px-3 autofocus rounded-4" placeholder="请输入播放列表名称"
         >
+      </div>
+      <template #footer>
         <div class="opt flex flex-row-reverse text-lg gap-3">
           <div class="bg-$eno-fill-2 px-6 py-1 rounded-10 cursor-pointer" @click.stop="createPlaylist">
             新建
@@ -74,7 +76,7 @@ const tabClass = computed(() => {
             取消
           </div>
         </div>
-      </div>
+      </template>
     </Dialog>
     <TabItem :tab="{ icon: 'i-mingcute:group-2-fill', title: '关注的音乐人', mode: 'singerList' }" :open="open" />
     <TabItem class="h-13" :tab="{ icon: 'i-mingcute:time-fill', mode: 'listenLater' }" :open="open">

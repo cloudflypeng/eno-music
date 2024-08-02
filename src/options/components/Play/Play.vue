@@ -104,8 +104,25 @@ async function getBvidUrl(item) {
   const { cid } = await api.blbl.getVideoInfo({
     bvid: item.bvid,
   }).then(res => res.data)
+
   const dash = await api.blbl.getAudioOfVideo({
     cid,
+    bvid: item.bvid,
+  }).then(res => res.data.dash)
+
+  const url = dash.audio[0].baseUrl
+  const video = dash.video[0].baseUrl
+
+  return {
+    ...item,
+    url,
+    video,
+    dash,
+  }
+}
+async function getCidUrl(item) {
+  const dash = await api.blbl.getAudioOfVideo({
+    cid: item.cid,
     bvid: item.bvid,
   }).then(res => res.data.dash)
 
@@ -135,7 +152,9 @@ watch(() => store.play?.id, async () => {
   const currentSong = store.play
   const play = currentSong.enu_song_type === 'bvid'
     ? await getBvidUrl(currentSong)
-    : await getSidUrl(currentSong)
+    : currentSong.enu_song_type === 'cid'
+      ? await getCidUrl(currentSong)
+      : await getSidUrl(currentSong)
   store.play = play
   playMusic()
 })

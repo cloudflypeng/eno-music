@@ -3,6 +3,7 @@ import { computed, onMounted, ref } from 'vue'
 import { useInfiniteScroll } from '@vueuse/core'
 import cn from 'classnames'
 import SongItem from '../components/SongItem.vue'
+import AddCollection from '../playlist/AddCollection.vue'
 import { useApiClient } from '~/composables/api'
 import Loading from '~/components/loading/index.vue'
 
@@ -42,14 +43,15 @@ async function getMoreData() {
 
   return res.data.result.map((item) => {
     return {
-      id: item.id,
+      id: item.id || item.bvid,
       enu_song_type: 'bvid',
       cover: `http:${item.pic}`,
       title: item.title,
-      description: item.description,
-      author: item.author,
+      description: item.description || item.desc,
+      author: item.author || item.owner?.name || '未知',
       duration: item.duration,
       bvid: item.bvid,
+      pages: item.pages,
     }
   })
 }
@@ -59,16 +61,20 @@ async function handleSearch() {
   if (isUrl(keyword.value)) {
     const bvid = keyword.value.match(/BV([a-zA-Z0-9]+)/)[0]
     // 获取对应的歌曲
-    const data = await api.blbl.getVideoInfo({
+    const item = await api.blbl.getVideoInfo({
       bvid,
     }).then(res => res.data)
 
     const searchSong = {
-      id: data.id,
+      id: item.id || item.bvid,
       enu_song_type: 'bvid',
-      cover: data.pic,
-      title: data.title,
-      description: data.description,
+      cover: item.pic,
+      title: item.title,
+      description: item.description || item.desc,
+      author: item.author || item.owner?.name || '未知',
+      duration: item.duration,
+      bvid: item.bvid,
+      pages: item.pages,
     }
 
     result.value = [searchSong]
@@ -88,6 +94,7 @@ async function handleSearch() {
     w-full h-screen overflow-auto flex flex-col
     justify-center items-center relative
   >
+    <AddCollection />
     <div w-100 relative flex gap-3 color="$eno-text-1">
       <input
         id="search"
@@ -113,7 +120,7 @@ async function handleSearch() {
       w-full overflow-auto
       mt-4 px-20 pb-30
     >
-      <SongItem v-for="item in result" :key="item.bvid" :song="item" />
+      <SongItem v-for="item in result" :key="item.bvid" :song="item" check-pages />
     </div>
   </section>
 </template>
