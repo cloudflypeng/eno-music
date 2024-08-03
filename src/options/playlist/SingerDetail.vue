@@ -135,7 +135,7 @@ function handlePlayUser() {
           placeholder="搜索歌曲"
           bg="$eno-content focus:$eno-content-hover"
           type="text"
-          class="w-40 h-10 px-3 border-2 border-gray-200 rounded-2 bg-opacity-0 outline-none border-none"
+          class="w-40 h-10 px-5  bg-opacity-0 eno-input"
           @keyup.enter="getSongs({ mid: PLstore.currentSinger, keyword })"
         >
       </div>
