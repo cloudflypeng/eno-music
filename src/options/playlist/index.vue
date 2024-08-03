@@ -39,7 +39,7 @@ function delSong(playlist, song) {
     <div class="flex flex-col text-left gap-5">
       <!-- 循环歌单列表 -->
       <section
-        v-for="playlist in list" :key="playlist.name" class="w-full px-5 py-1" border="1 $eno-border"
+        v-for="playlist in list" :key="playlist.name" class="w-full px-5 py-1 has-border"
         bg="$eno-content" rounded-lg
       >
         <div class="flex justify-between items-center w-full">

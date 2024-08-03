@@ -1,5 +1,6 @@
 <script setup>
 import { computed, defineEmits, defineProps, ref } from 'vue'
+import cn from 'classnames'
 import { useBlblStore } from '../blbl/store.js'
 import { usePlaylistStore } from '../playlist/store.ts'
 import { useApiClient } from '~/composables/api'
@@ -45,18 +46,18 @@ const { cover, title, author, pages } = props.song
 const styleBySize = computed(() => {
   if (props.size === 'mini') {
     return {
-      wrapper: `song-item grid-cols-[4.5rem_1fr_90px]  text-lg cursor-pointer h-15 hover:bg-$eno-fill-2 rounded-4 px-2`,
+      wrapper: `grid-cols-[5.5rem_1fr_90px]`,
       title: 'text-[12px] font-bold w-full truncate',
       author: 'text-xs opacity-50',
-      img: 'w-15 rounded-2 object-cover',
+      img: 'h-11 rounded-2 object-cover',
     }
   }
   else {
     return {
-      wrapper: `song-item grid-cols-[5.5rem_1fr_90px] text-lg cursor-pointer h-15 hover:bg-$eno-fill-2 rounded-4 px-2`,
+      wrapper: `grid-cols-[5.5rem_1fr_90px]`,
       title: 'text-[16px] font-bold truncate ',
       author: 'text-xs opacity-50',
-      img: 'w-[5rem] rounded-2 object-cover',
+      img: 'h-11 rounded-2 object-cover',
     }
   }
 })
@@ -85,7 +86,7 @@ async function handleClick() {
 </script>
 
 <template>
-  <div :class="styleBySize.wrapper" @click="handleClick">
+  <div :class="cn('song-item text-lg h-15 hov-item pr-5', styleBySize.wrapper)" @click="handleClick">
     <img
       :src="cover" :class="styleBySize.img"
     >
@@ -116,5 +117,6 @@ async function handleClick() {
   /* 子元素上下居中 */
   align-items: center;
   flex-shrink: 0;
+  transition: all 0.3s;
 }
 </style>

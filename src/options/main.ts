@@ -11,6 +11,3 @@ app.use(pinia)
 
 setupApp(app)
 app.mount('#app')
-// TODO: ann a new page about the custom playlist just like the official playlist
-// TODO: add a message Component to show the message
-// TODO: fix onEnd in the play component

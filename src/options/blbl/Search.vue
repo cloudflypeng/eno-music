@@ -95,21 +95,20 @@ async function handleSearch() {
     justify-center items-center relative
   >
     <AddCollection />
-    <div w-100 relative flex gap-3 color="$eno-text-1">
+    <div class="w-[35vw] relative flex gap-3" color="$eno-text-1">
       <input
         id="search"
         v-model="keyword"
         type="text"
         bg="$eno-content focus:$eno-content-hover"
-        focus:outline-none focus:shadow-outline
-        :class="cn('w-full px-4 py-2 rounded-lg')"
+        :class="cn('w-full px-8 py-2 h-12 eno-input text-lg')"
         placeholder="关键字 或 原视频链接"
         @keyup.enter="handleSearch"
       >
-      <!-- <div
-        absolute right-2 text-xl class="i-tabler:search w-1em h-1em top-[50%] translate-y--1/2"
+      <div
+        absolute right-5 text-xl class="i-tabler:search w-1em h-1em top-[50%] translate-y--1/2"
         @click="handleSearch"
-      /> -->
+      />
       <Loading v-if="isLoading" />
     </div>
     <!-- 搜索结果 -->

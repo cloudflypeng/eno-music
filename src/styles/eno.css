@@ -1,0 +1,18 @@
+.eno-input{
+    border-radius: 10cqh;
+    box-sizing: border-box;
+
+    border-color: none;
+    outline: none;
+    outline-width: 2px;
+    transition: all 0.3s;
+    transition-timing-function: ease-in-out;
+    border: 1px solid rgba(0, 0, 0, 0.2);
+}
+.eno-input:focus{
+    border-radius: 2cqh;
+    border-color: yellow;
+    box-shadow: 0 0 10px yellow;
+    outline: none;
+    outline-width: 2px;
+}
