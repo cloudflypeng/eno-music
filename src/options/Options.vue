@@ -1,6 +1,5 @@
 <!-- eslint-disable no-console -->
 <script setup>
-import { provide, ref } from 'vue'
 import { useLocalStorage } from '@vueuse/core'
 
 import Play from './components/Play/Play.vue'

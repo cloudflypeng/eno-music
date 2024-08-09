@@ -1,5 +1,5 @@
 <script setup>
-import { computed, onMounted, ref } from 'vue'
+import { ref } from 'vue'
 import { useInfiniteScroll } from '@vueuse/core'
 import cn from 'classnames'
 import SongItem from '../components/SongItem.vue'
@@ -90,20 +90,12 @@ async function handleSearch() {
 </script>
 
 <template>
-  <section
-    w-full h-screen overflow-auto flex flex-col
-    justify-center items-center relative
-  >
+  <section w-full h-screen overflow-auto flex flex-col justify-center items-center relative>
     <AddCollection />
     <div class="w-[35vw] relative flex gap-3" color="$eno-text-1">
       <input
-        id="search"
-        v-model="keyword"
-        type="text"
-        bg="$eno-content focus:$eno-content-hover"
-        :class="cn('w-full px-8 py-2 h-12 eno-input text-lg')"
-        placeholder="关键字 或 原视频链接"
-        @keyup.enter="handleSearch"
+        id="search" v-model="keyword" type="text" bg="$eno-content focus:$eno-content-hover"
+        :class="cn('w-full px-8 py-2 h-12 eno-input text-lg')" placeholder="关键字 或 原视频链接" @keyup.enter="handleSearch"
       >
       <div
         absolute right-5 text-xl class="i-tabler:search w-1em h-1em top-[50%] translate-y--1/2"
@@ -112,13 +104,7 @@ async function handleSearch() {
       <Loading v-if="isLoading" />
     </div>
     <!-- 搜索结果 -->
-    <div
-      v-if="result.length"
-      ref="scrollRef"
-      class="h-[calc(100vh-10rem)]"
-      w-full overflow-auto
-      mt-4 px-20 pb-30
-    >
+    <div v-if="result.length" ref="scrollRef" class="h-[calc(100vh-10rem)]" w-full overflow-auto mt-4 px-20 pb-30>
       <SongItem v-for="item in result" :key="item.bvid" :song="item" check-pages />
     </div>
   </section>

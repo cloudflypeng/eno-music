@@ -1,6 +1,6 @@
 <script setup>
 import { useLocalStorage } from '@vueuse/core'
-import { Howl, Howler } from 'howler'
+import { Howl } from 'howler'
 import cn from 'classnames'
 import SongItem from '../SongItem.vue'
 import { useBlblStore } from '../../blbl/store'

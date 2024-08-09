@@ -5,7 +5,6 @@ import { cloneDeep } from 'lodash'
 import SongItem from '../components/SongItem.vue'
 import { useBlblStore } from './store'
 import Rank from './rank.vue'
-import { useApiClient } from '~/composables/api'
 
 const store = useBlblStore()
 const scrollRef = ref(null)

@@ -1,9 +1,6 @@
 import { useActiveElement, useMagicKeys, whenever } from '@vueuse/core'
 import { logicAnd } from '@vueuse/math'
 
-// @ts-expect-error js文件
-import { useBlblStore } from '../../blbl/store'
-
 interface ControlOptions {
   play: () => void
   forward?: () => void
