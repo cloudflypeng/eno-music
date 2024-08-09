@@ -22,6 +22,7 @@ const store = useBlblStore()
 const CST = useLocalStorage('cookieSetTime', 0)
 
 function getCookie() {
+  // 这部分暂时不删除, 调试太麻烦
   const domain = 'https://api.bilibili.com'
   fetch(domain, {
     method: 'GET',
@@ -37,7 +38,21 @@ function getCookie() {
   })
 }
 
+function getBLCookie() {
+  chrome.cookies.getAll({ domain: '.bilibili.com' }, (cookies) => {
+    if (cookies.length > 0) {
+      const cookieString = cookies.map(cookie => `${cookie.name}=${cookie.value}`).join('; ')
+      console.log('Bilibili cookies:', cookieString)
+      chrome.cookies.set(cookieString)
+      // You can store or use the cookieString as needed
+    }
+    else {
+      console.log('No Bilibili cookies found')
+    }
+  })
+}
 onMounted(() => {
+  getBLCookie()
   // 每天获取一次cookie就可以
   if (Date.now() - CST.value > 24 * 60 * 60 * 1000) {
     CST.value = Date.now()
@@ -68,12 +83,14 @@ onMounted(() => {
 </template>
 
 <style>
-html{
+html {
   background: #000;
 }
+
 *::-webkit-scrollbar {
   display: none;
 }
+
 img {
   position: relative;
 
@@ -88,16 +105,20 @@ img {
     background-repeat: no-repeat;
   }
 }
-.fadeInWrapper > * {
+
+.fadeInWrapper>* {
   animation: fadeIn 0.5s;
 }
+
 .fadeItem {
   animation: fadeIn 0.5s;
 }
+
 @keyframes fadeIn {
   from {
     opacity: 0;
   }
+
   to {
     opacity: 1;
   }
