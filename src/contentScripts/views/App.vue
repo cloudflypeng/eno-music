@@ -1,6 +1,7 @@
-<script setup lang="ts">
-import { useToggle } from '@vueuse/core'
+<script lang="ts" setup>
 import 'uno.css'
+
+import { useToggle } from '@vueuse/core'
 
 const [show, toggle] = useToggle(false)
 </script>
