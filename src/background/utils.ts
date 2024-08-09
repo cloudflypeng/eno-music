@@ -13,7 +13,7 @@ function toData(data: Promise<any>): Promise<any> {
 
 // if need sendResponse, use this
 // return a FetchAfterHandler function
-function sendResponseHandler(sendResponse: Function) {
+function sendResponseHandler(sendResponse: any) {
   return (data: any) => sendResponse(data)
 }
 
@@ -52,14 +52,14 @@ interface API {
   afterHandle: ((response: Response) => Response | Promise<Response>)[]
 }
 // 重载API 可以为函数
-type APIFunction = (message: Message, sender?: any, sendResponse?: Function) => any
+type APIFunction = (message: Message, sender?: any, sendResponse?: any) => any
 type APIType = API | APIFunction
 interface APIMAP {
   [key: string]: APIType
 }
 // 工厂函数API_LISTENER_FACTORY
 function apiListenerFactory(API_MAP: APIMAP) {
-  return (message: Message, sender?: any, sendResponse?: Function) => {
+  return (message: Message, sender?: any, sendResponse?: any) => {
     const contentScriptQuery = message.contentScriptQuery
     // 检测是否有contentScriptQuery
     if (!contentScriptQuery || !API_MAP[contentScriptQuery])
@@ -88,8 +88,11 @@ function apiListenerFactory(API_MAP: APIMAP) {
       // generate params
       if (Object.keys(targetParams).length) {
         const urlParams = new URLSearchParams()
-        for (const key in targetParams)
-          targetParams[key] && urlParams.append(key, targetParams[key])
+        for (const key in targetParams) {
+          if (targetParams[key])
+            urlParams.append(key, targetParams[key])
+        }
+
         url += `?${urlParams.toString()}`
       }
       // generate body
@@ -100,7 +103,9 @@ function apiListenerFactory(API_MAP: APIMAP) {
       }
       // get cant take body
       const fetchOpt = { method, headers }
-      !isGET && Object.assign(fetchOpt, { body: targetBody })
+      if (!isGET) {
+        Object.assign(fetchOpt, { body: targetBody })
+      }
 
       // fetch and after handle
       let baseFunc = fetch(url, fetchOpt)
