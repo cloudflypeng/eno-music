@@ -31,6 +31,10 @@ const props = defineProps({
     type: Boolean,
     default: true,
   },
+  showActive: {
+    type: Boolean,
+    default: true,
+  },
 })
 
 const emit = defineEmits(['delete-song'])
@@ -43,12 +47,22 @@ const PLstore = usePlaylistStore()
 const { later, del, star, checkPages } = props
 const { cover, title, author, pages } = props.song
 
+const isPlaying = computed(() => {
+  if (!props.showActive)
+    return false
+  const current = store.play
+
+  if (current.bvid === props.song.bvid) {
+    return true
+  }
+  return false
+})
+
 const styleBySize = computed(() => {
   if (props.size === 'mini') {
     return {
       wrapper: `grid-cols-[5.5rem_1fr_90px]`,
       title: 'text-[12px] font-bold w-full truncate',
-      author: 'text-xs opacity-50',
       img: 'h-11 rounded-2 object-cover',
     }
   }
@@ -56,7 +70,6 @@ const styleBySize = computed(() => {
     return {
       wrapper: `grid-cols-[5.5rem_1fr_90px]`,
       title: 'text-[16px] font-bold truncate ',
-      author: 'text-xs opacity-50',
       img: 'h-11 rounded-2 object-cover',
     }
   }
@@ -87,15 +100,18 @@ async function handleClick() {
 
 <template>
   <div :class="cn('song-item text-lg h-15 hov-item pr-5', styleBySize.wrapper)" @click="handleClick">
-    <img
-      :src="cover" :class="styleBySize.img"
-    >
+    <img :src="cover" :class="styleBySize.img">
     <div class="w-full overflow-auto" :title="title">
       <div class="h-15 pt-1">
         <div :class="styleBySize.title" v-html="title" />
-        <div :class="styleBySize.author">
+        <div :class="styleBySize.author" class="flex gap-2">
           <span v-if="pages">是合集</span>
-          {{ author }}
+          <span v-if="isPlaying">
+            <div class="i-svg-spinners:bars-scale w-1em h-1em text-[#fffb00]" />
+          </span>
+          <span class="text-xs opacity-50">
+            {{ author }}
+          </span>
         </div>
       </div>
     </div>

@@ -284,11 +284,9 @@ function videoToFullScreen() {
     <div class="w-screen top-0 left-0 absolute h-[2px] bg-yellow" :style="progressTrans" />
     <!-- 音乐滑块 -->
     <input
-      v-model="progress.percent"
-      type="range" min="0" max="1" step="0.001"
+      v-model="progress.percent" type="range" min="0" max="1" step="0.001"
       class="w-full absolute top-0 left-0 h-1 bg-$eno-fill-2 rounded-1 cursor-pointer play-progress"
-      @input="isDragging = true"
-      @change="changeProgress"
+      @input="isDragging = true" @change="changeProgress"
     >
     <!-- 音乐控制 -->
     <div flex flex-row items-center text-2xl gap-10 w-100>
@@ -335,11 +333,14 @@ function videoToFullScreen() {
     </div>
     <!-- 其他 -->
     <div flex flex-row-reverse text-lg gap-5 w-100>
-      <div v-if="fullScreenStatus" cursor-pointer class="i-mingcute:fullscreen-fill w-1em h-1em" @click.stop="fullScreenTheBody" />
+      <div
+        v-if="fullScreenStatus" cursor-pointer class="i-mingcute:fullscreen-fill w-1em h-1em"
+        @click.stop="fullScreenTheBody"
+      />
       <div v-else cursor-pointer class="i-mingcute:fullscreen-exit-fill w-1em h-1em" @click.stop="fullScreenTheBody" />
       <div cursor-pointer class="i-tabler:playlist w-1em h-1em" @click="toggleList" />
       <Dialog :open="showList" title="播放列表" @visible-change="vis => showList = vis">
-        <SongItem v-for="song in store.playList" :key="song.id" :song="song" size="mini" />
+        <SongItem v-for="song in store.playList" :key="song.id" show-active :song="song" size="mini" />
       </Dialog>
       <div v-if="isCloseVoice" cursor-pointer class="i-mingcute:volume-mute-line w-1em h-1em" @click.stop="setVoice" />
       <div v-else cursor-pointer class="i-mingcute:volume-line w-1em h-1em" @click.stop="setVoice" />
@@ -422,7 +423,8 @@ input[type="range"]::-webkit-slider-thumb {
   margin-top: -4px;
   position: relative;
 }
-input[type="range"]::-webkit-slider-thumb:hover{
+
+input[type="range"]::-webkit-slider-thumb:hover {
   box-shadow: 0px 0px 0px 8px rgba(200, 200, 20, 0.16);
   transition: 0.3s ease-in-out;
 }

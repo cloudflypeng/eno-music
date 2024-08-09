@@ -31,8 +31,7 @@ function clickDialog(e) {
 <template>
   <Teleport to="body">
     <dialog
-      v-show="open" ref="dialogRef"
-      class="bg-$eno-elevated backdrop-blur p-3 rounded-lg h-[50vh] min-w-1/3 max-w-1/2
+      v-show="open" ref="dialogRef" class="bg-$eno-elevated backdrop-blur p-3 rounded-lg h-[50vh] min-w-1/3 max-w-1/2
         text-white fadeItem
       " @click="clickDialog"
     >
@@ -45,7 +44,7 @@ function clickDialog(e) {
           transition-delay-300 hover:transform-rotate-90 cursor-pointer" @click.stop="close"
         />
       </div>
-      <div class="h-[calc(100%-5rem)] max-w-[50vw] overflow-auto flex-1">
+      <div class="h-[calc(100%-5rem)] max-w-[50vw] overflow-auto flex-1 p-3">
         <slot />
       </div>
       <slot name="footer" />
