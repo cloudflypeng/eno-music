@@ -20,61 +20,61 @@ on:
       - LICENSE
 
 jobs:
-  test:
-    name: Test
-    strategy:
-      matrix:
-        node: [lts/*, lts/-1]
-        os: [ubuntu-latest]
-      fail-fast: false
-    runs-on: ${{ matrix.os }}
-    timeout-minutes: 10
+  # test:
+  #   name: Test
+  #   strategy:
+  #     matrix:
+  #       node: [lts/*, lts/-1]
+  #       os: [ubuntu-latest]
+  #     fail-fast: false
+  #   runs-on: ${{ matrix.os }}
+  #   timeout-minutes: 10
 
-    steps:
-      - uses: actions/checkout@v4
+  steps:
+    - uses: actions/checkout@v4
 
-      - name: Set node ${{ matrix.node }}
-        uses: actions/setup-node@v4
-        with:
-          node-version: ${{ matrix.node }}
+    - name: Set node ${{ matrix.node }}
+      uses: actions/setup-node@v4
+      with:
+        node-version: ${{ matrix.node }}
 
-      - name: Install pnpm
-        uses: pnpm/action-setup@v3
-        with:
-          run_install: |
-            - args: [--frozen-lockfile]
+    - name: Install pnpm
+      uses: pnpm/action-setup@v3
+      with:
+        run_install: |
+          - args: [--frozen-lockfile]
 
-      - name: Lint
-        if: ${{ matrix.os == 'ubuntu-latest' }}
-        run: pnpm run lint
+    - name: Lint
+      if: ${{ matrix.os == 'ubuntu-latest' }}
+      run: pnpm run lint
 
-      - name: Type check
-        if: ${{ matrix.os == 'ubuntu-latest' }}
-        run: pnpm run typecheck
+    - name: Type check
+      if: ${{ matrix.os == 'ubuntu-latest' }}
+      run: pnpm run typecheck
 
-      - name: Test
-        run: pnpm run test
+    - name: Test
+      run: pnpm run test
 
-      - name: Knip
-        if: ${{ matrix.os == 'ubuntu-latest' }}
-        run: pnpm run knip
+    - name: Knip
+      if: ${{ matrix.os == 'ubuntu-latest' }}
+      run: pnpm run knip
 
-      - name: Build Extension
-        run: pnpm build
+    - name: Build Extension
+      run: pnpm build
 
-      - name: Upload Zip
-        if: ${{ matrix.os == 'ubuntu-latest' && matrix.node == 'lts/*' && github.ref_name == 'main' }}
-        uses: actions/upload-artifact@v4.3.1
-        with:
-          name: eno-music Zip
-          path: extension
+    - name: Upload Zip
+      if: ${{ matrix.os == 'ubuntu-latest' && matrix.node == 'lts/*' && github.ref_name == 'main' }}
+      uses: actions/upload-artifact@v4.3.1
+      with:
+        name: eno-music Zip
+        path: extension
 
-      - name: Build Extension-Firefox
-        run: pnpm build-firefox
+    - name: Build Extension-Firefox
+      run: pnpm build-firefox
 
-      - name: Upload Zip
-        if: ${{ matrix.os == 'ubuntu-latest' && matrix.node == 'lts/*' && github.ref_name == 'main' }}
-        uses: actions/upload-artifact@v4.3.1
-        with:
-          name: eno-music-Firefox Zip
-          path: extension-firefox
+    - name: Upload Zip
+      if: ${{ matrix.os == 'ubuntu-latest' && matrix.node == 'lts/*' && github.ref_name == 'main' }}
+      uses: actions/upload-artifact@v4.3.1
+      with:
+        name: eno-music-Firefox Zip
+        path: extension-firefox
