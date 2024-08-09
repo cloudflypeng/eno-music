@@ -39,6 +39,7 @@
     "pinia": "^2.1.7",
     "prettier": "^3.3.2",
     "prettier-plugin-tailwindcss": "^0.6.5",
+    "release-it-pnpm": "^4.6.3",
     "uuid": "^10.0.0"
   },
   "devDependencies": {
