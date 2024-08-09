@@ -1,6 +1,7 @@
 <!-- eslint-disable no-console -->
 <script setup>
 import { onMounted } from 'vue'
+import { cloneDeep } from 'lodash'
 import SongItem from '../components/SongItem.vue'
 import { useBlblStore } from './store'
 import Rank from './rank.vue'
@@ -21,12 +22,18 @@ function scroll(direction) {
   else
     scrollRef.value.scrollLeft = scrollLeft + scrollDistance
 }
+function handlePlayRank() {
+  store.playList = cloneDeep(store.musicRankList)
+
+  store.play = store.musicRankList[0] || {}
+}
 </script>
 
 <template>
   <section w-full h-screen overflow-auto>
     <!-- bilibili音乐榜 -->
-    <h5 text="2xl $eno-text-1 fw-600" class="py-5 text-left px-10">
+    <h5 text="2xl $eno-text-1 fw-600" class="py-5 text-left px-10 flex items-center gap-3">
+      <div class="i-mingcute:play-circle-line w-1em h-1em cursor-pointer" @click="handlePlayRank" />
       bilibili音乐榜
       <span text="sm $eno-text-2" class="ml-2">
         (每周五18:00更新)
@@ -72,8 +79,8 @@ function scroll(direction) {
 <style>
 .wrapper-scroll {
   mask-image: linear-gradient(to bottom,
-    transparent,
-    #000 0% 80%,
-    transparent);
+      transparent,
+      #000 0% 80%,
+      transparent);
 }
 </style>

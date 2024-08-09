@@ -52,7 +52,7 @@ const isPlaying = computed(() => {
     return false
   const current = store.play
 
-  if (current.bvid === props.song.bvid) {
+  if (current?.bvid === props.song.bvid) {
     return true
   }
   return false

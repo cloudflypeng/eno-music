@@ -49,7 +49,7 @@ export const useBlblStore = defineStore({
       this.getHitList()
       this.initBiliMusic()
     },
-    // 按时间决定时候要初始化 bilibili音乐榜单
+    // TODO: 按时间决定时候要初始化 bilibili音乐榜单
     initBiliMusic() {
       api.biliMusic.getMusicRank().then((res) => {
         const { data: { list } } = res
