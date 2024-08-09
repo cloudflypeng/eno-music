@@ -1,73 +1,27 @@
-name: Build and Release
-
+name: tt-mouse-build
 on:
   push:
     tags:
-      - '*'
+      - '*.*.*'
+  workflow_dispatch:
 
 jobs:
-  build-and-release:
-    runs-on: ubuntu-latest
+  build:
+    runs-on: macos-latest
     steps:
-      - name: Checkout code
-        uses: actions/checkout@v3
-
-      - name: Setup Node.js
-        uses: actions/setup-node@v3
+      - name: Set up Node.js
+        uses: actions/setup-node@v4
         with:
-          node-version: '18'
+          node-version: '20' # 指定Node.js版本，例如16
 
-      - name: Setup pnpm
-        uses: pnpm/action-setup@v2
+      - name: install dependencies
+        run: npm install
+
+      - name: build
+        run: sudo npm run build
+
+      - name: upload artifact
+        uses: actions/upload-artifact@v4
         with:
-          version: 8.15.4
-
-      - name: Install dependencies
-        run: pnpm install
-
-      - name: Build project
-        run: pnpm run build
-
-      - name: Pack project
-        run: pnpm run pack
-
-      - name: Create Release
-        id: create_release
-        uses: actions/create-release@v1
-        env:
-          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-        with:
-          tag_name: ${{ github.ref }}
-          release_name: Release ${{ github.ref }}
-          draft: false
-          prerelease: false
-
-      - name: Upload ZIP Release Asset
-        uses: actions/upload-release-asset@v1
-        env:
-          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-        with:
-          upload_url: ${{ steps.create_release.outputs.upload_url }}
-          asset_path: ./extension.zip
-          asset_name: extension-${{ github.ref_name }}.zip
-          asset_content_type: application/zip
-
-      - name: Upload CRX Release Asset
-        uses: actions/upload-release-asset@v1
-        env:
-          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-        with:
-          upload_url: ${{ steps.create_release.outputs.upload_url }}
-          asset_path: ./extension.crx
-          asset_name: extension-${{ github.ref_name }}.crx
-          asset_content_type: application/x-chrome-extension
-
-      - name: Upload XPI Release Asset
-        uses: actions/upload-release-asset@v1
-        env:
-          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-        with:
-          upload_url: ${{ steps.create_release.outputs.upload_url }}
-          asset_path: ./extension.xpi
-          asset_name: extension-${{ github.ref_name }}.xpi
-          asset_content_type: application/x-xpinstall
+          name: ttmouse
+          path: .output/chrome-mv3
