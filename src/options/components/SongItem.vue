@@ -1,5 +1,5 @@
 <script setup>
-import { computed, defineEmits, defineProps, ref } from 'vue'
+import { computed, defineEmits, defineProps } from 'vue'
 import cn from 'classnames'
 import { useBlblStore } from '../blbl/store.js'
 import { usePlaylistStore } from '../playlist/store.ts'

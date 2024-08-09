@@ -1,5 +1,4 @@
 <script setup>
-import { computed } from 'vue'
 import { cloneDeep } from 'lodash'
 import SongItem from '../components/SongItem.vue'
 import { usePlaylistStore } from './store'
@@ -34,11 +33,7 @@ function handleCreateCollection() {
 </script>
 
 <template>
-  <Dialog
-    :open="PLStore.openCollection"
-    title="分P数据"
-    @visible-change="vis => PLStore.openCollection = vis"
-  >
+  <Dialog :open="PLStore.openCollection" title="分P数据" @visible-change="vis => PLStore.openCollection = vis">
     <SongItem v-for="song in PLStore.collectionSongs" :key="song.id" :song="song" size="mini" />
     <template #footer>
       <div class="flex gap-3 justify-end pt-2">

@@ -3,7 +3,7 @@ import { onMessage, sendMessage } from 'webext-bridge/options'
 import { useInfiniteScroll } from '@vueuse/core'
 import { useBlblStore } from '../blbl/store.js'
 import SongItem from '../components/SongItem.vue'
-import { defaultSingers, usePlaylistStore } from './store'
+import { usePlaylistStore } from './store'
 import Loading from '~/components/loading/index.vue'
 
 const PLstore = usePlaylistStore()
@@ -131,10 +131,7 @@ function handlePlayUser() {
       <!-- 搜索 -->
       <div class="flex gap-3">
         <input
-          v-model="keyword"
-          placeholder="搜索歌曲"
-          bg="$eno-content focus:$eno-content-hover"
-          type="text"
+          v-model="keyword" placeholder="搜索歌曲" bg="$eno-content focus:$eno-content-hover" type="text"
           class="w-40 h-10 px-5  bg-opacity-0 eno-input"
           @keyup.enter="getSongs({ mid: PLstore.currentSinger, keyword })"
         >

@@ -1,5 +1,4 @@
 <script setup>
-import { computed } from 'vue'
 import { usePlaylistStore } from './store'
 import Dialog from '~/components/dialog/index.vue'
 

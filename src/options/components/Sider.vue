@@ -2,7 +2,6 @@
 import { useLocalStorage } from '@vueuse/core'
 import cn from 'classnames'
 import Dialog from '../../components/dialog/index.vue'
-import { useBlblStore } from '../blbl/store.js'
 import { usePlaylistStore } from '../playlist/store'
 import TabItem from './TabItem.vue'
 
