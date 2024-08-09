@@ -1,4 +1,4 @@
-name: tt-mouse-build
+name: Build and Release
 on:
   push:
     tags:
@@ -6,22 +6,82 @@ on:
   workflow_dispatch:
 
 jobs:
-  build:
-    runs-on: macos-latest
+  build-and-release:
+    runs-on: ubuntu-latest
     steps:
-      - name: Set up Node.js
-        uses: actions/setup-node@v4
+      - name: Checkout code
+        uses: actions/checkout@v3
+
+      - name: Setup Node.js
+        uses: actions/setup-node@v3
         with:
-          node-version: '20' # 指定Node.js版本，例如16
+          node-version: '18'
 
-      - name: install dependencies
-        run: npm install
-
-      - name: build
-        run: sudo npm run build
-
-      - name: upload artifact
-        uses: actions/upload-artifact@v4
+      - name: Setup pnpm
+        uses: pnpm/action-setup@v2
         with:
-          name: ttmouse
-          path: .output/chrome-mv3
+          version: 8.15.4
+
+      - name: Get pnpm store directory
+        id: pnpm-cache
+        shell: bash
+        run: |
+          echo "STORE_PATH=$(pnpm store path)" >> $GITHUB_OUTPUT
+
+      - uses: actions/cache@v3
+        name: Setup pnpm cache
+        with:
+          path: ${{ steps.pnpm-cache.outputs.STORE_PATH }}
+          key: ${{ runner.os }}-pnpm-store-${{ hashFiles('**/pnpm-lock.yaml') }}
+          restore-keys: |
+            ${{ runner.os }}-pnpm-store-
+
+      - name: Install dependencies
+        run: pnpm install
+
+      - name: Build project
+        run: pnpm run build
+
+      - name: Pack project
+        run: pnpm run pack
+
+      - name: Create Release
+        id: create_release
+        uses: actions/create-release@v1
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        with:
+          tag_name: ${{ github.ref }}
+          release_name: Release ${{ github.ref }}
+          draft: false
+          prerelease: false
+
+      - name: Upload ZIP Release Asset
+        uses: actions/upload-release-asset@v1
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        with:
+          upload_url: ${{ steps.create_release.outputs.upload_url }}
+          asset_path: ./extension.zip
+          asset_name: extension-${{ github.ref_name }}.zip
+          asset_content_type: application/zip
+
+      - name: Upload CRX Release Asset
+        uses: actions/upload-release-asset@v1
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        with:
+          upload_url: ${{ steps.create_release.outputs.upload_url }}
+          asset_path: ./extension.crx
+          asset_name: extension-${{ github.ref_name }}.crx
+          asset_content_type: application/x-chrome-extension
+
+      - name: Upload XPI Release Asset
+        uses: actions/upload-release-asset@v1
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        with:
+          upload_url: ${{ steps.create_release.outputs.upload_url }}
+          asset_path: ./extension.xpi
+          asset_name: extension-${{ github.ref_name }}.xpi
+          asset_content_type: application/x-xpinstall
