@@ -1,1 +1,1 @@
-// module.exports = require('@antfu/eslint-config').default()
+module.exports = require('@antfu/eslint-config').default()
