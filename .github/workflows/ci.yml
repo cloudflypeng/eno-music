@@ -1,20 +1,21 @@
 name: CI
 
 on:
-  push:
-    branches:
-      # The branch where the project source code resides
-      # 项目源代码所在的分支
-      - dev
-      - main
-    paths-ignore:
-      # Changes involving the following path files will not trigger the workflow
-      # 涉及以下路径文件的更改不会触发工作流
-      - LICENSE
-      - README-cmn_CN.md
-      - README-cmn_TW.md
-      - README-jyut.md
-      - docs/**
+  workflow_dispatch:
+  # push:
+  #   branches:
+  #     # The branch where the project source code resides
+  #     # 项目源代码所在的分支
+  #     - dev
+  #     - main
+  #   paths-ignore:
+  #     # Changes involving the following path files will not trigger the workflow
+  #     # 涉及以下路径文件的更改不会触发工作流
+  #     - LICENSE
+  #     - README-cmn_CN.md
+  #     - README-cmn_TW.md
+  #     - README-jyut.md
+  #     - docs/**
 
   pull_request:
     branches:
