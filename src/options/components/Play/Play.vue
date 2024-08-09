@@ -4,11 +4,14 @@ import { Howl, Howler } from 'howler'
 import cn from 'classnames'
 import SongItem from '../SongItem.vue'
 import { useBlblStore } from '../../blbl/store'
+import { usePlaylistStore } from '../../playlist/store.ts'
 import LoopSwitch from './LoopSwitch.vue'
 import useControl from './keys'
 import { useApiClient } from '~/composables/api'
 import Dialog from '~/components/dialog/index.vue'
 import Drawer from '~/components/drawer/index.vue'
+
+const PLstore = usePlaylistStore()
 
 const api = useApiClient()
 
@@ -325,6 +328,7 @@ function videoToFullScreen() {
         <span>{{ store.play.author }}{{ store.play.description }}</span>
       </div>
       <div flex gap-2 text-sm px-2>
+        <div class="i-mingcute:star-fill w-1em h-1em cursor-pointer" @click.stop="PLstore.startAddSong(store.play)" />
         <div class="i-mingcute:share-forward-fill w-1em h-1em cursor-pointer" @click.stop="openBlTab" />
         <div class="i-mingcute:video-fill w-1em h-1em cursor-pointer" @click.stop="openDialogVideo" />
         <!-- <div class="i-tdesign:card w-1em h-1em" />
