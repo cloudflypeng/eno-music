@@ -46,10 +46,12 @@ export async function getManifest() {
     permissions: [
       'storage',
       'cookies',
-      '*://*.bilibili.com/*',
-      '*://*.bilivideo.com/*',
-      '*://*.bilivideo.cn/*',
-
+      'https://*.bilibili.com/*',
+      'https://*.bilivideo.com/*',
+      'https://*.bilivideo.cn/*',
+      'https://*.bilivideo.*/*',
+      'webRequest',
+      'webRequestBlocking',
       'declarativeNetRequest',
       'declarativeNetRequestFeedback',
     ],

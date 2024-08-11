@@ -4,6 +4,7 @@ import cn from 'classnames'
 import { useBlblStore } from '../blbl/store.js'
 import { usePlaylistStore } from '../playlist/store.ts'
 import { useApiClient } from '~/composables/api'
+import Message from '~/components/message'
 
 const props = defineProps({
   song: {
@@ -96,6 +97,22 @@ async function handleClick() {
     store.startPlay(props.song)
   }
 }
+
+function addToLater() {
+  const isInLater = PLstore.listenLater.some(i => i.id === props.song.id)
+  if (isInLater) {
+    Message.show({
+      type: 'error',
+      message: '已存在',
+    })
+    return
+  }
+  PLstore.addToListenLater(props.song)
+  Message.show({
+    type: 'info',
+    message: '已添加到稍后再听',
+  })
+}
 </script>
 
 <template>
@@ -118,7 +135,7 @@ async function handleClick() {
     <!-- 操作, 收藏到播放列表, 删除 -->
     <div class="flex gap-3 text-lg justify-end">
       <div v-if="del" class="i-mingcute:delete-3-fill w-1em h-1em" @click.stop="emit('delete-song', props.song)" />
-      <div v-if="later" class="i-mingcute:time-fill w-1em h-1em" @click.stop="PLstore.addToListenLater(props.song)" />
+      <div v-if="later" class="i-mingcute:time-fill w-1em h-1em" @click.stop="addToLater" />
       <div v-if="star" class="i-mingcute:star-fill w-1em h-1em" @click.stop="PLstore.startAddSong(props.song)" />
     </div>
   </div>
