@@ -14,10 +14,25 @@ import packageJson from './package.json'
 
 export const sharedConfig: UserConfig = {
   root: r('src'),
+  server: {
+    headers: {
+      'Cross-Origin-Embedder-Policy': 'require-corp',
+      'Cross-Origin-Opener-Policy': 'same-origin',
+    },
+  },
   resolve: {
     alias: {
       '~/': `${r('src')}/`,
       'jsmediatags': 'jsmediatags/dist/jsmediatags.min.js',
+    },
+  },
+  build: {
+    rollupOptions: {
+      output: {
+        manualChunks: {
+          ffmpeg: ['@ffmpeg/ffmpeg', '@ffmpeg/util'],
+        },
+      },
     },
   },
   define: {
@@ -74,9 +89,10 @@ export const sharedConfig: UserConfig = {
       '@vueuse/core',
       'webextension-polyfill',
     ],
-    exclude: [
-      'vue-demi',
-    ],
+    exclude: ['vue-demi', '@ffmpeg/ffmpeg', '@ffmpeg/util'],
+  },
+  worker: {
+    format: 'es',
   },
 }
 
