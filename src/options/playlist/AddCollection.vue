@@ -10,7 +10,7 @@ watch(() => PLStore.openCollection, (val) => {
     // 分P数据, 打开时生成
     PLStore.collectionSongs = PLStore.collectionInfo.pages.map(item => ({
       id: item.cid,
-      enu_song_type: 'cid',
+      eno_song_type: 'cid',
       cid: item.cid,
       bvid: PLStore.collectionInfo.bvid,
       cover: item.first_frame,

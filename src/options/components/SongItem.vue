@@ -52,8 +52,10 @@ const isPlaying = computed(() => {
   if (!props.showActive)
     return false
   const current = store.play
+  // 兼容原本的错别字
+  const type = current.eno_song_type || current.enu_song_type
 
-  if (current?.bvid === props?.song?.bvid) {
+  if (type && current[type] === props?.song[type]) {
     return true
   }
   return false

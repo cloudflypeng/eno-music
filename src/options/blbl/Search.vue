@@ -44,7 +44,7 @@ async function getMoreData() {
   return res.data.result.map((item) => {
     return {
       id: item.id || item.bvid,
-      enu_song_type: 'bvid',
+      eno_song_type: 'bvid',
       cover: `http:${item.pic}`,
       title: item.title,
       description: item.description || item.desc,
@@ -67,7 +67,7 @@ async function handleSearch() {
 
     const searchSong = {
       id: item.id || item.bvid,
-      enu_song_type: 'bvid',
+      eno_song_type: 'bvid',
       cover: item.pic,
       title: item.title,
       description: item.description || item.desc,

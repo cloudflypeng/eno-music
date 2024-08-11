@@ -57,7 +57,7 @@ export const useBlblStore = defineStore({
           this.musicRankList = res.data.list.map((item) => {
             return {
               id: item.creation_bvid,
-              enu_song_type: 'bvid',
+              eno_song_type: 'bvid',
               cover: item.creation_cover,
               title: item.creation_title,
               description: item.description || '',

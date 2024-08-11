@@ -153,9 +153,9 @@ async function getSidUrl(item) {
 // 监听歌曲切换
 watch(() => store.play?.id, async () => {
   const currentSong = store.play
-  const play = currentSong.enu_song_type === 'bvid'
+  const play = currentSong.eno_song_type === 'bvid'
     ? await getBvidUrl(currentSong)
-    : currentSong.enu_song_type === 'cid'
+    : currentSong.eno_song_type === 'cid'
       ? await getCidUrl(currentSong)
       : await getSidUrl(currentSong)
   store.play = play

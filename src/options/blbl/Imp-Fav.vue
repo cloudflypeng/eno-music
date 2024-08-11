@@ -48,7 +48,7 @@ async function getMoreData() {
     mediaSong.value.push({
       title: element.title,
       description: element.intro,
-      enu_song_type: 'bvid',
+      eno_song_type: 'bvid',
       cover: element.cover,
       author: element.upper.name,
       duration: element.duration,
@@ -87,12 +87,8 @@ function addNewPlayList() {
       <div class="flex flex-col gap-3">
         <div class="flex gap-3">
           <input
-            v-model="url"
-            type="text"
-            bg="$eno-fill-dark-1 focus:$eno-content-hover"
-            class="w-full px-4 py-2 rounded-4"
-            focus:outline-none focus:shadow-outline
-            placeholder="收藏夹链接"
+            v-model="url" type="text" bg="$eno-fill-dark-1 focus:$eno-content-hover"
+            class="w-full px-4 py-2 rounded-4" focus:outline-none focus:shadow-outline placeholder="收藏夹链接"
             @keyup.enter="handleSearch"
           >
           <button class="btn-primary w-20" @click="handleSearch">
@@ -103,13 +99,7 @@ function addNewPlayList() {
         <!-- 歌曲列表 -->
         <div class="flex-1 overflow-auto">
           <SongItem
-            v-for="song in mediaSong"
-            :key="song.id"
-            :song="song"
-            del
-            size="mini"
-            :later="false"
-            :star="false"
+            v-for="song in mediaSong" :key="song.id" :song="song" del size="mini" :later="false" :star="false"
             @delete-song="mediaSong = mediaSong.filter(s => s.id !== song.id)"
           />
         </div>

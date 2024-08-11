@@ -47,7 +47,7 @@ onMessage('wbiApi', ({ data }) => {
     const { page: c_page, list } = content
     const videoList = list.vlist.map(item => ({
       id: item.bvid,
-      enu_song_type: 'bvid',
+      eno_song_type: 'bvid',
       cover: `${item.pic}`,
       title: item.title,
       description: item.description,
