@@ -32,8 +32,10 @@
   },
   "dependencies": {
     "@vueuse/math": "^10.11.0",
+    "browser-id3-writer": "^6.1.0",
     "classnames": "^2.5.1",
     "eslint-plugin-simple-import-sort": "^12.1.1",
+    "file-saver": "^2.0.5",
     "howler": "^2.2.4",
     "md5": "^2.3.0",
     "nanoid": "^5.0.7",
