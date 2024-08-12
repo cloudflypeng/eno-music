@@ -18,12 +18,12 @@ export async function getManifest() {
         {
           id: 'referrer-blbl',
           enabled: true,
-          path: './assets/referrer.json',
+          path: 'assets/referrer.json',
         },
       ],
     },
     action: {
-      default_icon: './assets/128px.png',
+      default_icon: 'assets/128px.png',
       // default_popup: './dist/popup/index.html',
     },
     options_ui: {
@@ -39,9 +39,9 @@ export async function getManifest() {
           service_worker: './dist/background/index.mjs',
         },
     icons: {
-      16: './assets/128px.png',
-      48: './assets/256px.png',
-      128: './assets/512px.png',
+      16: 'assets/128px.png',
+      48: 'assets/256px.png',
+      128: 'assets/512px.png',
     },
     permissions: [
       'storage',
@@ -64,10 +64,10 @@ export async function getManifest() {
         resources: ['dist/contentScripts/style.css'],
         matches: ['<all_urls>'],
       },
-      {
-        resources: ['./assets/ffmpeg-core.js', './assets/ffmpeg-core.wasm'],
-        matches: ['<all_urls>'],
-      },
+      // {
+      //   resources: ['assets/ffmpeg-core.js', 'assets/ffmpeg-core.wasm'],
+      //   matches: ['<all_urls>'],
+      // },
     ],
     content_security_policy: {
       extension_pages: isDev
