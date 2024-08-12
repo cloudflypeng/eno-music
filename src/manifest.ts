@@ -64,12 +64,16 @@ export async function getManifest() {
         resources: ['dist/contentScripts/style.css'],
         matches: ['<all_urls>'],
       },
+      {
+        resources: ['./assets/ffmpeg-core.js', './assets/ffmpeg-core.wasm'],
+        matches: ['<all_urls>'],
+      },
     ],
     content_security_policy: {
       extension_pages: isDev
         // this is required on dev for Vite script to load
         ? `script-src \'self\' http://localhost:${port}; object-src \'self\'`
-        : 'script-src \'self\'; object-src \'self\'',
+        : 'script-src \'self\' ; object-src \'self\'',
     },
   }
 
