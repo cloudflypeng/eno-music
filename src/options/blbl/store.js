@@ -5,16 +5,6 @@ import { useApiClient } from '~/composables/api'
 
 const api = useApiClient()
 
-function getNextFridayTimestamp() {
-  const today = new Date()
-  const dayOfWeek = today.getDay()
-  const daysUntilFriday = (5 - dayOfWeek + 7) % 7
-  const nextFriday = new Date(today)
-  nextFriday.setDate(today.getDate() + (daysUntilFriday === 0 ? 7 : daysUntilFriday))
-  nextFriday.setHours(18, 0, 0, 0) // Set to 18:00 of that day
-  return Math.floor(nextFriday.getTime() / 1000)
-}
-
 export const useBlblStore = defineStore({
   id: 'blbl',
   state: () => ({
@@ -37,6 +27,7 @@ export const useBlblStore = defineStore({
     hit_ps: 10,
     hit_pn: 1,
     // 音乐排行榜
+    ranksId: [],
     musicRankList: useLocalStorage('musicRankList', []),
   }),
   // 计算属性
@@ -49,9 +40,27 @@ export const useBlblStore = defineStore({
       this.getHitList()
       this.initBiliMusic()
     },
-    // TODO: 按时间决定时候要初始化 bilibili音乐榜单
     initBiliMusic() {
-      api.biliMusic.getMusicRank().then((res) => {
+      // 获取排行榜的列表
+      api.biliMusic.getMusicRankList().then((res) => {
+        const rankObj = res.data.list
+        let flatList = []
+        // 按年份的借口,拍平
+        Object.values(rankObj).forEach((i) => {
+          flatList = flatList.concat(i)
+        })
+        // 排序
+        this.ranksId = flatList.sort((a, b) => b.ID - a.ID)
+        this.getRankById(this.ranksId[0]?.ID)
+      })
+    },
+    // 全站音乐榜
+    getRankById(id) {
+      if (!id)
+        return
+      api.biliMusic.getMusicRank({
+        list_id: id,
+      }).then((res) => {
         const { data: { list } } = res
         if (Array.isArray(list) && list.length > 0) {
           this.musicRankList = res.data.list.map((item) => {
@@ -67,9 +76,6 @@ export const useBlblStore = defineStore({
             }
           })
         }
-
-        const nextFriday = getNextFridayTimestamp()
-        this.timestampRefreshMap.biliMusic = nextFriday
       })
     },
     getrankList() {

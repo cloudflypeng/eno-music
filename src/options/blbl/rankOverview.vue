@@ -1,0 +1,50 @@
+<script setup>
+import cn from 'classnames'
+import { useBlblStore } from './store.js'
+
+const store = useBlblStore()
+const currentIndex = ref(0)
+
+function goDirection(direction) {
+  const el = document.getElementById('rank-list')
+  el.scrollLeft += direction * el.clientWidth
+}
+
+function goTo(id, index) {
+  store.getRankById(id)
+  currentIndex.value = index
+}
+</script>
+
+<template>
+  <span class="flex flex-1 gap-1">
+    <div
+      class="cursor-pointer hov-item p-0 w-10 h-10 flex items-center justify-center rounded-full"
+      @click="goDirection(-1)"
+    >
+      <div class="i-mingcute:align-arrow-left-line w-1em h-1em cursor-pointer" />
+    </div>
+    <div id="rank-list" class="w-40 flex items-center overflow-auto gap-3">
+      <div
+        v-for="(rankId, index) in store.ranksId" :id="`rank-${index}`" :key="rankId.ID" :class="cn(
+          'text-center text-sm flex-shrink-0 cursor-pointer hover:opacity-70',
+          { 'text-yellow-500': currentIndex === index },
+        )" @click="goTo(rankId.ID, index)"
+      >
+        第{{ rankId.priod }}期
+      </div>
+    </div>
+    <div
+      class="cursor-pointer hov-item p-0 w-10 h-10 flex items-center justify-center rounded-full"
+      @click="goDirection(1)"
+    >
+      <div class="i-mingcute:align-arrow-right-line w-1em h-1em" />
+    </div>
+  </span>
+</template>
+
+<style scoped>
+#rank-list {
+  scroll-behavior: smooth;
+}
+</style>

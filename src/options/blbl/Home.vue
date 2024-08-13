@@ -5,6 +5,7 @@ import { cloneDeep } from 'lodash'
 import SongItem from '../components/SongItem.vue'
 import { useBlblStore } from './store'
 import Rank from './rank.vue'
+import RankOverview from './rankOverview.vue'
 
 const store = useBlblStore()
 const scrollRef = ref(null)
@@ -37,6 +38,7 @@ function handlePlayRank() {
       <span text="sm $eno-text-2" class="ml-2">
         (每周五18:00更新)
       </span>
+      <RankOverview />
     </h5>
     <div class="flex gap-3 h-[50vh]">
       <!-- swiper -->

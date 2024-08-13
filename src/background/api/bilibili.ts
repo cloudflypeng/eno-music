@@ -178,6 +178,17 @@ const api = {
     },
     afterHandle: AHS.J,
   },
+  // 音乐榜单的列表https://api.bilibili.com/x/copyright-music-publicity/toplist/all_period
+  [BLBL.GET_MUSIC_RANK_LIST]: {
+    url: `${baseUrl}/x/copyright-music-publicity/toplist/all_period`,
+    _fetch: {
+      method: 'get',
+    },
+    params: {
+      list_type: 1, // 变化的
+    },
+    afterHandle: AHS.J,
+  },
   // 全站音乐榜单
   [BLBL.GET_MUSIC_RANK]: {
     url: `${baseUrl}/x/copyright-music-publicity/toplist/music_list`,
@@ -185,7 +196,7 @@ const api = {
       method: 'get',
     },
     params: {
-      list_id: 199, // 固定
+      list_id: 207, // 变化的
     },
     afterHandle: AHS.J,
   },
