@@ -8,20 +8,20 @@ import type { FileData } from '@ffmpeg/ffmpeg/dist/esm/types'
 
 const ffmpegRef = new FFmpeg()
 
-async function load() {
-  // const baseURL = 'https://unpkg.com/@ffmpeg/core@0.12.6/dist/esm'
-  const baseURL = browser.runtime.getURL('./assets')
+export async function load() {
+  const baseURL = 'https://unpkg.com/@ffmpeg/core@0.12.6/dist/esm'
+  // const baseURL = browser.runtime.getURL('./assets')
   // 这里你可以加载或者执行相关的JS代码
   // const baseURL = '../../assets'
   const ffmpeg = ffmpegRef
-  const response = await fetch(browser.runtime.getURL(`${baseURL}/ffmpeg-core.wasm`))
-  const wasmBinary = await response.blob().toString()
+  // const response = await fetch(browser.runtime.getURL(`${baseURL}/ffmpeg-core.wasm`))
+  // const wasmBinary = await response.blob().toString()
 
   // toBlobURL is used to bypass CORS issue, urls with the same
   // domain can be used directly.
   await ffmpeg.load({
-    coreURL: `${baseURL}/ffmpeg-core.js`,
-    wasmURL: wasmBinary,
+    coreURL: await toBlobURL(`${baseURL}/ffmpeg-core.js`, 'text/javascript'),
+    wasmURL: await toBlobURL(`${baseURL}/ffmpeg-core.wasm`, 'application/wasm'),
   })
 }
 
