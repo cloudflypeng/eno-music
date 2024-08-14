@@ -17,12 +17,12 @@ function goTo(id, index) {
 </script>
 
 <template>
-  <span class="flex flex-1 gap-1">
+  <span class="flex flex-1 gap-1 h-5">
     <div
-      class="cursor-pointer hov-item p-0 w-10 h-10 flex items-center justify-center rounded-full"
+      class="cursor-pointer hov-item p-0 w-10 h-full flex text-lg items-center justify-center rounded-full"
       @click="goDirection(-1)"
     >
-      <div class="i-mingcute:align-arrow-left-line w-1em h-1em cursor-pointer" />
+      <div class="i-mingcute:align-arrow-left-line cursor-pointer" />
     </div>
     <div id="rank-list" class="w-40 flex items-center overflow-auto gap-3">
       <div
@@ -35,10 +35,10 @@ function goTo(id, index) {
       </div>
     </div>
     <div
-      class="cursor-pointer hov-item p-0 w-10 h-10 flex items-center justify-center rounded-full"
+      class="cursor-pointer hov-item p-0 w-10 h-full flex text-lg items-center justify-center rounded-full"
       @click="goDirection(1)"
     >
-      <div class="i-mingcute:align-arrow-right-line w-1em h-1em" />
+      <div class="i-mingcute:align-arrow-right-line" />
     </div>
   </span>
 </template>

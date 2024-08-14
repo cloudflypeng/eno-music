@@ -67,10 +67,10 @@ export const useBlblStore = defineStore({
             return {
               id: item.creation_bvid,
               eno_song_type: 'bvid',
-              cover: item.creation_cover,
-              title: item.creation_title,
+              cover: item.mv_cover,
+              title: item.album,
               description: item.description || '',
-              author: item.album,
+              author: item.singer,
               duration: item.duration || 0,
               bvid: item.creation_bvid,
             }

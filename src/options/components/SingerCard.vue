@@ -1,4 +1,5 @@
 <script setup>
+import cn from 'classnames'
 import { usePlaylistStore } from '../playlist/store'
 import { useBlblStore } from '../blbl/store'
 
@@ -7,6 +8,14 @@ const props = defineProps({
   canDel: {
     type: Boolean,
     default: false,
+  },
+  shape: {
+    type: String,
+    default: 'circle',
+  },
+  border: {
+    type: Boolean,
+    default: true,
   },
 })
 const store = useBlblStore()
@@ -27,12 +36,19 @@ function handleSingerDetail(singerMid) {
 
 <template>
   <div
-    class="flex flex-col flex-shrink-0 justify-center items-center relative singerCard"
+    :class="cn('flex flex-col flex-shrink-0 relative singerCard', {
+      'items-center': shape === 'circle',
+      'items-start': shape === 'square',
+    })"
     @click.stop="handleSingerDetail(singerMid)"
   >
     <img
       :src="avatar" alt="singerAvatar"
-      class="w-40 h-40 rounded-full border-2 border-gray-200 cursor-pointer"
+      :class="cn('w-40 h-40 rounded-full border-gray-200 cursor-pointer', {
+        'rounded-full': shape === 'circle',
+        'rounded-md': shape === 'square',
+        'border-2': border,
+      })"
     >
     <div class="text-[16px] mt-2">
       {{ name }}
