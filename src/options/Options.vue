@@ -41,9 +41,8 @@ function getBLCookie() {
   chrome.cookies.getAll({ domain: '.bilibili.com' }, (cookies) => {
     if (cookies.length > 0) {
       const cookieString = cookies.map(cookie => `${cookie.name}=${cookie.value}`).join('; ')
-      console.log('Bilibili cookies:', cookieString)
+
       chrome.cookies.set(cookieString)
-      // You can store or use the cookieString as needed
     }
     else {
       console.log('No Bilibili cookies found')
