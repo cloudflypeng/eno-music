@@ -10,7 +10,7 @@ import useControl from './keys'
 import { useApiClient } from '~/composables/api'
 import Dialog from '~/components/dialog/index.vue'
 import Drawer from '~/components/drawer/index.vue'
-import { download } from '~/options/utils.ts'
+// import { download } from '~/options/utils.ts'
 
 const PLstore = usePlaylistStore()
 
