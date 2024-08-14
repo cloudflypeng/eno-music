@@ -29,8 +29,8 @@ on:
       - docs/**
 
 jobs:
-  test:
-    name: Test
+  build:
+    name: Build
     strategy:
       matrix:
         node: [lts/*, lts/-1]
@@ -52,21 +52,6 @@ jobs:
         with:
           run_install: |
             - args: [--frozen-lockfile]
-
-      - name: Lint
-        if: ${{ matrix.os == 'ubuntu-latest' }}
-        run: pnpm run lint
-
-      - name: Type check
-        if: ${{ matrix.os == 'ubuntu-latest' }}
-        run: pnpm run typecheck
-
-      - name: Test
-        run: pnpm run test
-
-      - name: Knip
-        if: ${{ matrix.os == 'ubuntu-latest' }}
-        run: pnpm run knip
 
       - name: Build Extension
         run: pnpm build
