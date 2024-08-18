@@ -27,6 +27,10 @@ const isMyOpen = playlist => currentOpen.value === playlist.id
 function delSong(playlist, song) {
   PLStore.removeSong(playlist.id, song.id)
 }
+
+function switchPlaylist(e) {
+  currentOpen.value = currentOpen.value === e.id ? null : e.id
+}
 </script>
 
 <template>
@@ -39,28 +43,31 @@ function delSong(playlist, song) {
     <div class="flex flex-col text-left gap-5">
       <!-- 循环歌单列表 -->
       <section
-        v-for="playlist in list" :key="playlist.name" class="w-full px-5 py-1 has-border"
-        bg="$eno-content" rounded-lg
+        v-for="playlist in list" :key="playlist.name"
+        class="w-full has-border"
+        p="x-4 y-3"
+        rounded-lg
+        transition-200
+        bg="$eno-content hover:$eno-content-hover"
       >
-        <div class="flex justify-between items-center w-full">
+        <div class="flex justify-between items-center w-full" cursor-pointer @click="switchPlaylist(playlist)">
           <div class="flex items-center gap-3 text-[22px]">
-            <div
-              v-if="!isMyOpen(playlist)" class="i-mingcute:folder-fill w-1em h-1em" cursor-pointer
-              @click.stop="currentOpen = playlist.id"
-            />
-            <div
-              v-else class="i-mingcute:folder-open-2-fill w-1em h-1em" cursor-pointer
-              @click.stop="currentOpen = null"
-            />
-            <h2 class="max-w-[50vw] truncate" v-html="playlist.name" />
+            <div :class="`w-1em h-1em ${isMyOpen(playlist) ? 'i-mingcute:folder-open-2-fill' : 'i-mingcute:folder-fill'}`" />
+            <h2 class="max-w-[50vw] truncate" text-lg v-html="playlist.name" />
             <span class="mx-2 text-lg">({{ playlist.songs.length }})</span>
           </div>
-          <div class="flex gap-3">
+          <div class="flex gap-3" all:transition-200>
             <div
               class="i-mingcute:play-circle-line" text-xl cursor-pointer
+              color="gray hover:gray-50"
               @click.stop="handleReplacePlaylist(playlist)"
             />
-            <div class="i-mingcute:delete-2-line" text-xl cursor-pointer @click.stop="handleDelPL(playlist)" />
+            <div
+              class="i-mingcute:delete-2-line"
+              color="gray hover:gray-50"
+              text-xl cursor-pointer
+              @click.stop="handleDelPL(playlist)"
+            />
           </div>
         </div>
         <!-- 歌曲列表 -->
