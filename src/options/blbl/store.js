@@ -37,7 +37,6 @@ export const useBlblStore = defineStore({
   actions: {
     // 初始化首页
     initHomePage() {
-      this.getHitList()
       this.initBiliMusic()
     },
     initBiliMusic() {

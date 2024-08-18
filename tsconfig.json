@@ -17,7 +17,8 @@
     },
     "resolveJsonModule": true,
     "types": [
-      "vite/client"
+      "vite/client",
+      "chrome"
     ],
     "strict": true,
     "noUnusedLocals": true,

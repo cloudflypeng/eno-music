@@ -33,6 +33,8 @@
   "dependencies": {
     "@ffmpeg/ffmpeg": "^0.12.10",
     "@ffmpeg/util": "^0.12.1",
+    "@meanc/webext-fetch": "^0.0.3",
+    "@types/chrome": "^0.0.270",
     "@vueuse/math": "^10.11.0",
     "browser-id3-writer": "^6.1.0",
     "classnames": "^2.5.1",

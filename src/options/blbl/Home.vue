@@ -3,24 +3,26 @@
 import { onMounted } from 'vue'
 import { cloneDeep } from 'lodash'
 import SongItem from '../components/SongItem.vue'
+import { usePlaylistStore } from '../playlist/store'
 import { useBlblStore } from './store'
 import RankOverview from './rankOverview.vue'
 import HomeSinger from './home-singer.vue'
+import SingerPreview from './singer-preview.vue'
 
 const store = useBlblStore()
+const PLstore = usePlaylistStore()
 
 onMounted(() => {
   store.initHomePage()
 })
 function handlePlayRank() {
   store.playList = cloneDeep(store.musicRankList)
-
   store.play = store.musicRankList[0] || {}
 }
 </script>
 
 <template>
-  <section w-full h-screen overflow-auto>
+  <section w-full h-screen overflow-auto pb-20>
     <!-- bilibili音乐榜 -->
     <h5 text="3xl $eno-text-1 fw-600" class="py-5 text-left px-10 flex items-end gap-3 inline-flex">
       <div class="i-mingcute:play-circle-line w-1em h-1em cursor-pointer" @click="handlePlayRank" />
@@ -47,6 +49,8 @@ function handlePlayRank() {
       </div>
     </div>
     <HomeSinger />
+    <SingerPreview v-for="mid in PLstore.singers" :key="mid" :mid="mid" />
+    <SingerPreview :mid="337312411" />
   </section>
 </template>
 

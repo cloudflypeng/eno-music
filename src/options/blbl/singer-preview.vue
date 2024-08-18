@@ -1,7 +1,7 @@
 <script setup>
 import { onMounted, ref, watch } from 'vue'
-import { onMessage, sendMessage } from 'webext-bridge/options'
 import { usePlaylistStore } from '../playlist/store'
+import { getUserArc } from '../api'
 
 const props = defineProps({
   mid: {
@@ -19,12 +19,10 @@ const singer = computed(() => {
 const loading = ref(false)
 const songList = ref([])
 
-onMessage('wbiApi', ({ data }) => {
-  const req = data.req
-  if (req.mid !== props.mid || req.api !== 'getUserArc')
-    return
-  try {
-    const content = data.res.data
+onMounted(() => {
+  loading.value = true
+  getUserArc({ mid: props.mid }).then((res) => {
+    const content = res.data
     const { list } = content
     const videoList = list.vlist.map(item => ({
       id: item.bvid,
@@ -36,28 +34,8 @@ onMessage('wbiApi', ({ data }) => {
       duration: item.duration || 0, // 暂无
       bvid: item.bvid,
     }))
-
     songList.value = videoList
-  }
-  catch (e) {
-    // console.log(e)
-    return e
-  }
-  finally {
-    loading.value = false
-  }
-})
-
-onMounted(() => {
-  // console.log('onMounted', props.mid)
-  loading.value = true
-  setTimeout(() => {
-    sendMessage(
-      'wbiApi',
-      { api: 'getUserArc', params: { mid: props.mid } },
-      'background',
-    )
-  }, 1000)
+  })
 })
 </script>
 
@@ -65,7 +43,6 @@ onMounted(() => {
   <div v-if="songList.length" mt-10>
     <h5 text="3xl $eno-text-1 fw-600" class="py-5 text-left px-10 flex items-end gap-3">
       {{ singer.name }}
-      {{ props.mid }}
     </h5>
     <div overflow-auto class="w-full h-55 relative">
       <div class="absolute w-full h-full flex gap-5 px-10">

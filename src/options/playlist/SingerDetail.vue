@@ -1,8 +1,8 @@
 <script setup>
-import { onMessage, sendMessage } from 'webext-bridge/options'
 import { useInfiniteScroll } from '@vueuse/core'
 import { useBlblStore } from '../blbl/store.js'
 import SongItem from '../components/SongItem.vue'
+import { getUserArc } from '../api'
 import { usePlaylistStore } from './store'
 import Loading from '~/components/loading/index.vue'
 
@@ -38,12 +38,10 @@ useInfiniteScroll(
   { distance: 50 },
 )
 
-onMessage('wbiApi', ({ data }) => {
-  const { api } = data
-  if (api !== 'getUserArc')
-    return
-  try {
-    const content = data.res.data
+function getSongs(params) {
+  loading.value = true
+  getUserArc(params).then((res) => {
+    const content = res.data
     const { page: c_page, list } = content
     const videoList = list.vlist.map(item => ({
       id: item.bvid,
@@ -56,25 +54,8 @@ onMessage('wbiApi', ({ data }) => {
       bvid: item.bvid,
     }))
     page.value = c_page
-
     songListByPage.value[c_page.pn] = videoList
-  }
-  catch (e) {
-    // console.log(e)
-    return e
-  }
-  finally {
-    loading.value = false
-  }
-})
-
-function getSongs(params) {
-  loading.value = true
-  sendMessage(
-    'wbiApi',
-    { api: 'getUserArc', params },
-    'background',
-  )
+  })
 }
 
 watch(() => PLstore.currentSinger, (mid) => {
