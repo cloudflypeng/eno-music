@@ -2,6 +2,7 @@
 import { onMounted, ref, watch } from 'vue'
 import { usePlaylistStore } from '../playlist/store'
 import { getUserArc } from '../api'
+import { useBlblStore } from './store'
 
 const props = defineProps({
   mid: {
@@ -11,6 +12,7 @@ const props = defineProps({
 })
 
 const PLstore = usePlaylistStore()
+const store = useBlblStore()
 
 const singer = computed(() => {
   return PLstore.singerCardCache[props.mid] || {}
@@ -37,6 +39,9 @@ onMounted(() => {
     songList.value = videoList
   })
 })
+function handleClick(song) {
+  store.startPlay(song)
+}
 </script>
 
 <template>
@@ -46,7 +51,7 @@ onMounted(() => {
     </h5>
     <div overflow-auto class="w-full h-55 relative">
       <div class="absolute w-full h-full flex gap-5 px-10">
-        <div v-for="song in songList" :key="song.id" class="cursor-pointer flex-shrink-0">
+        <div v-for="song in songList" :key="song.id" class="cursor-pointer flex-shrink-0" @click="handleClick(song)">
           <img :src="song.cover" class=" h-40 object-cover">
           <div>
             {{ song.title }}
