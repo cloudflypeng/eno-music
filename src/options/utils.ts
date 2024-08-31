@@ -5,7 +5,6 @@ import { FFmpeg } from '@ffmpeg/ffmpeg'
 
 import { fetchFile, toBlobURL } from '@ffmpeg/util'
 import type { FileData } from '@ffmpeg/ffmpeg/dist/esm/types'
-import { efetch } from '@meanc/webext-fetch'
 
 const ffmpegRef = new FFmpeg()
 
@@ -26,7 +25,7 @@ export async function load() {
   })
 }
 
-// load()
+load()
 
 interface DownloadSong {
   url: string
