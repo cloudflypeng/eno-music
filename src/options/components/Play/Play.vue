@@ -279,6 +279,8 @@ function videoToFullScreen() {
 </script>
 
 <template>
+  <!-- 增加一个背景图 -->
+  <img v-if="store.play" :src="store.play.cover" class="absolute w-screen h-20 bottom-0 object-cover">
   <section
     class="bg-$eno-elevated w-screen h-20 px-6 flex z-10"
     style="backdrop-filter: var(--eno-filter-glass-light-1)" flex="row items-center justify-between"
