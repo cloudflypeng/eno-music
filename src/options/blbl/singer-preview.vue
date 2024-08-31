@@ -42,14 +42,41 @@ onMounted(() => {
 function handleClick(song) {
   store.startPlay(song)
 }
+
+function handleClickLeft() {
+  const id = `singer-preview-${props.mid}`
+  const element = document.getElementById(id)
+  element.scrollTo({
+    left: element.scrollLeft - 400,
+    behavior: 'smooth',
+  })
+}
+
+function handleClickRight() {
+  // console.log('handleClickRight')
+  const id = `singer-preview-${props.mid}`
+  const element = document.getElementById(id)
+  element.scrollTo({
+    left: element.scrollLeft + 400,
+    behavior: 'smooth',
+  })
+}
 </script>
 
 <template>
   <div v-if="songList.length" mt-10>
     <h5 text="3xl $eno-text-1 fw-600" class="py-5 text-left px-10 flex items-end gap-3">
       {{ singer.name }}
+      <!-- 增加左右滚动点击 -->
+      <div class="bg-$eno-fill-4 rounded-full w-7 h-7 flex items-center justify-center cursor-pointer hover:opacity-70">
+        <div class="i-mingcute:arrow-left-fill w-4" @click="handleClickLeft" />
+      </div>
+
+      <div class="bg-$eno-fill-4 rounded-full w-7 h-7 flex items-center justify-center cursor-pointer hover:opacity-70">
+        <div class="i-mingcute:arrow-right-fill w-4" @click="handleClickRight" />
+      </div>
     </h5>
-    <div overflow-auto class="w-full h-55 relative">
+    <div :id="`singer-preview-${mid}`" overflow-auto class="w-full h-55 relative">
       <div class="absolute w-full h-full flex gap-5 px-10">
         <div v-for="song in songList" :key="song.id" class="cursor-pointer flex-shrink-0" @click="handleClick(song)">
           <img :src="song.cover" class=" h-40 object-cover">
