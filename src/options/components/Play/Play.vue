@@ -19,7 +19,7 @@ const api = useApiClient()
 const store = useBlblStore()
 const isPlaying = ref(false)
 const showList = ref(false)
-const currentIndex = ref(0)
+const historyList = ref([])
 const progress = reactive({
   percent: 0,
   current: 0,
@@ -67,7 +67,11 @@ function playMusic() {
     store.howl.unload()
   }
 
-  currentIndex.value = store.playList.findIndex(item => item.id === store.play.id)
+  // 判断当前歌曲是否在播放列表中，如果不在就插入，用于点击歌曲播放时防止 history 无法记录
+  const index = store.playList.findIndex(({ id }) => id === store.play.id)
+  if (index !== historyList.value.at(-1)) {
+    historyList.value.push(index)
+  }
 
   store.howl = new Howl({
     src: [url],
@@ -84,20 +88,9 @@ function playMusic() {
       clearInterval(progressTimer.value)
     },
     onend: () => {
-      switch (store.loopMode) {
-        case 'single':
-          playMusic()
-          break
-        case 'list':
-          change('next')
-          break
-        case 'random':
-          currentIndex.value = Math.floor(Math.random() * store.playList.length)
-          change(currentIndex.value)
-          break
-        default:
-          change('next')
-      }
+      if (store.loopMode === 'single')
+        playMusic()
+      else change('next')
     },
   })
   store.howl.play()
@@ -164,16 +157,30 @@ watch(() => store.play?.id, async () => {
 })
 // 顺序切换
 function change(type) {
-  const currentLength = store.playList.length
-  if (type === 'next')
-    currentIndex.value = (currentIndex.value + 1) % currentLength
-  else if (type === 'prev')
-    currentIndex.value = (currentIndex.value - 1 + currentLength) % currentLength
+  let index = historyList.value.at(-1) || 0
+  const { playList, loopMode } = store
 
-  if (typeof type === 'number')
-    currentIndex.value = type % currentLength
+  if (loopMode === 'random') {
+    if (type === 'next') {
+      index = Math.floor(Math.random() * playList.length)
+    }
+    else if (type === 'prev') {
+      // 移除最后两个，并播放上一个
+      const remove = historyList.value.splice(-2)
+      index = remove[0] || 0
+    }
+  }
+  else {
+    const currentLength = playList.length
 
-  store.play = store.playList[currentIndex.value]
+    if (type === 'next')
+      index = (index + 1) % currentLength
+    else if (type === 'prev')
+      index = (index - 1 + currentLength) % currentLength
+  }
+
+  historyList.value.push(index)
+  store.play = playList[index]
 }
 function changeProgress(e) {
   // 如果当前没有歌曲,就返回
