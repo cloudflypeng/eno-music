@@ -16,6 +16,16 @@ const PLstore = usePlaylistStore()
 
 const api = useApiClient()
 
+function getUpUrl(obj) {
+  const url1 = obj.baseUrl || ''
+  const url2 = obj.backup_url?.[0] || ''
+  const url3 = obj.backup_url?.[1] || ''
+
+  // 找到第一个不是https://xy 开头的url
+  const urlList = [url1, url2, url3].filter(url => !url.startsWith('https://xy'))
+  return urlList[0] || url1
+}
+
 const store = useBlblStore()
 const isPlaying = ref(false)
 const showList = ref(false)
@@ -107,8 +117,8 @@ async function getBvidUrl(item) {
     bvid: item.bvid,
   }).then(res => res.data.dash)
 
-  const url = dash.audio[0].baseUrl
-  const video = dash.video[0].baseUrl
+  const url = getUpUrl(dash.audio[0])
+  const video = getUpUrl(dash.video[0])
 
   return {
     ...item,
@@ -123,8 +133,8 @@ async function getCidUrl(item) {
     bvid: item.bvid,
   }).then(res => res.data.dash)
 
-  const url = dash.audio[0].baseUrl
-  const video = dash.video[0].baseUrl
+  const url = getUpUrl(dash.audio[0])
+  const video = getUpUrl(dash.video[0])
 
   return {
     ...item,
