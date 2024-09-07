@@ -10,7 +10,7 @@ const btn = 'inline-block flex items-center gap-1 text-lg rounded-4 px-4 py-2 bg
     <img :src="Logo" alt="logo" class="h-[300px] object-contain">
     <!-- 联系方式 -->
     <div class="flex gap-3 justify-center mb-10">
-      <a href="https://discord.gg/Byq4zv9x" :class="`${btn} bg-[#a0a7f8]`">
+      <a href="https://discord.gg/HPv2WDrvhq" :class="`${btn} bg-[#a0a7f8]`">
         <div class="i-mingcute:discord-line w-1em h-1em" />
         <span>Discord</span>
       </a>
