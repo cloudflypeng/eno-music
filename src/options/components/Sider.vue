@@ -37,6 +37,9 @@ const tabClass = computed(() => {
     'justify-center': !open.value,
   })
 })
+function openAfdian() {
+  window.open('https://afdian.com/a/meanc')
+}
 </script>
 
 <template>
@@ -88,6 +91,11 @@ const tabClass = computed(() => {
     </TabItem>
     <!-- 关于 -->
     <TabItem :tab="{ icon: 'i-mingcute:information-fill', title: '关于', mode: 'about' }" :open="open" />
+    <!-- 爱发电 -->
+    <div :class="`${tabClass}`" text-lg @click.stop="openAfdian">
+      <div class="i-mingcute:flash-line w-1em h-1em" />
+      <span v-if="open">爱发电</span>
+    </div>
   </aside>
 </template>
 
