@@ -64,10 +64,6 @@ export async function getManifest() {
         resources: ['dist/contentScripts/style.css'],
         matches: ['<all_urls>'],
       },
-      // {
-      //   resources: ['assets/ffmpeg-core.js', 'assets/ffmpeg-core.wasm'],
-      //   matches: ['<all_urls>'],
-      // },
     ],
     content_security_policy: {
       extension_pages: isDev

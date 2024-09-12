@@ -26,15 +26,6 @@ export const sharedConfig: UserConfig = {
       'jsmediatags': 'jsmediatags/dist/jsmediatags.min.js',
     },
   },
-  build: {
-    rollupOptions: {
-      output: {
-        manualChunks: {
-          ffmpeg: ['@ffmpeg/ffmpeg', '@ffmpeg/util'],
-        },
-      },
-    },
-  },
   define: {
     __DEV__: isDev,
     __NAME__: JSON.stringify(packageJson.name),
@@ -89,7 +80,7 @@ export const sharedConfig: UserConfig = {
       '@vueuse/core',
       'webextension-polyfill',
     ],
-    exclude: ['vue-demi', '@ffmpeg/ffmpeg', '@ffmpeg/util'],
+    exclude: ['vue-demi'],
   },
   worker: {
     format: 'es',

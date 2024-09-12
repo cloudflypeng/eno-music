@@ -1,7 +1,7 @@
 {
   "name": "enu-music",
   "displayName": "ENO-M",
-  "version": "2.0.4",
+  "version": "2.1.0",
   "private": true,
   "packageManager": "pnpm@8.15.4",
   "description": "A music player extension for Chrome",
@@ -31,8 +31,6 @@
     "typecheck": "tsc --noEmit"
   },
   "dependencies": {
-    "@ffmpeg/ffmpeg": "^0.12.10",
-    "@ffmpeg/util": "^0.12.1",
     "@meanc/webext-fetch": "^0.0.3",
     "@types/chrome": "^0.0.270",
     "@vueuse/math": "^10.11.0",
