@@ -1,9 +1,12 @@
 <script setup>
+import cn from 'classnames'
+
 const props = defineProps({
   open: Boolean,
   title: String,
 })
 const emit = defineEmits(['visibleChange'])
+const slots = useSlots()
 const dialogRef = ref(null)
 
 watch(() => props.open, (open) => {
@@ -26,6 +29,8 @@ function clickDialog(e) {
   if (clientX < left || clientX > right || clientY < top || clientY > bottom)
     close()
 }
+// 判断是否有footer
+const hasFooter = computed(() => !!slots.footer)
 </script>
 
 <template>
@@ -44,7 +49,7 @@ function clickDialog(e) {
           transition-delay-300 hover:transform-rotate-90 cursor-pointer" @click.stop="close"
         />
       </div>
-      <div class="h-[calc(100%-5rem)] max-w-[50vw] overflow-auto flex-1 p-3">
+      <div :class="cn('overflow-auto flex-1 p-3', hasFooter ? 'h-[calc(100%-5rem)]' : 'h-[calc(100%-2.5rem)]')">
         <slot />
       </div>
       <slot name="footer" />

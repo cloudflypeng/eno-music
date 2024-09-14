@@ -204,6 +204,10 @@ function toggleList() {
   showList.value = !showList.value
 }
 
+function deleteSong(index) {
+  store.playList.splice(index, 1)
+}
+
 const displayData = computed(() => {
   return {
     title: store.play.title || '暂无歌曲',
@@ -365,7 +369,7 @@ function videoToFullScreen() {
       <div v-else cursor-pointer class="i-mingcute:fullscreen-exit-fill w-1em h-1em" @click.stop="fullScreenTheBody" />
       <div cursor-pointer class="i-tabler:playlist w-1em h-1em" @click="toggleList" />
       <Dialog :open="showList" title="播放列表" @visible-change="vis => showList = vis">
-        <SongItem v-for="song in store.playList" :key="song.id" show-active :song="song" size="mini" />
+        <SongItem v-for="(song, index) in store.playList" :key="song.id" show-active del :song="song" size="mini" @delete-song="deleteSong(index)" />
       </Dialog>
       <div v-if="isCloseVoice" cursor-pointer class="i-mingcute:volume-mute-line w-1em h-1em" @click.stop="setVoice" />
       <div v-else cursor-pointer class="i-mingcute:volume-line w-1em h-1em" @click.stop="setVoice" />

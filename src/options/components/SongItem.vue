@@ -136,9 +136,9 @@ function addToLater() {
     </div>
     <!-- 操作, 收藏到播放列表, 删除 -->
     <div class="flex gap-3 text-lg justify-end">
-      <div v-if="del" class="i-mingcute:delete-3-fill w-1em h-1em" @click.stop="emit('delete-song', props.song)" />
-      <div v-if="later" class="i-mingcute:time-fill w-1em h-1em" @click.stop="addToLater" />
-      <div v-if="star" class="i-mingcute:star-fill w-1em h-1em" @click.stop="PLstore.startAddSong(props.song)" />
+      <div v-if="later" hover:opacity-70 class="i-mingcute:time-fill w-1em h-1em" @click.stop="addToLater" />
+      <div v-if="star" hover:opacity-70 class="i-mingcute:star-fill w-1em h-1em" @click.stop="PLstore.startAddSong(props.song)" />
+      <div v-if="del" hover:opacity-70 class="i-mingcute:delete-3-fill w-1em h-1em" @click.stop="emit('delete-song', props.song)" />
     </div>
   </div>
 </template>
