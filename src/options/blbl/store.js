@@ -5,6 +5,11 @@ import { useApiClient } from '~/composables/api'
 
 const api = useApiClient()
 
+export const VIDEO_MODE = {
+  FLOATING: 'floating',
+  DRAWER: 'drawer',
+}
+
 export const useBlblStore = defineStore({
   id: 'blbl',
   state: () => ({
@@ -13,6 +18,7 @@ export const useBlblStore = defineStore({
     playList: useStorage('playList', []), // 播放列表
     count: 0,
     loopMode: useStorage('loopMode', 'list'),
+    videoMode: useStorage('videoMode', VIDEO_MODE.FLOATING),
     mode: 'home',
     timestampRefreshMap: {
       biliMusic: 0,

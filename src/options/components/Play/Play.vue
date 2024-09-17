@@ -1,12 +1,13 @@
 <script setup>
-import { useFullscreen, useLocalStorage } from '@vueuse/core'
+import { useLocalStorage } from '@vueuse/core'
 import { Howl } from 'howler'
 import cn from 'classnames'
 import SongItem from '../SongItem.vue'
-import { useBlblStore } from '../../blbl/store'
+import { VIDEO_MODE, useBlblStore } from '../../blbl/store'
 import { usePlaylistStore } from '../../playlist/store.ts'
 import LoopSwitch from './LoopSwitch.vue'
 import useControl from './keys'
+import Video from './video.vue'
 import { useApiClient } from '~/composables/api'
 import Dialog from '~/components/dialog/index.vue'
 import Drawer from '~/components/drawer/index.vue'
@@ -263,33 +264,9 @@ function fullScreenTheBody() {
 function openBlTab() {
   window.open(`https://www.bilibili.com/video/${store.play.bvid}`)
 }
-// 视频页面相关
-const dialogVideo = ref(false)
-const videoShowPlaylist = ref(false)
-function openDialogVideo() {
-  dialogVideo.value = true
-  // 设置视频进度
-  syncVideo()
+function changeVideoMode() {
+  store.videoMode = store.videoMode === VIDEO_MODE.FLOATING ? VIDEO_MODE.DRAWER : VIDEO_MODE.FLOATING
 }
-function syncVideo() {
-  const video = document.getElementById('video-eno')
-  if (video)
-    video.currentTime = store.howl.seek()
-}
-const timer = ref(null)
-watch(() => dialogVideo.value, (value) => {
-  if (value) {
-    timer.value = setInterval(() => {
-      syncVideo()
-    }, 1000)
-  }
-  else {
-    clearInterval(timer.value)
-  }
-})
-
-const videoBox = ref(null)
-const { isFullscreen, toggle } = useFullscreen(videoBox)
 </script>
 
 <template>
@@ -341,10 +318,9 @@ const { isFullscreen, toggle } = useFullscreen(videoBox)
         v-if="store.play.cover"
         relative shrink-0 cursor-pointer
         class="group"
-        @click.stop="openDialogVideo"
+        @click.stop="changeVideoMode"
       >
         <img h-11 rounded-1 :src="store.play.cover">
-
         <div
           w-full h-full
           absolute top-0 left-0
@@ -384,42 +360,10 @@ const { isFullscreen, toggle } = useFullscreen(videoBox)
         step="0.01" @change="handleChangeVoice"
       >
     </div>
-    <Drawer :open="dialogVideo" :title="store.play.title" @visible-change="vis => dialogVideo = vis">
-      <section ref="videoBox" class="w-full h-full flex justify-center gap-2 pt-6">
-        <section
-          relative h-full
-          flex="~ col" rd-2
-          overflow-hidden
-          :class="!videoShowPlaylist && !isFullscreen ? 'w-80vw' : 'flex-1'"
-        >
-          <video
-            id="video-eno" autoplay
-            w-full h-full object-fill rd-2xl overflow-auto
-            class="transItem"
-            :src="store.play.video"
-          />
-
-          <div
-            absolute bottom-0 left-0
-            w-full flex justify-end gap-3
-            text-2xl p-3
-            bg="black/40"
-          >
-            <div
-              class="i-mingcute:list-check-fill w-1em h-1em cursor-pointer"
-              @click.stop="videoShowPlaylist = !videoShowPlaylist"
-            />
-            <div class="i-mingcute:fullscreen-2-fill w-1em h-1em cursor-pointer" @click.stop="toggle" />
-          </div>
-        </section>
-
-        <div v-if="videoShowPlaylist" w="1/3" class="overflow-auto h-[calc(100vh-200px)] wrapper-scroll pb-10">
-          <div v-for="song in store.playList" :key="song.id">
-            <SongItem :song="song" size="mini" />
-          </div>
-        </div>
-      </section>
-    </Drawer>
+    <Video
+      :is-playing="isPlaying"
+      :video-url="store.play.video"
+    />
   </section>
 </template>
 
