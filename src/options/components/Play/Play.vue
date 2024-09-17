@@ -344,8 +344,24 @@ function videoToFullScreen() {
       class="bg-$eno-fill-dark-1 w-1/3 min-w-120 h-[calc(100%-16px)]"
     >
       <!-- 主要信息 -->
-      <span v-if="store.play.cover" shrink-0>
+      <span
+        v-if="store.play.cover"
+        relative shrink-0 cursor-pointer
+        class="group"
+        @click.stop="openDialogVideo"
+      >
         <img h-11 rounded-1 :src="store.play.cover">
+
+        <div
+          w-full h-full
+          absolute top-0 left-0
+          bg="black/30"
+          justify-center items-center
+          hidden
+          group-hover:flex
+        >
+          <i i-mingcute:arrows-up-fill text-2xl color-gray-300 />
+        </div>
       </span>
       <div truncate grow-1>
         <div v-html="displayData.title" />
@@ -355,7 +371,6 @@ function videoToFullScreen() {
         <div hidden class="i-mingcute:download-3-fill w-1em h-1em cursor-pointer" @click.stop="download(store.play)" />
         <div class="i-mingcute:star-fill w-1em h-1em cursor-pointer" @click.stop="PLstore.startAddSong(store.play)" />
         <div class="i-mingcute:information-fill w-1em h-1em cursor-pointer" @click.stop="openBlTab" />
-        <div class="i-mingcute:video-fill w-1em h-1em cursor-pointer" @click.stop="openDialogVideo" />
       </div>
     </div>
     <!-- 其他 -->
