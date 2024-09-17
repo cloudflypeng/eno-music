@@ -354,10 +354,8 @@ function videoToFullScreen() {
       <div flex gap-2 text-sm px-2>
         <div hidden class="i-mingcute:download-3-fill w-1em h-1em cursor-pointer" @click.stop="download(store.play)" />
         <div class="i-mingcute:star-fill w-1em h-1em cursor-pointer" @click.stop="PLstore.startAddSong(store.play)" />
-        <div class="i-mingcute:share-forward-fill w-1em h-1em cursor-pointer" @click.stop="openBlTab" />
+        <div class="i-mingcute:information-fill w-1em h-1em cursor-pointer" @click.stop="openBlTab" />
         <div class="i-mingcute:video-fill w-1em h-1em cursor-pointer" @click.stop="openDialogVideo" />
-        <!-- <div class="i-tdesign:card w-1em h-1em" />
-        <div class="i-mingcute:more-1-fill w-1em h-1em" /> -->
       </div>
     </div>
     <!-- 其他 -->
