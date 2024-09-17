@@ -392,19 +392,31 @@ function videoToFullScreen() {
       >
     </div>
     <Drawer :open="dialogVideo" :title="store.play.title" @visible-change="vis => dialogVideo = vis">
-      <section id="videcontent" class="flex justify-center h-full pt-6">
-        <section :class="cn(videoShowPlaylist ? 'w-2/3' : 'w-[80vw]')">
+      <section id="videcontent" class="flex justify-center gap-2 h-full pt-6">
+        <section
+          relative h-full
+          flex="~ col" rd-2
+          overflow-hidden
+          :class="cn(videoShowPlaylist ? 'w-2/3' : 'w-[80vw]')"
+        >
           <video
-            id="video-eno" autoplay class="w-full rounded-2xl overflow-auto h-fit transItem"
+            id="video-eno" autoplay
+            w-full h-full object-fill rd-2xl overflow-auto
+            class="transItem"
             :src="store.play.video"
           />
-          <div class="text-3xl py-3 flex gap-3">
-            <div class="i-mingcute:fullscreen-2-fill w-1em h-1em cursor-pointer" @click.stop="videoToFullScreen" />
+
+          <div
+            absolute bottom-0 left-0
+            w-full flex justify-end gap-3
+            text-2xl p-3
+            bg="black/40"
+          >
             <div
-              class="i-mingcute:columns-2-fill w-1em h-1em cursor-pointer"
+              class="i-mingcute:list-check-fill w-1em h-1em cursor-pointer"
               @click.stop="videoShowPlaylist = !videoShowPlaylist"
             />
-            <div class="i-mingcute:cardano-ada-line w-1em h-1em" />
+            <div class="i-mingcute:fullscreen-2-fill w-1em h-1em cursor-pointer" @click.stop="videoToFullScreen" />
           </div>
         </section>
         <div v-if="videoShowPlaylist" class="overflow-auto h-[calc(100vh-200px)] wrapper-scroll pb-10 flex-1">
