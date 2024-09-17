@@ -59,8 +59,8 @@ function openAfdian() {
     <!-- 分割线 -->
     <div class="h-0.5 bg-$eno-fill-2" />
     <div :class="`${tabClass} bg-$eno-fill-2`" text-lg @click.stop="createDialogVis = true">
-      <div class="i-mingcute:plus-fill w-1em h-1em" />
-      <span v-if="open">新建播放列表</span>
+      <div class="i-tabler:playlist-add text-[20px]" />
+      <span v-if="open" class="text-[14px]">新建播放列表</span>
     </div>
     <Dialog :open="createDialogVis" title="新建播放列表" @visible-change="createDialogVis = $event">
       <div class="flex flex-col gap-3 w-full h-full justify-between">
@@ -80,8 +80,8 @@ function openAfdian() {
         </div>
       </template>
     </Dialog>
-    <TabItem :tab="{ icon: 'i-mingcute:group-2-fill', title: '关注的音乐人', mode: 'singerList' }" :open="open" />
-    <TabItem class="h-13" :tab="{ icon: 'i-mingcute:time-fill', mode: 'listenLater' }" :open="open">
+    <TabItem :tab="{ icon: 'i-tabler:user-star', title: '关注的音乐人', mode: 'singerList' }" :open="open" />
+    <TabItem class="h-13" :tab="{ icon: 'i-tabler:clock-play', mode: 'listenLater' }" :open="open">
       <template #default>
         <div v-if="open" text-xs>
           <div>稍后播放</div>
@@ -90,11 +90,11 @@ function openAfdian() {
       </template>
     </TabItem>
     <!-- 关于 -->
-    <TabItem :tab="{ icon: 'i-mingcute:information-fill', title: '关于', mode: 'about' }" :open="open" />
+    <TabItem :tab="{ icon: 'i-tabler:info-circle', title: '关于', mode: 'about' }" :open="open" />
     <!-- 爱发电 -->
     <div :class="`${tabClass}`" text-lg @click.stop="openAfdian">
       <div class="i-mingcute:flash-line w-1em h-1em" />
-      <span v-if="open">爱发电</span>
+      <span v-if="open" class="text-[14px]">爱发电</span>
     </div>
   </aside>
 </template>

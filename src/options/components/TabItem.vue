@@ -24,8 +24,8 @@ const tabClass = computed(() => {
 
 <template>
   <div :class="tabClass" @click.stop="store.mode = tab.mode">
-    <div :class="tab.icon" />
-    <span v-if="open && tab.title" class="text-lg">{{ tab.title }}</span>
+    <div :class="tab.icon" class="text-[20px]" />
+    <span v-if="open && tab.title" class="text-[14px]">{{ tab.title }}</span>
     <slot />
   </div>
 </template>
