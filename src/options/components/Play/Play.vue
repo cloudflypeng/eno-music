@@ -1,5 +1,5 @@
 <script setup>
-import { useLocalStorage } from '@vueuse/core'
+import { useFullscreen, useLocalStorage } from '@vueuse/core'
 import { Howl } from 'howler'
 import cn from 'classnames'
 import SongItem from '../SongItem.vue'
@@ -283,20 +283,9 @@ watch(() => dialogVideo.value, (value) => {
     clearInterval(timer.value)
   }
 })
-function videoToFullScreen() {
-  const video = document.getElementById('videcontent')
-  if (video.requestFullscreen)
-    video.requestFullscreen()
 
-  else if (video.webkitRequestFullscreen)
-    video.webkitRequestFullscreen()
-
-  else if (video.mozRequestFullScreen)
-    video.mozRequestFullScreen()
-
-  else if (video.msRequestFullscreen)
-    video.msRequestFullscreen()
-}
+const videoBox = ref(null)
+const { isFullscreen, toggle } = useFullscreen(videoBox)
 </script>
 
 <template>
@@ -344,8 +333,24 @@ function videoToFullScreen() {
       class="bg-$eno-fill-dark-1 w-1/3 min-w-120 h-[calc(100%-16px)]"
     >
       <!-- 主要信息 -->
-      <span v-if="store.play.cover" shrink-0>
+      <span
+        v-if="store.play.cover"
+        relative shrink-0 cursor-pointer
+        class="group"
+        @click.stop="openDialogVideo"
+      >
         <img h-11 rounded-1 :src="store.play.cover">
+
+        <div
+          w-full h-full
+          absolute top-0 left-0
+          bg="black/30"
+          justify-center items-center
+          hidden
+          group-hover:flex
+        >
+          <i i-mingcute:arrows-up-fill text-2xl color-gray-300 />
+        </div>
       </span>
       <div truncate grow-1>
         <div v-html="displayData.title" />
@@ -354,10 +359,7 @@ function videoToFullScreen() {
       <div flex gap-2 text-sm px-2>
         <div hidden class="i-mingcute:download-3-fill w-1em h-1em cursor-pointer" @click.stop="download(store.play)" />
         <div class="i-mingcute:star-fill w-1em h-1em cursor-pointer" @click.stop="PLstore.startAddSong(store.play)" />
-        <div class="i-mingcute:share-forward-fill w-1em h-1em cursor-pointer" @click.stop="openBlTab" />
-        <div class="i-mingcute:video-fill w-1em h-1em cursor-pointer" @click.stop="openDialogVideo" />
-        <!-- <div class="i-tdesign:card w-1em h-1em" />
-        <div class="i-mingcute:more-1-fill w-1em h-1em" /> -->
+        <div class="i-mingcute:information-fill w-1em h-1em cursor-pointer" @click.stop="openBlTab" />
       </div>
     </div>
     <!-- 其他 -->
@@ -379,22 +381,35 @@ function videoToFullScreen() {
       >
     </div>
     <Drawer :open="dialogVideo" :title="store.play.title" @visible-change="vis => dialogVideo = vis">
-      <section id="videcontent" class="flex justify-center h-full pt-6">
-        <section :class="cn(videoShowPlaylist ? 'w-2/3' : 'w-[80vw]')">
+      <section ref="videoBox" class="w-full h-full flex justify-center gap-2 pt-6">
+        <section
+          relative h-full
+          flex="~ col" rd-2
+          overflow-hidden
+          :class="!videoShowPlaylist && !isFullscreen ? 'w-80vw' : 'flex-1'"
+        >
           <video
-            id="video-eno" autoplay class="w-full rounded-2xl overflow-auto h-fit transItem"
+            id="video-eno" autoplay
+            w-full h-full object-fill rd-2xl overflow-auto
+            class="transItem"
             :src="store.play.video"
           />
-          <div class="text-3xl py-3 flex gap-3">
-            <div class="i-mingcute:fullscreen-2-fill w-1em h-1em cursor-pointer" @click.stop="videoToFullScreen" />
+
+          <div
+            absolute bottom-0 left-0
+            w-full flex justify-end gap-3
+            text-2xl p-3
+            bg="black/40"
+          >
             <div
-              class="i-mingcute:columns-2-fill w-1em h-1em cursor-pointer"
+              class="i-mingcute:list-check-fill w-1em h-1em cursor-pointer"
               @click.stop="videoShowPlaylist = !videoShowPlaylist"
             />
-            <div class="i-mingcute:cardano-ada-line w-1em h-1em" />
+            <div class="i-mingcute:fullscreen-2-fill w-1em h-1em cursor-pointer" @click.stop="toggle" />
           </div>
         </section>
-        <div v-if="videoShowPlaylist" class="overflow-auto h-[calc(100vh-200px)] wrapper-scroll pb-10 flex-1">
+
+        <div v-if="videoShowPlaylist" w="1/3" class="overflow-auto h-[calc(100vh-200px)] wrapper-scroll pb-10">
           <div v-for="song in store.playList" :key="song.id">
             <SongItem :song="song" size="mini" />
           </div>
