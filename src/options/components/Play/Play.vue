@@ -66,7 +66,7 @@ function updateProgess() {
     requestAnimationFrame(updateProgess)
 }
 
-function playMusic() {
+function initMusic() {
   const url = store.play.url
   // 重置进度
   progress.percent = 0
@@ -99,7 +99,7 @@ function playMusic() {
     },
     onend: () => {
       if (store.loopMode === 'single')
-        playMusic()
+        initMusic()
       else change('next')
     },
   })
@@ -163,7 +163,7 @@ watch(() => store.play?.id, async () => {
       ? await getCidUrl(currentSong)
       : await getSidUrl(currentSong)
   store.play = play
-  playMusic()
+  initMusic()
 })
 // 顺序切换
 function change(type) {
@@ -215,6 +215,10 @@ const displayData = computed(() => {
 })
 
 function playControl() {
+  // 当前未播放，点击加载音乐
+  if (!store.howl)
+    return initMusic()
+
   if (isPlaying.value)
     store.howl.pause()
   else

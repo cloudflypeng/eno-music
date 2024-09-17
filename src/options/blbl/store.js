@@ -1,6 +1,6 @@
 import { defineStore } from 'pinia'
 import { cloneDeep } from 'lodash'
-import { useLocalStorage } from '@vueuse/core/index.cjs'
+import { useStorage } from '@vueuse/core'
 import { useApiClient } from '~/composables/api'
 
 const api = useApiClient()
@@ -9,10 +9,10 @@ export const useBlblStore = defineStore({
   id: 'blbl',
   state: () => ({
     howl: null,
-    play: {}, // 当前播放的歌曲信息
-    playList: [], // 播放列表
+    play: useStorage('playInfo', {}), // 当前播放的歌曲信息
+    playList: useStorage('playList', []), // 播放列表
     count: 0,
-    loopMode: useLocalStorage('loopMode', 'list'),
+    loopMode: useStorage('loopMode', 'list'),
     mode: 'home',
     timestampRefreshMap: {
       biliMusic: 0,
@@ -22,13 +22,13 @@ export const useBlblStore = defineStore({
     currentRank: {},
     rankDetailList: [],
     // 热度榜单
-    hitList: useLocalStorage('hitList', []),
+    hitList: useStorage('hitList', []),
     currentHit: {},
     hit_ps: 10,
     hit_pn: 1,
     // 音乐排行榜
     ranksId: [],
-    musicRankList: useLocalStorage('musicRankList', []),
+    musicRankList: useStorage('musicRankList', []),
   }),
   // 计算属性
   getters: {
