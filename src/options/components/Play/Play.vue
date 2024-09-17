@@ -1,5 +1,5 @@
 <script setup>
-import { useLocalStorage } from '@vueuse/core'
+import { useFullscreen, useLocalStorage } from '@vueuse/core'
 import { Howl } from 'howler'
 import cn from 'classnames'
 import SongItem from '../SongItem.vue'
@@ -283,20 +283,9 @@ watch(() => dialogVideo.value, (value) => {
     clearInterval(timer.value)
   }
 })
-function videoToFullScreen() {
-  const video = document.getElementById('videcontent')
-  if (video.requestFullscreen)
-    video.requestFullscreen()
 
-  else if (video.webkitRequestFullscreen)
-    video.webkitRequestFullscreen()
-
-  else if (video.mozRequestFullScreen)
-    video.mozRequestFullScreen()
-
-  else if (video.msRequestFullscreen)
-    video.msRequestFullscreen()
-}
+const videoBox = ref(null)
+const { isFullscreen, toggle } = useFullscreen(videoBox)
 </script>
 
 <template>
@@ -392,12 +381,12 @@ function videoToFullScreen() {
       >
     </div>
     <Drawer :open="dialogVideo" :title="store.play.title" @visible-change="vis => dialogVideo = vis">
-      <section id="videcontent" class="flex justify-center gap-2 h-full pt-6">
+      <section ref="videoBox" class="w-full h-full flex justify-center gap-2 pt-6">
         <section
           relative h-full
           flex="~ col" rd-2
           overflow-hidden
-          :class="cn(videoShowPlaylist ? 'w-2/3' : 'w-[80vw]')"
+          :class="!videoShowPlaylist && !isFullscreen ? 'w-80vw' : 'flex-1'"
         >
           <video
             id="video-eno" autoplay
@@ -416,10 +405,11 @@ function videoToFullScreen() {
               class="i-mingcute:list-check-fill w-1em h-1em cursor-pointer"
               @click.stop="videoShowPlaylist = !videoShowPlaylist"
             />
-            <div class="i-mingcute:fullscreen-2-fill w-1em h-1em cursor-pointer" @click.stop="videoToFullScreen" />
+            <div class="i-mingcute:fullscreen-2-fill w-1em h-1em cursor-pointer" @click.stop="toggle" />
           </div>
         </section>
-        <div v-if="videoShowPlaylist" class="overflow-auto h-[calc(100vh-200px)] wrapper-scroll pb-10 flex-1">
+
+        <div v-if="videoShowPlaylist" w="1/3" class="overflow-auto h-[calc(100vh-200px)] wrapper-scroll pb-10">
           <div v-for="song in store.playList" :key="song.id">
             <SongItem :song="song" size="mini" />
           </div>
