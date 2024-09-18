@@ -103,6 +103,7 @@ onMounted(() => {
 // isPlaying, 和 videoUrl 变化时，同步视频
 watch([() => props.isPlaying, () => props.videoUrl], ([newIsPlaying, newVideoUrl]) => {
   if (newIsPlaying && newVideoUrl) {
+    // 等待 videoDom 渲染完成
     nextTick(() => {
       videoDom.value.play()
       syncVideo()
