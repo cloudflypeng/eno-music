@@ -103,8 +103,8 @@ onMounted(() => {
 // isPlaying, 和 videoUrl 变化时，同步视频
 watch([() => props.isPlaying, () => props.videoUrl], ([newIsPlaying, newVideoUrl]) => {
   if (newIsPlaying && newVideoUrl) {
-    videoDom.value.play()
     nextTick(() => {
+      videoDom.value.play()
       syncVideo()
     })
     // timer.value = setInterval(() => {
@@ -134,7 +134,7 @@ function toggleFullscreen() {
       v-show="store.videoMode === VIDEO_MODE.FLOATING"
       ref="floatingLayer"
       :style="layerStyle"
-      class="w-[300px] cursor-move group"
+      class="w-[400px] cursor-move group"
       @mousedown="startDrag"
     >
       <video
