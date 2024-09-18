@@ -118,6 +118,8 @@ watch([() => props.isPlaying, () => props.videoUrl], ([newIsPlaying, newVideoUrl
 })
 
 window.addEventListener('focus', () => {
+  if (props.isPlaying && props.videoUrl)
+    videoDom.value.play()
   syncVideo()
 })
 function syncVideo() {
