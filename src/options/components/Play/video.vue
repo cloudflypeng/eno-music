@@ -1,6 +1,7 @@
 <script setup>
 import { computed, onMounted, reactive, ref, watch } from 'vue'
 import { useFullscreen } from '@vueuse/core'
+import cn from 'classnames'
 import { VIDEO_MODE, useBlblStore } from '../../blbl/store'
 
 // 交互相关
@@ -137,7 +138,7 @@ function toggleFullscreen() {
       v-show="store.videoMode === VIDEO_MODE.FLOATING"
       ref="floatingLayer"
       :style="layerStyle"
-      class="w-[400px] cursor-move group"
+      :class="cn('w-[400px] cursor-move group ', !isDragging && 'transition-all duration-300 ease-in-out')"
       @mousedown="startDrag"
     >
       <video
@@ -172,4 +173,8 @@ function toggleFullscreen() {
 </template>
 
 <style scoped>
+/* 弹性动画 */
+.transItem {
+  transition: transform 0.3s ease-in-out;
+}
 </style>
