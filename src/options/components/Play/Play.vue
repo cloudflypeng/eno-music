@@ -329,7 +329,7 @@ function changeVideoMode() {
           hidden
           group-hover:flex
         >
-          <i i-mingcute:arrows-up-fill text-2xl color-gray-300 />
+          <i i-mingcute:arrows-up-fill text-2xl color-gray-300 :class="cn({ 'rotate-180': store.videoMode === VIDEO_MODE.FLOATING })" />
         </div>
       </span>
       <div truncate grow-1>
