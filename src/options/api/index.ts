@@ -1,3 +1,4 @@
+import { efetch } from '@meanc/webext-fetch'
 import { encWbi, getWbiKeys } from './wbi'
 
 async function getUserArc(params: object) {
@@ -24,4 +25,22 @@ async function getUserArc(params: object) {
   return res.json()
 }
 
-export { getUserArc }
+async function getSeasonInfo(params: Record<string, any>) {
+  const defaultParams = {
+    mid: 1,
+    season_id: 0,
+  }
+  params = { ...defaultParams, ...params }
+  const url = `https://api.bilibili.com/x/polymer/web-space/seasons_archives_list?${new URLSearchParams(params).toString()}`
+  const res = await efetch(url, {
+    method: 'GET',
+
+    headers: {
+      Referer: 'https://www.bilibili.com/',
+    },
+  })
+
+  return res
+}
+
+export { getUserArc, getSeasonInfo }
