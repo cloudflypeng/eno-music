@@ -65,7 +65,7 @@ function handleScroll(offset) {
       </div>
     </div>
     <HomeSinger />
-    <SingerPreview v-for="mid in PLstore.singers" :key="mid" :mid="mid" />
+    <SingerPreview v-for="mid in PLstore.singers.reverse()" :key="mid" :mid="mid" />
     <SingerPreview :mid="337312411" />
   </section>
 </template>

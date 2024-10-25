@@ -38,7 +38,7 @@ export const usePlaylistStore = defineStore({
     addSongDialog: false,
     // 歌手相关
     // 用户自定义歌手mid
-    singers: useLocalStorage('singers', [] as string[]),
+    singers: useLocalStorage('singers', [...defaultSingers] as string[]),
     singerCardCache: useLocalStorage('singerCardCache', {} as Record<string, any>),
     // 当前选中的歌手
     currentSinger: null as string | null,
@@ -87,14 +87,17 @@ export const usePlaylistStore = defineStore({
     },
     // 获取歌手信息
     fetchSingerInfoList() {
+      if (this.singers.length === 0) {
+        this.singers = [...defaultSingers]
+      }
       // 获取用户添加的歌手信息
       this.singers.forEach((mid) => {
         this.fetchSingerInfo(mid)
       })
-      // 获取推荐歌手信息
-      defaultSingers.forEach((mid) => {
-        this.fetchSingerInfo(mid)
-      })
+      // // 获取推荐歌手信息
+      // defaultSingers.forEach((mid) => {
+      //   this.fetchSingerInfo(mid)
+      // })
     },
     // 获取单个歌手信息
     fetchSingerInfo(mid: string, withCache = true) {

@@ -38,15 +38,15 @@ function addSinger() {
 
 <template>
   <section class="h-screen overflow-auto">
-    <div class="text-3xl my-10 mx-20">
+    <!-- <div class="text-3xl my-10 mx-20">
       推荐
-    </div>
-    <div class="flex gap-10 px-20 flex-wrap">
+    </div> -->
+    <!-- <div class="flex gap-10 px-20 flex-wrap">
       <SingerCard v-for="serid in defaultSingers" :key="serid" :singer-mid="serid" />
-    </div>
+    </div> -->
     <!-- 添加自定义歌手, 也用一个圆圈 -->
     <div class="text-3xl my-10 mx-20">
-      自定义
+      关注歌手
     </div>
     <div class="flex gap-10 px-20 flex-wrap mb-30">
       <SingerCard v-for="serid in PLstore.singers" :key="serid" :singer-mid="serid" can-del />

@@ -65,18 +65,46 @@ function handleScroll(offset) {
         </div>
       </div>
     </h5>
-    <div :id="`singer-preview-${mid}`" ref="scrollRef" overflow-auto class="w-full h-55 relative">
+    <div :id="`singer-preview-${mid}`" ref="scrollRef" overflow-auto class="w-full h-45 relative">
       <div class="absolute w-full h-full flex gap-5 px-10">
-        <div v-for="song in songList" :key="song.id" class="cursor-pointer flex-shrink-0" @click="handleClick(song)">
-          <img :src="song.cover" class=" h-40 object-cover">
-          <div>
+        <div v-for="song in songList" :key="song.id" class="cursor-pointer h-45 flex-shrink-0 relative overflow-hidden scroll-group" @click="handleClick(song)">
+          <img :src="song.cover" class="h-40 mb-5 object-cover">
+          <div class="absolute top-41 truncate w-full scroll-text">
             {{ song.title }}
           </div>
-          <div>
+          <!-- <div class="absolute top-45">
             {{ song.author }}
-          </div>
+          </div> -->
         </div>
       </div>
     </div>
   </div>
 </template>
+
+<style>
+.scroll-text {
+  white-space: nowrap;          /* 不换行 */
+  overflow: hidden;             /* 隐藏超出部分 */
+  text-overflow: ellipsis;      /* 使用省略号表示溢出文本 */
+  transition: all 0.3s;         /* 平滑过渡效果 */
+}
+
+.scrollAnim {
+  animation: scroll 5s linear infinite; /* 添加滚动动画 */
+}
+
+.scroll-group:hover .scroll-text {
+  white-space: nowrap;
+  overflow: visible;
+  animation: scroll 5s linear infinite; /* 添加滚动动画 */
+}
+
+@keyframes scroll {
+  from {
+    transform: translateX(0);
+  }
+  to {
+    transform: translateX(-100%);
+  }
+}
+</style>
