@@ -84,7 +84,6 @@ function initMusic() {
   if (index !== historyList.value.at(-1)) {
     historyList.value.push(index)
   }
-
   store.howl = new Howl({
     src: [url],
     html5: true,
@@ -162,7 +161,7 @@ async function getPlayUrl(currentSong) {
     : currentSong.eno_song_type === 'cid'
       ? await getCidUrl(currentSong)
       : await getSidUrl(currentSong)
-  return play
+  store.play = play
 }
 
 // 监听歌曲切换

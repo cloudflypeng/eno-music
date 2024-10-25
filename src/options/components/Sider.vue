@@ -28,13 +28,12 @@ function createPlaylist() {
 // 侧边栏展开相关代码
 const open = useLocalStorage('sider-open', false)
 const asideClass = computed(() => {
-  return cn('w-20 h-full flex flex-col flex-shrink-0 flex-grow-0 gap-3 text-lg p-3 px-2 border-r border-r-$eno-fill-2 ', {
+  return cn('w-16 h-full flex flex-col flex-shrink-0 flex-grow-0 gap-3 text-lg p-3 px-2 border-r border-r-$eno-fill-2 ', {
     'w-60': open.value,
   })
 })
 const tabClass = computed(() => {
-  return cn('tab-item flex w-full gap-3 text-2xl items-center h-10 cursor-pointer px-4 hover:bg-$eno-fill-2 rounded-2', {
-    'justify-center': !open.value,
+  return cn('tab-item flex w-full gap-3 text-2xl items-center h-10 cursor-pointer hover:bg-$eno-fill-2 rounded-2 pl-3', {
   })
 })
 function openAfdian() {
@@ -47,11 +46,11 @@ function openAfdian() {
   <aside :class="asideClass" transition-all duration-300>
     <!-- logo and close -->
     <div
-      :class="cn('flex items-center h-10 gap-3 px-4 tab-item ', { 'justify-center': !open })" cursor-pointer
+      class="flex items-center h-10 gap-3 tab-item cursor-pointer"
       @click="open = !open"
     >
-      <div v-if="open" class="i-mingcute:indent-decrease-fill w-1em h-1em" />
-      <div v-else class="i-mingcute:indent-increase-fill w-1em h-1em" />
+      <div v-if="open" class="i-mingcute:indent-decrease-fill w-1em h-1em ml-3" />
+      <div v-else class="i-mingcute:indent-increase-fill w-1em h-1em ml-3" />
       <span v-if="open" class="text-lg">ENO-M</span>
     </div>
     <!-- tab区 -->
@@ -101,6 +100,20 @@ function openAfdian() {
 
 <style>
 .tab-item>*:nth-child(2) {
-  animation: fadeIn 2s;
+  /* display: none; */
+  width: 0;
+  overflow: hidden;
+  text-wrap: nowrap;
+  animation: widthAni 0.5s forwards;
+}
+@keyframes widthAni {
+  from{
+    width: 0;
+    opacity: 0;
+  }
+  to{
+    width: calc(100% - 5em);
+    opacity: 1;
+  }
 }
 </style>
