@@ -14,16 +14,21 @@ const store = useBlblStore()
 const { tab } = props
 
 const tabClass = computed(() => {
-  return `${cn('tab-item flex w-full gap-3 text-2xl items-center h-10 cursor-pointer px-4 rounded-4', {
+  const isCurrentMode = store.mode === tab.mode
+  const baseClass = 'tab-item flex w-full gap-3 text-2xl items-center h-10 cursor-pointer px-4 rounded-2'
+  return `${cn(baseClass, {
     'justify-center': !props.open,
-    'bg-$eno-fill-4': store.mode === tab.mode,
-    'hover:bg-$eno-fill-2 ': store.mode !== tab.mode,
+    'bg-$eno-fill-4': isCurrentMode,
+    'hover:bg-$eno-fill-2 ': !isCurrentMode,
   })} ${props.class}`
 })
+function handleClick() {
+  store.mode = tab.mode
+}
 </script>
 
 <template>
-  <div :class="tabClass" @click.stop="store.mode = tab.mode">
+  <div :class="tabClass" @click.stop="handleClick">
     <div :class="tab.icon" class="text-[20px]" />
     <span v-if="open && tab.title" class="text-[14px]">{{ tab.title }}</span>
     <slot />

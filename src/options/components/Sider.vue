@@ -33,7 +33,7 @@ const asideClass = computed(() => {
   })
 })
 const tabClass = computed(() => {
-  return cn('tab-item flex w-full gap-3 text-2xl items-center h-10 cursor-pointer px-4 hover:bg-$eno-fill-2 rounded-4', {
+  return cn('tab-item flex w-full gap-3 text-2xl items-center h-10 cursor-pointer px-4 hover:bg-$eno-fill-2 rounded-2', {
     'justify-center': !open.value,
   })
 })
@@ -58,7 +58,7 @@ function openAfdian() {
     <TabItem v-for="tab in tabs" :key="tab.mode" :tab="tab" :open="open" />
     <!-- 分割线 -->
     <div class="h-0.5 bg-$eno-fill-2" />
-    <div :class="`${tabClass} bg-$eno-fill-2`" text-lg @click.stop="createDialogVis = true">
+    <div :class="`${tabClass}`" text-lg @click.stop="createDialogVis = true">
       <div class="i-tabler:playlist-add text-[20px]" />
       <span v-if="open" class="text-[14px]">新建播放列表</span>
     </div>

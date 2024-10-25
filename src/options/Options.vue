@@ -40,15 +40,31 @@ function getCookie() {
 function getBLCookie() {
   chrome.cookies.getAll({ domain: '.bilibili.com' }, (cookies) => {
     if (cookies.length > 0) {
-      const cookieString = cookies.map(cookie => `${cookie.name}=${cookie.value}`).join('; ')
-
-      chrome.cookies.set(cookieString)
+      cookies.forEach((cookie) => {
+        chrome.cookies.set({
+          url: 'https://www.bilibili.com', // 使用适当的 URL
+          name: cookie.name,
+          value: cookie.value,
+          path: cookie.path, // 根据需要添加其他属性
+          secure: cookie.secure,
+          httpOnly: cookie.httpOnly,
+          expirationDate: cookie.expirationDate, // 如果需要过期时间
+        }, () => {
+          if (chrome.runtime.lastError) {
+            console.error(`Error setting cookie ${cookie.name}: ${chrome.runtime.lastError}`)
+          }
+          else {
+            console.log(`Cookie ${cookie.name} set`)
+          }
+        })
+      })
     }
     else {
       console.log('No Bilibili cookies found')
     }
   })
 }
+
 onMounted(() => {
   getBLCookie()
   // 每天获取一次cookie就可以

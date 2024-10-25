@@ -57,7 +57,6 @@ export async function getManifest() {
     ],
     host_permissions: ['*://*/*'],
     content_scripts: [
-
     ],
     web_accessible_resources: [
       {

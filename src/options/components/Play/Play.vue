@@ -156,15 +156,19 @@ async function getSidUrl(item) {
   }
 }
 
-// 监听歌曲切换
-watch(() => store.play?.id, async () => {
-  const currentSong = store.play
+async function getPlayUrl(currentSong) {
   const play = currentSong.eno_song_type === 'bvid'
     ? await getBvidUrl(currentSong)
     : currentSong.eno_song_type === 'cid'
       ? await getCidUrl(currentSong)
       : await getSidUrl(currentSong)
-  store.play = play
+  return play
+}
+
+// 监听歌曲切换
+watch(() => store.play?.id, async () => {
+  const currentSong = store.play
+  await getPlayUrl(currentSong)
   initMusic()
 })
 // 顺序切换
@@ -216,10 +220,12 @@ const displayData = computed(() => {
   }
 })
 
-function playControl() {
+async function playControl() {
   // 当前未播放，点击加载音乐
-  if (!store.howl)
+  if (!store.howl) {
+    await getPlayUrl(store.play)
     return initMusic()
+  }
 
   if (isPlaying.value)
     store.howl.pause()
@@ -272,96 +278,97 @@ function changeVideoMode() {
 
 <template>
   <!-- 增加一个背景图 -->
-  <img v-if="store.play" :src="store.play.cover" class="absolute w-screen h-20 bottom-0 object-cover">
   <section
-    class="bg-$eno-elevated w-screen h-20 px-6 flex z-10"
-    style="backdrop-filter: var(--eno-filter-glass-light-1)" flex="row items-center justify-between"
-    pos="fixed bottom-0 left-0" color-white gap-6 transform-gpu
+    class="w-screen h-20 flex z-10"
+    pos="fixed bottom-0 left-0" gap-6 transform-gpu
   >
-    <!-- 音乐进度 -->
-    <div class="w-screen top-0 left-0 absolute h-[2px] bg-yellow" :style="progressTrans" />
-    <!-- 音乐滑块 -->
-    <input
-      v-model="progress.percent" type="range" min="0" max="1" step="0.001"
-      class="w-full absolute top-0 left-0 h-1 bg-$eno-fill-2 rounded-1 cursor-pointer play-progress"
-      @input="isDragging = true" @change="changeProgress"
-    >
-    <!-- 音乐控制 -->
-    <div flex flex-row items-center text-2xl gap-10 w-100>
-      <div
-        cursor-pointer class="i-tabler:player-track-prev-filled w-1em h-1em hover:opacity-50"
-        @click.stop="change('prev')"
-      />
-      <div
-        v-if="isPlaying" cursor-pointer text-3xl class="i-tabler:player-pause-filled w-1em h-1em hover:opacity-50"
-        @click.stop="playControl"
-      />
-      <div
-        v-else cursor-pointer text-3xl class="i-tabler:player-play-filled w-1em h-1em hover:opacity-50"
-        @click.stop="playControl"
-      />
-      <div
-        cursor-pointer class="i-tabler:player-track-next-filled w-1em h-1em hover:opacity-50"
-        @click.stop="change('next')"
-      />
-      <LoopSwitch />
-      <div text-xs>
-        {{ timeDisplay.current }}/{{ timeDisplay.total }}
-      </div>
-    </div>
-    <!-- 播放信息 -->
-    <div
-      flex flex-row items-center gap-4 text-left truncate rounded-2 backdrop-blur px-3 py-1
-      class="bg-$eno-fill-dark-1 w-1/3 min-w-120 h-[calc(100%-16px)]"
-    >
-      <!-- 主要信息 -->
-      <span
-        v-if="store.play.cover"
-        relative shrink-0 cursor-pointer
-        class="group"
-        @click.stop="changeVideoMode"
-      >
-        <img h-11 rounded-1 :src="store.play.cover">
-        <div
-          w-full h-full
-          absolute top-0 left-0
-          bg="black/30"
-          justify-center items-center
-          hidden
-          group-hover:flex
-        >
-          <i i-mingcute:arrows-up-fill text-2xl color-gray-300 :class="cn({ 'rotate-180': store.videoMode === VIDEO_MODE.FLOATING })" />
-        </div>
-      </span>
-      <div truncate grow-1>
-        <div v-html="displayData.title" />
-        <span>{{ store.play.author }}{{ store.play.description }}</span>
-      </div>
-      <div flex gap-2 text-sm px-2>
-        <div hidden class="i-mingcute:download-3-fill w-1em h-1em cursor-pointer" @click.stop="download(store.play)" />
-        <div class="i-mingcute:star-fill w-1em h-1em cursor-pointer" @click.stop="PLstore.startAddSong(store.play)" />
-        <div class="i-mingcute:information-fill w-1em h-1em cursor-pointer" @click.stop="openBlTab" />
-      </div>
-    </div>
-    <!-- 其他 -->
-    <div flex flex-row-reverse text-lg gap-5 w-100>
-      <div
-        v-if="fullScreenStatus" cursor-pointer class="i-mingcute:fullscreen-fill w-1em h-1em"
-        @click.stop="fullScreenTheBody"
-      />
-      <div v-else cursor-pointer class="i-mingcute:fullscreen-exit-fill w-1em h-1em" @click.stop="fullScreenTheBody" />
-      <div cursor-pointer class="i-tabler:playlist w-1em h-1em" @click="toggleList" />
-      <NewDrawer :open="showList" title="播放列表" position="right" @visible-change="vis => showList = vis">
-        <div class="w-100">
-          <SongItem v-for="(song, index) in store.playList" :key="song.id" show-active del :song="song" size="mini" @delete-song="deleteSong(index)" />
-        </div>
-      </NewDrawer>
-      <div v-if="isCloseVoice" cursor-pointer class="i-mingcute:volume-mute-line w-1em h-1em" @click.stop="setVoice" />
-      <div v-else cursor-pointer class="i-mingcute:volume-line w-1em h-1em" @click.stop="setVoice" />
+    <img v-if="store.play" :src="store.play.cover" class="absolute w-screen h-20 bottom-0 object-cover">
+    <div class="flex color-white w-screen px-6 bg-$eno-elevated " style="backdrop-filter: var(--eno-filter-glass-light-1)" flex="row items-center justify-between">
+      <!-- 音乐进度 -->
+      <div class="w-screen top-0 left-0 absolute h-[2px] bg-yellow" :style="progressTrans" />
+      <!-- 音乐滑块 -->
       <input
-        v-if="!isCloseVoice" id="voice-progress" v-model="voice" type="range" class="w-20" min="0" max="1"
-        step="0.01" @change="handleChangeVoice"
+        v-model="progress.percent" type="range" min="0" max="1" step="0.001"
+        class="w-full absolute top-0 left-0 h-1 bg-$eno-fill-2 rounded-1 cursor-pointer play-progress"
+        @input="isDragging = true" @change="changeProgress"
       >
+      <!-- 音乐控制 -->
+      <div flex flex-row items-center text-2xl gap-10 w-100>
+        <div
+          cursor-pointer class="i-tabler:player-track-prev-filled w-1em h-1em hover:opacity-50"
+          @click.stop="change('prev')"
+        />
+        <div
+          v-if="isPlaying" cursor-pointer text-3xl class="i-tabler:player-pause-filled w-1em h-1em hover:opacity-50"
+          @click.stop="playControl"
+        />
+        <div
+          v-else cursor-pointer text-3xl class="i-tabler:player-play-filled w-1em h-1em hover:opacity-50"
+          @click.stop="playControl"
+        />
+        <div
+          cursor-pointer class="i-tabler:player-track-next-filled w-1em h-1em hover:opacity-50"
+          @click.stop="change('next')"
+        />
+        <LoopSwitch />
+        <div text-xs>
+          {{ timeDisplay.current }}/{{ timeDisplay.total }}
+        </div>
+      </div>
+      <!-- 播放信息 -->
+      <div
+        flex flex-row items-center gap-4 text-left truncate rounded-2 backdrop-blur px-3 py-1
+        class="bg-$eno-fill-dark-1 w-1/3 min-w-120 h-[calc(100%-16px)]"
+      >
+        <!-- 主要信息 -->
+        <span
+          v-if="store.play.cover"
+          relative shrink-0 cursor-pointer
+          class="group"
+          @click.stop="changeVideoMode"
+        >
+          <img h-11 rounded-1 :src="store.play.cover">
+          <div
+            w-full h-full
+            absolute top-0 left-0
+            bg="black/30"
+            justify-center items-center
+            hidden
+            group-hover:flex
+          >
+            <i i-mingcute:arrows-up-fill text-2xl color-gray-300 :class="cn({ 'rotate-180': store.videoMode === VIDEO_MODE.FLOATING })" />
+          </div>
+        </span>
+        <div truncate grow-1>
+          <div v-html="displayData.title" />
+          <span>{{ store.play.author }}{{ store.play.description }}</span>
+        </div>
+        <div flex gap-2 text-sm px-2>
+          <div hidden class="i-mingcute:download-3-fill w-1em h-1em cursor-pointer" @click.stop="download(store.play)" />
+          <div class="i-mingcute:star-fill w-1em h-1em cursor-pointer" @click.stop="PLstore.startAddSong(store.play)" />
+          <div class="i-mingcute:information-fill w-1em h-1em cursor-pointer" @click.stop="openBlTab" />
+        </div>
+      </div>
+      <!-- 其他 -->
+      <div flex flex-row-reverse text-lg gap-5 w-100>
+        <div
+          v-if="fullScreenStatus" cursor-pointer class="i-mingcute:fullscreen-fill w-1em h-1em"
+          @click.stop="fullScreenTheBody"
+        />
+        <div v-else cursor-pointer class="i-mingcute:fullscreen-exit-fill w-1em h-1em" @click.stop="fullScreenTheBody" />
+        <div cursor-pointer class="i-tabler:playlist w-1em h-1em" @click="toggleList" />
+        <NewDrawer :open="showList" title="播放列表" position="right" @visible-change="vis => showList = vis">
+          <div class="w-100">
+            <SongItem v-for="(song, index) in store.playList" :key="song.id" show-active del :song="song" size="mini" @delete-song="deleteSong(index)" />
+          </div>
+        </NewDrawer>
+        <div v-if="isCloseVoice" cursor-pointer class="i-mingcute:volume-mute-line w-1em h-1em" @click.stop="setVoice" />
+        <div v-else cursor-pointer class="i-mingcute:volume-line w-1em h-1em" @click.stop="setVoice" />
+        <input
+          v-if="!isCloseVoice" id="voice-progress" v-model="voice" type="range" class="w-20" min="0" max="1"
+          step="0.01" @change="handleChangeVoice"
+        >
+      </div>
     </div>
     <Video
       v-if="store.videoMode !== VIDEO_MODE.HIDDEN"

@@ -1,4 +1,3 @@
-<!-- eslint-disable no-console -->
 <script setup>
 import { onMounted } from 'vue'
 import { cloneDeep } from 'lodash'
@@ -12,6 +11,11 @@ import SingerPreview from './singer-preview.vue'
 const store = useBlblStore()
 const PLstore = usePlaylistStore()
 const rankScroll = ref(null)
+
+const renderSingerPreviewReverse = computed(() => {
+  const singers = [...PLstore.singers].reverse()
+  return singers
+})
 
 onMounted(() => {
   store.initHomePage()
@@ -29,7 +33,7 @@ function handleScroll(offset) {
 </script>
 
 <template>
-  <section w-full h-screen overflow-auto pb-20>
+  <section w-full h-screen overflow-auto pb-30>
     <!-- bilibili音乐榜 -->
     <h5 text="3xl $eno-text-1 fw-600" class="py-5 text-left px-10 flex items-end gap-3 inline-flex relative w-full">
       <div class="i-mingcute:play-circle-line w-1em h-1em cursor-pointer" @click="handlePlayRank" />
@@ -48,7 +52,7 @@ function handleScroll(offset) {
         </div>
       </div>
     </h5>
-    <div ref="rankScroll" overflow-auto class="w-full h-55 relative">
+    <div ref="rankScroll" overflow-auto class="w-full h-55 pb-20 relative">
       <div class="absolute w-full h-full flex gap-5 px-10">
         <div
           v-for="(bannerSong) in store.musicRankList" :key="bannerSong.id" class="cursor-pointer"
@@ -65,8 +69,7 @@ function handleScroll(offset) {
       </div>
     </div>
     <HomeSinger />
-    <SingerPreview v-for="mid in PLstore.singers.reverse()" :key="mid" :mid="mid" />
-    <SingerPreview :mid="337312411" />
+    <SingerPreview v-for="mid in renderSingerPreviewReverse" :key="mid" :mid="mid" />
   </section>
 </template>
 

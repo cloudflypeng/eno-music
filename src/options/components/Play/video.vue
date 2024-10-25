@@ -124,7 +124,7 @@ window.addEventListener('focus', () => {
   syncVideo()
 })
 function syncVideo() {
-  if (videoDom.value)
+  if (videoDom.value && store.howl)
     videoDom.value.currentTime = store.howl.seek()
 }
 function toggleFullscreen() {
