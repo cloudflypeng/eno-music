@@ -39,6 +39,7 @@
     "eslint-plugin-simple-import-sort": "^12.1.1",
     "file-saver": "^2.0.5",
     "howler": "^2.2.4",
+    "less": "^4.2.0",
     "md5": "^2.3.0",
     "nanoid": "^5.0.7",
     "pinia": "^2.1.7",

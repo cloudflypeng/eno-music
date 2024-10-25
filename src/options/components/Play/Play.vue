@@ -11,6 +11,7 @@ import Video from './video.vue'
 import { useApiClient } from '~/composables/api'
 import Dialog from '~/components/dialog/index.vue'
 import Drawer from '~/components/drawer/index.vue'
+import NewDrawer from '~/components/drawer/drawer.vue'
 import { download } from '~/options/utils.ts'
 
 const PLstore = usePlaylistStore()
@@ -350,9 +351,11 @@ function changeVideoMode() {
       />
       <div v-else cursor-pointer class="i-mingcute:fullscreen-exit-fill w-1em h-1em" @click.stop="fullScreenTheBody" />
       <div cursor-pointer class="i-tabler:playlist w-1em h-1em" @click="toggleList" />
-      <Dialog :open="showList" title="播放列表" @visible-change="vis => showList = vis">
-        <SongItem v-for="(song, index) in store.playList" :key="song.id" show-active del :song="song" size="mini" @delete-song="deleteSong(index)" />
-      </Dialog>
+      <NewDrawer :open="showList" title="播放列表" position="right" @visible-change="vis => showList = vis">
+        <div class="w-100">
+          <SongItem v-for="(song, index) in store.playList" :key="song.id" show-active del :song="song" size="mini" @delete-song="deleteSong(index)" />
+        </div>
+      </NewDrawer>
       <div v-if="isCloseVoice" cursor-pointer class="i-mingcute:volume-mute-line w-1em h-1em" @click.stop="setVoice" />
       <div v-else cursor-pointer class="i-mingcute:volume-line w-1em h-1em" @click.stop="setVoice" />
       <input
