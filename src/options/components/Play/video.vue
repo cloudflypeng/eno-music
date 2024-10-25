@@ -130,6 +130,9 @@ function syncVideo() {
 function toggleFullscreen() {
   toggle()
 }
+function closeVideo() {
+  store.videoMode = VIDEO_MODE.HIDDEN
+}
 </script>
 
 <template>
@@ -158,15 +161,15 @@ function toggleFullscreen() {
         hidden
         group-hover:flex
       >
-        <div
-
+        <!-- <div
           class="i-material-symbols:float-landscape-2-outline-rounded w-1rem h-1rem mr-3 cursor-pointer"
-        />
+        /> -->
         <!-- 全屏 -->
         <div
-          class="i-mingcute:fullscreen-line w-1rem h-1rem cursor-pointer"
+          class="i-mingcute:fullscreen-line w-1rem h-1rem cursor-pointer mr-3"
           @click="toggleFullscreen"
         />
+        <div class="i-mingcute:close-line w-1rem h-1rem cursor-pointer" @click="closeVideo" />
       </div>
     </div>
   </Teleport>

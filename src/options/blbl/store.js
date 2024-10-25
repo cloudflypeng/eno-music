@@ -8,6 +8,7 @@ const api = useApiClient()
 export const VIDEO_MODE = {
   FLOATING: 'floating',
   DRAWER: 'drawer',
+  HIDDEN: 'hidden',
 }
 
 export const useBlblStore = defineStore({

@@ -364,6 +364,7 @@ function changeVideoMode() {
       >
     </div>
     <Video
+      v-if="store.videoMode !== VIDEO_MODE.HIDDEN"
       :is-playing="isPlaying"
       :video-url="store.play.video"
     />
