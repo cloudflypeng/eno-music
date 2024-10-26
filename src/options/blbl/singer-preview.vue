@@ -69,12 +69,12 @@ function handleScroll(offset) {
       <div class="absolute w-full h-full flex gap-5 px-10">
         <div v-for="song in songList" :key="song.id" class="cursor-pointer h-45 flex-shrink-0 relative overflow-hidden scroll-group" @click="handleClick(song)">
           <img :src="song.cover" class="h-40 mb-5 object-cover">
+          <div class="h-40 w-full flex flex justify-center items-center opacity-0 hover:opacity-100 bg-$eno-content bg-opacity-10 duration-300 transform" pos="absolute top-0 left-0">
+            <div class="i-mingcute:play-circle-line w-4rem text-5xl" />
+          </div>
           <div class="absolute top-41 truncate w-full scroll-text">
             {{ song.title }}
           </div>
-          <!-- <div class="absolute top-45">
-            {{ song.author }}
-          </div> -->
         </div>
       </div>
     </div>
