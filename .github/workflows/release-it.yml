@@ -20,15 +20,29 @@ jobs:
           fetch-depth: 0
           token: ${{ secrets.GITHUB_TOKEN }}
 
+      - name: Configure Git
+        run: |
+          git config --global user.name "github-actions[bot]"
+          git config --global user.email "github-actions[bot]@users.noreply.github.com"
+
+      - name: Setup pnpm
+        uses: pnpm/action-setup@v3
+        with:
+          version: latest
+
       - name: Setup Node.js
         uses: actions/setup-node@v4
         with:
-          node-version: '20'
+          node-version: 'lts/*'
 
       - name: Install dependencies
-        run: |
-          npm install -g release-it
-          npm install -g release-it-pnpm
+        run: pnpm install --frozen-lockfile
+
+      - name: Build Extension
+        run: pnpm build
+
+      - name: Install release-it
+        run: npm install -g release-it
 
       - name: Release
         run: npx release-it --ci

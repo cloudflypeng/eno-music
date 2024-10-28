@@ -3,6 +3,11 @@
     "release-it-pnpm": {}
   },
   "git": {
-    "commitMessage": "chore: release ${version}"
+    "requireBranch": "main",
+    "commitMessage": "chore: release v${version}"
+  },
+  "github": {
+    "release": true,
+    "assets": ["extension/*"]
   }
 }
