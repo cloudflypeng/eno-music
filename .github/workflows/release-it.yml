@@ -3,9 +3,12 @@ name: Release
 permissions:
   contents: write
   id-token: write
-  pull-requests: write # 添加 PR 权限
+  pull-requests: write
 
 on:
+  push:
+    tags:
+      - '[0-9]+.[0-9]+.[0-9]+' # 匹配类似 2.1.5 这样的版本号格式
   workflow_dispatch:
 
 jobs:
@@ -16,33 +19,7 @@ jobs:
         with:
           fetch-depth: 0
 
-      - name: Git config
-        run: |
-          git config user.name "github-actions[bot]"
-          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
-
-      - name: Set node
-        uses: actions/setup-node@v4
-        with:
-          node-version: '20' # 指定具体版本
-          registry-url: 'https://registry.npmjs.org'
-
-      - name: Install pnpm
-        uses: pnpm/action-setup@v3
-        with:
-          run_install: |
-            - args: [--frozen-lockfile]
-
-      - name: Check release-it config
-        run: |
-          if [ ! -f .release-it.json ] && [ ! -f .release-it.js ]; then
-            echo "No release-it config found"
-            exit 1
-          fi
-
       - name: Release
-        run: npx release-it --verbose
+        run: npx release-it --ci
         env:
           GITHUB_TOKEN: ${{secrets.GITHUB_TOKEN}}
-          NODE_AUTH_TOKEN: ${{secrets.NPM_TOKEN}}
-          NPM_CONFIG_PROVENANCE: true
