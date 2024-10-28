@@ -7,8 +7,8 @@ permissions:
 
 on:
   push:
-    tags:
-      - '[0-9]+.[0-9]+.[0-9]+' # 匹配类似 2.1.5 这样的版本号格式
+    branches:
+      - main # 或者你的主分支名称，如 master
   workflow_dispatch:
 
 jobs:
@@ -47,6 +47,6 @@ jobs:
         run: npm install -g release-it
 
       - name: Release
-        run: npx release-it --ci
+        run: npx release-it patch --ci
         env:
           GITHUB_TOKEN: ${{secrets.GITHUB_TOKEN}}
