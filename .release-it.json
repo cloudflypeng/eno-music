@@ -8,6 +8,11 @@
   },
   "github": {
     "release": true,
-    "assets": ["extension/*"]
-  }
+    "assets": [
+      "dist/*.zip",
+      "dist/*.xpi",
+      "dist/*.crx"
+    ]
+  },
+  "npm": false
 }
