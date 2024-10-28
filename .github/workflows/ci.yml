@@ -33,9 +33,10 @@ jobs:
     name: Build
     strategy:
       matrix:
-        node: [lts/*, lts/-1]
-        os: [ubuntu-latest, windows-latest]
-      fail-fast: false
+        # 只保留最新的 LTS Node.js 版本
+        node: [lts/*]
+        # 只在 ubuntu 上构建
+        os: [ubuntu-latest]
     runs-on: ${{ matrix.os }}
     timeout-minutes: 10
 
