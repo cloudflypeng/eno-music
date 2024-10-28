@@ -43,11 +43,10 @@ jobs:
 
       - name: Pack Extension
         run: pnpm pack
-
       - name: Install release-it
         run: npm install -g release-it
 
       - name: Release
-        run: npx release-it minor --ci
+        run: npx release-it --ci
         env:
           GITHUB_TOKEN: ${{secrets.GITHUB_TOKEN}}
