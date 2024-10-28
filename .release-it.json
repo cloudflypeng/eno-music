@@ -9,9 +9,9 @@
   "github": {
     "release": true,
     "assets": [
-      "dist/*.zip",
-      "dist/*.xpi",
-      "dist/*.crx"
+      "*.zip",
+      "*.xpi",
+      "*.crx"
     ]
   },
   "npm": false
