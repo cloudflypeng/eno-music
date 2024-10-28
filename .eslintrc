@@ -1,0 +1,5 @@
+{
+  "cache": true,
+  "cacheLocation": "./node_modules/.cache/eslint"
+}
+

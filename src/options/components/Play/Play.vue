@@ -9,8 +9,6 @@ import LoopSwitch from './LoopSwitch.vue'
 import useControl from './keys'
 import Video from './video.vue'
 import { useApiClient } from '~/composables/api'
-import Dialog from '~/components/dialog/index.vue'
-import Drawer from '~/components/drawer/index.vue'
 import NewDrawer from '~/components/drawer/drawer.vue'
 import { download } from '~/options/utils.ts'
 

@@ -2,20 +2,20 @@ name: CI
 
 on:
   workflow_dispatch:
-  # push:
-  #   branches:
-  #     # The branch where the project source code resides
-  #     # 项目源代码所在的分支
-  #     - dev
-  #     - main
-  #   paths-ignore:
-  #     # Changes involving the following path files will not trigger the workflow
-  #     # 涉及以下路径文件的更改不会触发工作流
-  #     - LICENSE
-  #     - README-cmn_CN.md
-  #     - README-cmn_TW.md
-  #     - README-jyut.md
-  #     - docs/**
+  push:
+    branches:
+      # The branch where the project source code resides
+      # 项目源代码所在的分支
+      - dev
+      - main
+    paths-ignore:
+      # Changes involving the following path files will not trigger the workflow
+      # 涉及以下路径文件的更改不会触发工作流
+      - LICENSE
+      - README-cmn_CN.md
+      - README-cmn_TW.md
+      - README-jyut.md
+      - docs/**
 
   pull_request:
     branches:
@@ -42,6 +42,16 @@ jobs:
     steps:
       - uses: actions/checkout@v4
 
+      - name: Setup pnpm cache
+        uses: actions/cache@v3
+        with:
+          path: |
+            ~/.pnpm-store
+            node_modules
+          key: ${{ runner.os }}-pnpm-${{ hashFiles('**/pnpm-lock.yaml') }}
+          restore-keys: |
+            ${{ runner.os }}-pnpm-
+
       - name: Set node ${{ matrix.node }}
         uses: actions/setup-node@v4
         with:
@@ -56,17 +66,14 @@ jobs:
       - name: Build Extension
         run: pnpm build
 
-      - name: Upload Zip
+      - name: Upload Chrome Extension Zip
         if: ${{ matrix.os == 'ubuntu-latest' && matrix.node == 'lts/*' && github.ref_name == 'main' }}
         uses: actions/upload-artifact@v4.3.1
         with:
           name: eno-music Zip
           path: extension
 
-      - name: Build Extension-Firefox
-        run: pnpm build-firefox
-
-      - name: Upload Zip
+      - name: Upload Firefox Extension Zip
         if: ${{ matrix.os == 'ubuntu-latest' && matrix.node == 'lts/*' && github.ref_name == 'main' }}
         uses: actions/upload-artifact@v4.3.1
         with:

@@ -1,7 +1,6 @@
 <script setup>
 import { onMounted } from 'vue'
 import { cloneDeep } from 'lodash'
-import SongItem from '../components/SongItem.vue'
 import { usePlaylistStore } from '../playlist/store'
 import { useBlblStore } from './store'
 import RankOverview from './rankOverview.vue'

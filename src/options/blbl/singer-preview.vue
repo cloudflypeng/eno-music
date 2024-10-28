@@ -1,5 +1,5 @@
 <script setup>
-import { onMounted, ref, watch } from 'vue'
+import { onMounted, ref } from 'vue'
 import { usePlaylistStore } from '../playlist/store'
 import { getUserArc } from '../api'
 import { useBlblStore } from './store'
