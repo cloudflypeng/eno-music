@@ -44,7 +44,7 @@ jobs:
       - uses: actions/checkout@v4
 
       - name: Setup pnpm cache
-        uses: actions/cache@v3
+        uses: actions/cache@v4 # 从 v3 更新到 v4
         with:
           path: |
             ~/.pnpm-store
@@ -78,9 +78,9 @@ jobs:
           name: eno-music Zip
           path: extension
 
-      - name: Upload Firefox Extension Zip
-        if: ${{ matrix.os == 'ubuntu-latest' && matrix.node == 'lts/*' && github.ref_name == 'main' }}
-        uses: actions/upload-artifact@v4.3.1
+      - name: Upload Firefox extension artifact
+        uses: actions/upload-artifact@v4
         with:
-          name: eno-music-Firefox Zip
-          path: extension-firefox
+          name: extension-firefox
+          path: dist/firefox # 修改这里，确保路径与你的实际构建输出目录匹配
+          if-no-files-found: error # 添加这行来帮助调试
