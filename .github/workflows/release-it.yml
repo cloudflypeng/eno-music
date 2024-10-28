@@ -3,6 +3,7 @@ name: Release
 permissions:
   contents: write
   id-token: write
+  pull-requests: write # 添加 PR 权限
 
 on:
   workflow_dispatch:
@@ -23,7 +24,7 @@ jobs:
       - name: Set node
         uses: actions/setup-node@v4
         with:
-          node-version: lts/*
+          node-version: '20' # 指定具体版本
           registry-url: 'https://registry.npmjs.org'
 
       - name: Install pnpm
@@ -32,11 +33,16 @@ jobs:
           run_install: |
             - args: [--frozen-lockfile]
 
+      - name: Check release-it config
+        run: |
+          if [ ! -f .release-it.json ] && [ ! -f .release-it.js ]; then
+            echo "No release-it config found"
+            exit 1
+          fi
+
       - name: Release
         run: npx release-it --verbose
         env:
           GITHUB_TOKEN: ${{secrets.GITHUB_TOKEN}}
-          # Add following line if you are publishing to npm
           NODE_AUTH_TOKEN: ${{secrets.NPM_TOKEN}}
           NPM_CONFIG_PROVENANCE: true
-          # Add more env variables if needed

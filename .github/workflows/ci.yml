@@ -47,7 +47,7 @@ jobs:
         with:
           path: |
             ~/.pnpm-store
-            node_modules
+            ${{ github.workspace }}/node_modules
           key: ${{ runner.os }}-pnpm-${{ hashFiles('**/pnpm-lock.yaml') }}
           restore-keys: |
             ${{ runner.os }}-pnpm-
@@ -60,8 +60,12 @@ jobs:
       - name: Install pnpm
         uses: pnpm/action-setup@v3
         with:
-          run_install: |
-            - args: [--frozen-lockfile]
+          version: latest
+
+      - name: Install dependencies
+        shell: bash
+        run: |
+          pnpm install --frozen-lockfile --no-verify-store-integrity
 
       - name: Build Extension
         run: pnpm build
