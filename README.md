@@ -15,6 +15,8 @@ Eno Music 是一个基于 bilibili 的音乐播放器，完全改变了你在该
 [爱发电](https://afdian.com/a/meanc)
 
 [Discord](https://discord.gg/HPv2WDrvhq)
+<img width="2559" alt="image" src="https://github.com/user-attachments/assets/b2ea1257-d067-4ed0-b20b-9a27f32f0a36">
+
 
 ![应用截图](https://github.com/user-attachments/assets/27553eab-3a97-4bde-bd2e-de18e6429640)
 
