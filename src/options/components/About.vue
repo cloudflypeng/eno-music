@@ -1,7 +1,7 @@
 <script setup>
 import Logo from '../../assets/512px.png'
 
-const btn = 'w-1/4 inline-block flex items-center gap-1 text-[14px] rounded-2 px-4 py-3 bg-opacity-30 hover:bg-opacity-50'
+const btn = 'flex items-center gap-1 text-[14px] py-1 border-[#FACC15] border-l-0 hover:border-l-5 hover:ml-2 hover:pl-2 duration-300 mb-2'
 </script>
 
 <template>
@@ -10,36 +10,48 @@ const btn = 'w-1/4 inline-block flex items-center gap-1 text-[14px] rounded-2 px
     <img :src="Logo" alt="logo" class="h-[200px] object-contain">
     <div class="bg-$eno-fill-4 p-5 rounded-3 w-160">
       <!-- 联系方式 -->
-      <div class="text-lg mb-1">
-        联系方式
+      <div class="text-3xl text-bold mb-1">
+        Connect
       </div>
-      <div class="flex gap-3 justify-center mb-3">
-        <a href="https://discord.gg/HPv2WDrvhq" :class="`${btn} color-purple-3 bg-purple-3`">
+      <div class="mb-3 pl-5">
+        <a href="https://discord.gg/HPv2WDrvhq" :class="`${btn} border-purple-3`">
           <div class="i-mingcute:discord-line w-[20px] text-[20px]" />
           <span class="text-[14px]`">Discord</span>
         </a>
-        <a href="https://github.com/cloudflypeng" :class="`${btn} color-gray-300 bg-gray-3`">
-          <div class="i-mingcute:github-line w-1em h-1em" />
+        <a href="https://github.com/cloudflypeng" :class="`${btn} border-gray-3`">
+          <div class="i-mingcute:github-line w-1em h-1em text-[20px]" />
           <span class="text-[14px]">Github</span>
         </a>
-        <a href="https://qm.qq.com/q/jeLnZehRyo" :class="`${btn} color-blue bg-blue`">
-          <div class="i-mingcute:qq-line w-1em h-1em" />
+        <a href="https://qm.qq.com/q/jeLnZehRyo" :class="`${btn} border-blue`">
+          <div class="i-mingcute:qq-line w-1em h-1em text-[20px]" />
           <span class="text-[14px]">群:762231762</span>
         </a>
-        <a href="https://afdian.com/a/meanc" :class="`${btn} color-pink bg-pink`">
-          <div class="i-mingcute:flash-line w-1em h-1em" />
+        <a href="https://afdian.com/a/meanc" :class="`${btn} border-pink`">
+          <div class="i-mingcute:flash-line w-1em h-1em text-[20px]" />
           <span class="text-[14px]">爱发电</span>
         </a>
       </div>
-      <div class="text-lg mb-1">
-        其他说明
+      <div class="text-3xl text-bold mb-1">
+        Others
       </div>
       <!-- info -->
-      <ul class="flex flex-col text-md pl-3 gap-1 inline-block">
-        <li>本项目仅供学习交流使用，不得用于商业用途</li>
-        <li>使用歌手功能, 需要当前浏览器登录过bilibili</li>
-        <li>需要交流反馈可以添加qq群和discord, 长期在线</li>
-        <li>统计用户达到30000 or 日活达到1000 or 爱发电赞助破千 开启手机版移植🫡🫡</li>
+      <ul class="flex flex-col gap-3 text-[14px] leading-relaxed opacity-80 pl-5">
+        <li class="flex items-center gap-2 hover:opacity-100 transition-opacity">
+          <div class="i-mingcute:information-line w-1rem h-1rem text-yellow-500" />
+          本项目仅供学习交流使用，不得用于商业用途
+        </li>
+        <li class="flex items-center gap-2 hover:opacity-100 transition-opacity">
+          <div class="i-mingcute:user-4-fill w-4 h-4 text-blue-500" />
+          使用歌手功能, 需要当前浏览器登录过bilibili
+        </li>
+        <li class="flex items-center gap-2 hover:opacity-100 transition-opacity">
+          <div class="i-mingcute:message-3-fill w-4 h-4 text-green-500" />
+          需要交流反馈可以添加qq群和discord, 长期在线
+        </li>
+        <li class="flex items-center gap-2 hover:opacity-100 transition-opacity">
+          <div class="i-mingcute:gift-fill w-4 h-4 text-pink-500" />
+          统计用户达到30000 or 日活达到1000 or 爱发电赞助破千 开启手机版移植🫡🫡
+        </li>
       </ul>
     </div>
   </section>
