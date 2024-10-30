@@ -55,10 +55,13 @@ function getSongs(params) {
     }))
     page.value = c_page
     songListByPage.value[c_page.pn] = videoList
+  }).finally(() => {
+    loading.value = false
   })
 }
 
 watch(() => PLstore.currentSinger, (mid) => {
+  PLstore.fetchSingerInfo(mid, false)
   songListByPage.value = {}
   getSongs({ mid })
 })

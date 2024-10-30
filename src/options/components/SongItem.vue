@@ -137,7 +137,7 @@ function handleSingerDetail(singerMid) {
             <div class="i-svg-spinners:bars-scale w-1em h-1em text-[#fffb00]" />
           </span>
           <!-- {{ JSON.stringify(song) }} -->
-          <span class="text-xs opacity-50" @click.stop="handleSingerDetail(mid)">
+          <span class="text-xs opacity-50 hover:border-b-2 border-gray-200" @click.stop="handleSingerDetail(mid)">
             {{ author }}
           </span>
         </div>
