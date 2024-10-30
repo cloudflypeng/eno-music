@@ -53,6 +53,12 @@ const btn = 'flex items-center gap-1 text-[14px] py-1 border-[#FACC15] border-l-
           统计用户达到30000 or 日活达到1000 or 爱发电赞助破千 开启手机版移植🫡🫡
         </li>
       </ul>
+      <div class="text-3xl text-bold my-1 mb-3">
+        Contributors
+      </div>
+      <a href="https://github.com/cloudflypeng/eno-music/graphs/contributors">
+        <img width="100px" src="https://contrib.rocks/image?repo=cloudflypeng/eno-music">
+      </a>
     </div>
   </section>
 </template>
