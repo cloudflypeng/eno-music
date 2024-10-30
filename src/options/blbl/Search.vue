@@ -52,6 +52,7 @@ async function getMoreData() {
       duration: item.duration,
       bvid: item.bvid,
       pages: item.pages,
+      mid: item.mid,
     }
   })
 }
@@ -75,6 +76,7 @@ async function handleSearch() {
       duration: item.duration,
       bvid: item.bvid,
       pages: item.pages,
+      mid: item.mid,
     }
 
     result.value = [searchSong]
