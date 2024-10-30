@@ -95,7 +95,7 @@ function openAfdian() {
     <!-- 爱发电 -->
     <div :class="`${tabClass}`" text-lg @click.stop="openAfdian">
       <div class="i-mingcute:flash-line w-1em h-1em" />
-      <span v-if="open" class="text-[14px]">爱发电</span>
+      <span v-if="open" class="text-[14px]">探索</span>
     </div>
   </aside>
 </template>

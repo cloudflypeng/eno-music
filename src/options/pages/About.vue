@@ -5,7 +5,7 @@ const btn = 'flex items-center gap-1 text-[14px] py-1 border-[#FACC15] border-l-
 </script>
 
 <template>
-  <section class="w-full h-screen overflow-auto py-30">
+  <section class="w-full h-screen overflow-auto py-30 pt-10">
     <!-- logo -->
     <div class="bg-$eno-fill-4 p-5 rounded-3 w-160 flex flex-col gap-1 mx-auto">
       <div class="text-3xl text-bold mb-1 flex">
