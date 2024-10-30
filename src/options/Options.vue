@@ -5,15 +5,16 @@ import { useLocalStorage } from '@vueuse/core'
 import Play from './components/Play/Play.vue'
 import Sider from './components/Sider.vue'
 import Playlist from './playlist/index.vue'
-import ListenLater from './playlist/ListenLater.vue'
+
 import AddSong from './playlist/AddSong.vue'
-import About from './components/About.vue'
-
-import Search from './blbl/Search.vue'
-import SingerList from './playlist/SingerList.vue'
-import SingerDetail from './playlist/SingerDetail.vue'
-
-import Home from './blbl/Home.vue'
+// pages
+import About from './pages/About.vue'
+import Setting from './pages/Setting.vue'
+import Home from './pages/Home/index.vue'
+import Search from './pages/Search.vue'
+import ListenLater from './pages/ListenLater.vue'
+import SingerList from './pages/Singer/SingerList.vue'
+import SingerDetail from './pages/Singer/SingerDetail.vue'
 
 import { useBlblStore } from './blbl/store.js'
 
@@ -79,11 +80,11 @@ onMounted(() => {
   <main
     class="
     bg-$eno-bg
-    color-$eno-text-1" h-screen w-screen overflow="auto" flex
+    color-$eno-text-1 no-scroll" h-screen w-screen overflow="hidden" flex
   >
     <AddSong />
     <Sider />
-    <div class="grow-1 shrink-10 fadeInWrapper">
+    <div class="grow-1 shrink-10 h-screen fadeInWrapper">
       <Home v-show="store.mode === 'home'" />
       <Search v-show="store.mode === 'search'" />
       <Playlist v-show="store.mode === 'playlist'" />
@@ -91,12 +92,22 @@ onMounted(() => {
       <SingerList v-show="store.mode === 'singerList'" />
       <SingerDetail v-show="store.mode === 'singerDetail'" />
       <About v-show="store.mode === 'about'" />
+      <Setting v-show="store.mode === 'setting'" />
     </div>
     <Play />
   </main>
 </template>
 
 <style>
+.no-scroll {
+  overflow: hidden;
+  overscroll-behavior: none;  /* 防止滚动链接/弹性效果 */
+  touch-action: none;         /* 防止移动端的触摸滚动 */
+  -webkit-overflow-scrolling: auto;  /* 禁用 iOS 的弹性滚动 */
+  position: fixed;            /* 可选：完全固定位置 */
+  width: 100%;
+  height: 100%;
+}
 html {
   background: #000;
 }

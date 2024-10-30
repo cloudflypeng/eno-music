@@ -1,8 +1,8 @@
 <script setup>
 import { cloneDeep } from 'lodash'
-import SongItem from '../components/SongItem.vue'
-import { usePlaylistStore } from '../playlist/store'
-import { getSeasonInfo } from '../api/index'
+import SongItem from '~/options/components/SongItem.vue'
+import { usePlaylistStore } from '~/options/playlist/store'
+import { getSeasonInfo } from '~/options/api/index'
 import Dialog from '~/components/dialog/index.vue'
 import { useApiClient } from '~/composables/api'
 

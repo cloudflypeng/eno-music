@@ -15,7 +15,7 @@ const { tab } = props
 
 const tabClass = computed(() => {
   const isCurrentMode = store.mode === tab.mode
-  const baseClass = 'tab-item flex w-full gap-2 text-2xl items-center h-10 cursor-pointer rounded-2 pl-3'
+  const baseClass = 'tab-item flex w-full gap-2 text-2xl items-center h-10 cursor-pointer rounded-2 pl-3 duration-150'
   return `${cn(baseClass, {
     // 'justify-center': !props.open,
     'bg-$eno-fill-4': isCurrentMode,

@@ -1,8 +1,8 @@
 <script setup>
 import { onMounted, ref } from 'vue'
-import { usePlaylistStore } from '../playlist/store'
-import { getUserArc } from '../api'
-import { useBlblStore } from './store'
+import { usePlaylistStore } from '../../playlist/store'
+import { getUserArc } from '../../api'
+import { useBlblStore } from '../../blbl/store'
 
 const props = defineProps({
   mid: {

@@ -90,6 +90,8 @@ function openAfdian() {
     </TabItem>
     <!-- 关于 -->
     <TabItem :tab="{ icon: 'i-tabler:info-circle', title: '关于', mode: 'about' }" :open="open" />
+    <!-- 设置 -->
+    <TabItem :tab="{ icon: 'i-tabler:settings', title: '设置', mode: 'setting' }" :open="open" />
     <!-- 爱发电 -->
     <div :class="`${tabClass}`" text-lg @click.stop="openAfdian">
       <div class="i-mingcute:flash-line w-1em h-1em" />

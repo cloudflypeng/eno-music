@@ -5,15 +5,19 @@ const btn = 'flex items-center gap-1 text-[14px] py-1 border-[#FACC15] border-l-
 </script>
 
 <template>
-  <section class="h-screen flex flex-col items-center overflow-auto">
+  <section class="w-full h-screen overflow-auto py-30">
     <!-- logo -->
-    <img :src="Logo" alt="logo" class="h-[200px] object-contain">
-    <div class="bg-$eno-fill-4 p-5 rounded-3 w-160">
+    <div class="bg-$eno-fill-4 p-5 rounded-3 w-160 flex flex-col gap-1 mx-auto">
+      <div class="text-3xl text-bold mb-1 flex">
+        Logo
+      </div>
+      <img :src="Logo" alt="logo" class="w-[100px] object-contain">
+
       <!-- 联系方式 -->
       <div class="text-3xl text-bold mb-1">
         Connect
       </div>
-      <div class="mb-3 pl-5">
+      <div class="pl-5">
         <a href="https://discord.gg/HPv2WDrvhq" :class="`${btn} border-purple-3`">
           <div class="i-mingcute:discord-line w-[20px] text-[20px]" />
           <span class="text-[14px]`">Discord</span>
@@ -57,7 +61,7 @@ const btn = 'flex items-center gap-1 text-[14px] py-1 border-[#FACC15] border-l-
         Contributors
       </div>
       <a href="https://github.com/cloudflypeng/eno-music/graphs/contributors">
-        <img width="100px" src="https://contrib.rocks/image?repo=cloudflypeng/eno-music">
+        <img class="ml-5" width="100px" src="https://contrib.rocks/image?repo=cloudflypeng/eno-music">
       </a>
     </div>
   </section>

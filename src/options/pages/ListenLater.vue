@@ -1,8 +1,8 @@
 <script setup>
 import { cloneDeep } from 'lodash'
-import { useBlblStore } from '../blbl/store'
-import SongItem from '../components/SongItem.vue'
-import { usePlaylistStore } from './store'
+import SongItem from '~/options/components/SongItem.vue'
+import { usePlaylistStore } from '~/options/playlist/store'
+import { useBlblStore } from '~/options/blbl/store'
 
 const PLStore = usePlaylistStore()
 const store = useBlblStore()
@@ -24,8 +24,8 @@ function handleRemoveListenLater(song) {
 </script>
 
 <template>
-  <div class="pb-30 px-20 flex flex-row gap-15 h-full">
-    <div class="w-[300px] h-full pt-30 text-center flex flex-col">
+  <div class="flex flex-row w-full h-screen overflow-auto">
+    <div class="px-10 pl-30 pt-20 h-full text-center flex flex-col">
       <div class="content flex flex-col gap-2">
         <div id="later-bg" class="w-[300px] h-[300px] mb-4">
           <div
@@ -49,7 +49,7 @@ function handleRemoveListenLater(song) {
       </div>
     </div>
     <!-- 滚动区域 -->
-    <div class="w-1/2 h-full overflow-auto pt-10">
+    <div class="flex-1 h-full overflow-auto pt-10 pb-30 pr-30">
       <div v-if="!PLStore.listenLater.length">
         暂无数据
       </div>

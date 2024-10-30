@@ -1,6 +1,6 @@
 <script setup>
-import { usePlaylistStore } from '../playlist/store'
-import SingerCard from '../components/SingerCard.vue'
+import { usePlaylistStore } from '../../playlist/store'
+import SingerCard from '../../components/SingerCard.vue'
 
 const PLstore = usePlaylistStore()
 const singerScroll = ref(null)

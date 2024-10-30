@@ -3,7 +3,6 @@ import { computed, defineProps } from 'vue'
 import cn from 'classnames'
 import { useBlblStore } from '../blbl/store.js'
 import { usePlaylistStore } from '../playlist/store.ts'
-import SingerDetail from '../playlist/SingerDetail.vue'
 import { useApiClient } from '~/composables/api'
 import Message from '~/components/message'
 

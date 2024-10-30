@@ -3,7 +3,7 @@ import { computed } from 'vue'
 import SongItem from '../components/SongItem.vue'
 
 import { useBlblStore } from '../blbl/store'
-import ImpFav from '../blbl/Imp-Fav.vue'
+import ImpFav from './Imp-Fav.vue'
 import { usePlaylistStore } from './store'
 
 const store = useBlblStore()

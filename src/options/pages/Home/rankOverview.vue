@@ -1,6 +1,6 @@
 <script setup>
 import cn from 'classnames'
-import { useBlblStore } from './store.js'
+import { useBlblStore } from '../../blbl/store'
 
 const store = useBlblStore()
 const currentIndex = ref(0)

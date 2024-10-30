@@ -1,8 +1,8 @@
 <script setup>
 import { onMounted } from 'vue'
 import { cloneDeep } from 'lodash'
-import { usePlaylistStore } from '../playlist/store'
-import { useBlblStore } from './store'
+import { usePlaylistStore } from '../../playlist/store'
+import { useBlblStore } from '../../blbl/store'
 import RankOverview from './rankOverview.vue'
 import HomeSinger from './home-singer.vue'
 import SingerPreview from './singer-preview.vue'
