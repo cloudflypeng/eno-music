@@ -1,6 +1,7 @@
 import { createApp } from 'vue'
 import { createPinia } from 'pinia'
 import App from './Options.vue'
+// import { setupEqStoreWatcher } from './components/Eq/store'
 import { setupApp } from '~/logic/common-setup'
 import '../styles'
 
@@ -9,5 +10,6 @@ const pinia = createPinia()
 
 app.use(pinia)
 
+// setupEqStoreWatcher()
 setupApp(app)
 app.mount('#app')

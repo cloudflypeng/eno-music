@@ -5,6 +5,7 @@ import cn from 'classnames'
 import SongItem from '../SongItem.vue'
 import { VIDEO_MODE, useBlblStore } from '../../blbl/store'
 import { usePlaylistStore } from '../../playlist/store.ts'
+import { EQService, useEqStore } from '../Eq/store'
 import LoopSwitch from './LoopSwitch.vue'
 import useControl from './keys'
 import Video from './video.vue'
@@ -13,6 +14,8 @@ import NewDrawer from '~/components/drawer/drawer.vue'
 import { download } from '~/options/utils.ts'
 
 const PLstore = usePlaylistStore()
+const eqStore = useEqStore()
+const store = useBlblStore()
 
 const api = useApiClient()
 
@@ -26,7 +29,6 @@ function getUpUrl(obj) {
   return urlList[0] || url1
 }
 
-const store = useBlblStore()
 const isPlaying = ref(false)
 const showList = ref(false)
 const historyList = ref([])
@@ -271,6 +273,17 @@ function openBlTab() {
 function changeVideoMode() {
   store.videoMode = store.videoMode === VIDEO_MODE.FLOATING ? VIDEO_MODE.DRAWER : VIDEO_MODE.FLOATING
 }
+// 初始化eq
+watch(() => store.howl, () => {
+  if (store.howl) {
+    store.eqService = new EQService()
+  }
+})
+watch(() => eqStore.currentPreset, () => {
+  if (store.eqService) {
+    store.eqService.updateFilters(eqStore.values)
+  }
+})
 </script>
 
 <template>

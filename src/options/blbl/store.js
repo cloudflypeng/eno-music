@@ -15,6 +15,7 @@ export const useBlblStore = defineStore({
   id: 'blbl',
   state: () => ({
     howl: null,
+    eqService: null,
     play: useStorage('playInfo', {}), // 当前播放的歌曲信息
     playList: useStorage('playList', []), // 播放列表
     count: 0,

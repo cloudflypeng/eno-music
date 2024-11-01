@@ -1,4 +1,5 @@
 <script setup>
+import Eq from '../components/Eq/Eq.vue'
 import { useBlblStore } from '~/options/blbl/store'
 import { usePlaylistStore } from '~/options/playlist/store'
 import Message from '~/components/message'
@@ -62,7 +63,7 @@ async function importData() {
 </script>
 
 <template>
-  <div class="w-full h-screen overflow-auto p-10">
+  <div class="w-full h-screen overflow-auto p-10 pb-30">
     <div class="flex items-center gap-2">
       <div class="flex items-center gap-2 text-lg cursor-pointer rounded-2 p-2 px-5 bg-$eno-fill-4 hover:bg-$eno-fill-2 duration-150" @click="exportData">
         <span class="i-tabler:download w-1em h-1em" />
@@ -88,6 +89,14 @@ async function importData() {
         <li>导入时请选择之前导出的 JSON 文件</li>
         <li>导入会覆盖当前的数据，请谨慎操作</li>
       </ul>
+    </div>
+
+    <!-- EQ 设置 -->
+    <div class="mt-8">
+      <h2 class="text-lg">
+        均衡器设置
+      </h2>
+      <Eq />
     </div>
   </div>
 </template>
