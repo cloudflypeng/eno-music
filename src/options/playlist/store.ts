@@ -6,7 +6,7 @@ import { useApiClient } from '~/composables/api'
 
 const api = useApiClient()
 
-interface song {
+export interface song {
   id: string | number
   [key: string]: any
 }

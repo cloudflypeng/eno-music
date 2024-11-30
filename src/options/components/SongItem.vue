@@ -1,7 +1,7 @@
 <script setup>
 import { computed, defineProps } from 'vue'
 import cn from 'classnames'
-import { useBlblStore } from '../blbl/store.js'
+import { useBlblStore } from '../blbl/store.ts'
 import { usePlaylistStore } from '../playlist/store.ts'
 import { useApiClient } from '~/composables/api'
 import Message from '~/components/message'

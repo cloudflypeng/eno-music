@@ -37,6 +37,7 @@
     "@meanc/webext-fetch": "^0.0.3",
     "@types/chrome": "^0.0.270",
     "@types/howler": "^2.2.12",
+    "@types/lodash": "^4.17.13",
     "@vueuse/math": "^10.11.0",
     "browser-id3-writer": "^6.1.0",
     "classnames": "^2.5.1",

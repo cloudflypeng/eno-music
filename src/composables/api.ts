@@ -13,6 +13,10 @@ type APIFunction<T = typeof API> = {
 
 // eslint-disable-next-line ts/no-unsafe-declaration-merging
 export interface APIClient extends APIFunction {
+  biliMusic: {
+    getMusicRank: (params: { list_id: number }) => Promise<any>
+    getMusicRankList: () => Promise<any>
+  }
 
 }
 

@@ -16,10 +16,12 @@ import ListenLater from './pages/ListenLater.vue'
 import SingerList from './pages/Singer/SingerList.vue'
 import SingerDetail from './pages/Singer/SingerDetail.vue'
 
-import { useBlblStore } from './blbl/store.js'
+import { useBlblStore } from './blbl/store.ts'
+import { getUserInfo } from './api'
 
 const store = useBlblStore()
 const CST = useLocalStorage('cookieSetTime', 0)
+const userInfo = ref({})
 
 function getCookie() {
   // 这部分暂时不删除, 调试太麻烦
@@ -73,7 +75,11 @@ onMounted(() => {
     CST.value = Date.now()
     getCookie()
   }
+  getUserInfo().then((res) => {
+    userInfo.value = res.data
+  })
 })
+provide('userInfo', userInfo)
 </script>
 
 <template>

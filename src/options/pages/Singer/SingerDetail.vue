@@ -4,7 +4,7 @@ import { useInfiniteScroll } from '@vueuse/core'
 import SongItem from '~/options/components/SongItem.vue'
 import { getUserArc } from '~/options/api'
 
-import { useBlblStore } from '~/options/blbl/store.js'
+import { useBlblStore } from '~/options/blbl/store.ts'
 import { usePlaylistStore } from '~/options/playlist/store'
 import Loading from '~/components/loading/index.vue'
 

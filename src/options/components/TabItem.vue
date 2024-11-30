@@ -1,6 +1,6 @@
 <script setup>
 import cn from 'classnames'
-import { useBlblStore } from '../blbl/store.js'
+import { useBlblStore } from '../blbl/store.ts'
 
 const props = defineProps({
   tab: {

@@ -1,6 +1,7 @@
 import { defineStore } from 'pinia'
 import { cloneDeep } from 'lodash'
 import { useStorage } from '@vueuse/core'
+import type { RemovableRef } from '@vueuse/core'
 import { useApiClient } from '~/composables/api'
 
 const api = useApiClient()
@@ -10,10 +11,43 @@ export const VIDEO_MODE = {
   DRAWER: 'drawer',
   HIDDEN: 'hidden',
 }
+type VideoMode = typeof VIDEO_MODE[keyof typeof VIDEO_MODE]
+interface MusicRankItem {
+  creation_bvid: string
+  mv_cover: string
+  album: string
+  description: string
+  singer: string
+  duration: number
+}
+
+interface State {
+  howl: any
+  eqService: any
+  play: object
+  playList: RemovableRef<object[]>
+  count: number
+  loopMode: RemovableRef<string>
+  videoMode: RemovableRef<VideoMode>
+  mode: string
+  timestampRefreshMap: Record<string, number>
+  ranksId: any[]
+  rankList: any[]
+  currentRank: object
+  rankDetailList: any[]
+  hitList: RemovableRef<any[]>
+  currentHit: {
+    list: any[]
+    [key: string]: any
+  }
+  hit_ps: number
+  hit_pn: number
+  musicRankList: RemovableRef<any[]>
+}
 
 export const useBlblStore = defineStore({
   id: 'blbl',
-  state: () => ({
+  state: (): State => ({
     howl: null,
     eqService: null,
     play: useStorage('playInfo', {}), // 当前播放的歌曲信息
@@ -51,7 +85,7 @@ export const useBlblStore = defineStore({
       // 获取排行榜的列表
       api.biliMusic.getMusicRankList().then((res) => {
         const rankObj = res.data.list
-        let flatList = []
+        let flatList: any[] = []
         // 按年份的借口,拍平
         Object.values(rankObj).forEach((i) => {
           flatList = flatList.concat(i)
@@ -62,15 +96,15 @@ export const useBlblStore = defineStore({
       })
     },
     // 全站音乐榜
-    getRankById(id) {
+    getRankById(id: number) {
       if (!id)
         return
       api.biliMusic.getMusicRank({
         list_id: id,
       }).then((res) => {
-        const { data: { list } } = res
+        const { data: { list } } = res as { data: { list: MusicRankItem[] } }
         if (Array.isArray(list) && list.length > 0) {
-          this.musicRankList = res.data.list.map((item) => {
+          this.musicRankList = res.data.list.map((item: MusicRankItem) => {
             return {
               id: item.creation_bvid,
               eno_song_type: 'bvid',
@@ -100,23 +134,25 @@ export const useBlblStore = defineStore({
         this.hitList = res.data.data
       })
     },
-    startPlay(item) {
+    startPlay(item: any) {
       const song = cloneDeep(item)
       this.play = song
       const isInList = this.playList.some(item => item?.id === song.id)
       if (!isInList)
         this.playList.push(song)
     },
-    getHitDetailList(sid) {
+    getHitDetailList(sid: number) {
       api.blbl.getHitSongList({
         sid,
       }).then((res) => {
         this.currentHit.list = res.data.data
       })
     },
-    toRankDetail(item) {
+    toRankDetail(item: any) {
       this.mode = 'rankDetail'
       this.currentRank = { ...item }
     },
   },
 })
+
+export type BlblStore = ReturnType<typeof useBlblStore>

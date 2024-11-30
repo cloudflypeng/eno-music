@@ -42,5 +42,35 @@ async function getSeasonInfo(params: Record<string, any>) {
 
   return res
 }
+// https://api.bilibili.com/x/v3/fav/folder/created/list-all
+function getFavorites({ mid }: { mid: number }) {
+  const urlserachparams = new URLSearchParams()
+  urlserachparams.set('type', '0')
+  urlserachparams.set('up_mid', mid.toString())
 
-export { getUserArc, getSeasonInfo }
+  return efetch(`https://api.bilibili.com/x/v3/fav/folder/created/list-all?${urlserachparams.toString()}`, {
+    method: 'GET',
+  })
+}
+// https://api.bilibili.com/x/web-interface/nav
+const getUserInfo = () => efetch('https://api.bilibili.com/x/web-interface/nav', {})
+// https://api.bilibili.com/x/v3/fav/folder/collected/list
+// with page
+function getCollectedFavorites({ mid }: { mid: number }) {
+  const urlserachparams = new URLSearchParams()
+  urlserachparams.set('up_mid', mid.toString())
+  urlserachparams.set('pn', '1')
+  urlserachparams.set('ps', '70')
+  urlserachparams.set('platform', 'web')
+  return efetch(`https://api.bilibili.com/x/v3/fav/folder/collected/list?${urlserachparams.toString()}`, {
+    method: 'GET',
+  })
+}
+// https://api.bilibili.com/x/v3/fav/resource/infos
+function getFavResourceInfos({ id }: { id: number }) {
+  return efetch(`https://api.bilibili.com/x/v3/fav/resource/infos?${new URLSearchParams({ resources: `${id.toString()}:2` }).toString()}`, {
+    method: 'GET',
+  })
+}
+
+export { getUserArc, getSeasonInfo, getFavorites, getUserInfo, getCollectedFavorites, getFavResourceInfos }
