@@ -90,16 +90,22 @@ function snapToEdges() {
   if (bottomDistance < 0) {
     position.y = window.innerHeight - layerHeight - threshold[2]
   }
-  if (leftDistance < 0) {
+  // 判断离左边和右边距离哪个近
+  if (leftDistance < rightDistance) {
     position.x = threshold[3]
   }
-  if (rightDistance < 0) {
+  else {
     position.x = window.innerWidth - layerWidth - threshold[1]
   }
 }
 
 onMounted(() => {
   snapToEdges()
+  // 窗口变化时，吸附到边缘
+  window.addEventListener('resize', snapToEdges)
+})
+onBeforeUnmount(() => {
+  window.removeEventListener('resize', snapToEdges)
 })
 // isPlaying, 和 videoUrl 变化时，同步视频
 watch([() => props.isPlaying, () => props.videoUrl], ([newIsPlaying, newVideoUrl]) => {
