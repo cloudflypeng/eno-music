@@ -6,6 +6,7 @@ import { useBlblStore } from '../../blbl/store'
 import RankOverview from './rankOverview.vue'
 import HomeSinger from './home-singer.vue'
 import SingerPreview from './singer-preview.vue'
+import ScrollButton from './scroll-button.vue'
 
 const store = useBlblStore()
 const PLstore = usePlaylistStore()
@@ -41,15 +42,7 @@ function handleScroll(offset) {
         (每周五18:00更新)
       </span>
       <RankOverview />
-      <!-- 增加左右滚动点击 -->
-      <div class="flex items-center gap-2 absolute right-10 top-1/2">
-        <div class="bg-$eno-fill-4 rounded-full w-7 h-7 flex items-center justify-center cursor-pointer hover:opacity-70" @click="handleScroll(-600)">
-          <div class="i-mingcute:arrow-left-fill w-4" />
-        </div>
-        <div class="bg-$eno-fill-4 rounded-full w-7 h-7 flex items-center justify-center cursor-pointer hover:opacity-70" @click="handleScroll(600)">
-          <div class="i-mingcute:arrow-right-fill w-4" />
-        </div>
-      </div>
+      <ScrollButton :step="600" :handle-scroll="handleScroll" />
     </h5>
     <div ref="rankScroll" overflow-auto class="w-full h-55 pb-20 relative">
       <div class="absolute w-full h-full flex gap-5 px-10">

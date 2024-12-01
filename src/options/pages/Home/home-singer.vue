@@ -1,6 +1,7 @@
 <script setup>
 import { usePlaylistStore } from '../../playlist/store'
 import SingerCard from '../../components/SingerCard.vue'
+import ScrollButton from './scroll-button.vue'
 
 const PLstore = usePlaylistStore()
 const singerScroll = ref(null)
@@ -20,14 +21,7 @@ function handleScroll(offset) {
         关注歌手
       </h5>
       <!-- 增加左右滚动点击 -->
-      <div class="flex items-center gap-2 absolute right-10 top-1/2">
-        <div class="bg-$eno-fill-4 rounded-full w-7 h-7 flex items-center justify-center cursor-pointer hover:opacity-70" @click="handleScroll(-600)">
-          <div class="i-mingcute:arrow-left-fill w-4" />
-        </div>
-        <div class="bg-$eno-fill-4 rounded-full w-7 h-7 flex items-center justify-center cursor-pointer hover:opacity-70" @click="handleScroll(600)">
-          <div class="i-mingcute:arrow-right-fill w-4" />
-        </div>
-      </div>
+      <ScrollButton class="absolute right-10 top-1/2" :step="600" :handle-scroll="handleScroll" />
     </div>
 
     <div ref="singerScroll" overflow-auto class="w-full h-55 relative">

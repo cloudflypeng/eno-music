@@ -24,7 +24,7 @@ function goTo(id, index) {
     >
       <div class="i-mingcute:align-arrow-left-line cursor-pointer" />
     </div>
-    <div id="rank-list" class="w-40 flex items-center overflow-auto gap-3">
+    <div id="rank-list" class="w-40 flex items-center overflow-auto overflow-y-hidden gap-3">
       <div
         v-for="(rankId, index) in store.ranksId" :id="`rank-${index}`" :key="rankId.ID" :class="cn(
           'text-center text-sm flex-shrink-0 cursor-pointer hover:opacity-70',

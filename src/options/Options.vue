@@ -5,7 +5,6 @@ import { useLocalStorage } from '@vueuse/core'
 import Play from './components/Play/Play.vue'
 import Sider from './components/Sider.vue'
 import Playlist from './playlist/index.vue'
-
 import AddSong from './playlist/AddSong.vue'
 // pages
 import About from './pages/About.vue'
@@ -119,8 +118,24 @@ html {
 }
 
 *::-webkit-scrollbar {
-  display: none;
-}
+    width: 6px;
+    height: 6px;
+  }
+
+  *::-webkit-scrollbar-track {
+    background: #1a1a1a;
+    border-radius: 3px;
+  }
+
+  *::-webkit-scrollbar-thumb {
+    cursor: pointer;
+    background: #333;
+    border-radius: 3px;
+
+    &:hover {
+      background: #444;
+    }
+  }
 
 img {
   position: relative;
